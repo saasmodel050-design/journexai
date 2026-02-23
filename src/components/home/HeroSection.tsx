@@ -57,12 +57,12 @@ const HeroSection = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            <a href="#how-it-works">
+            <Link to="/demo">
               <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
                 <Play className="w-4 h-4 mr-2" />
-                See How It Works
+                Try Demo Dashboard
               </Button>
-            </a>
+            </Link>
           </motion.div>
 
           {/* Stats */}
