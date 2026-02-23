@@ -22,7 +22,22 @@ import StrategiesPage from "./pages/dashboard/StrategiesPage";
 import ReportsPage from "./pages/dashboard/ReportsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 
+// Demo pages
+import DemoLayout from "./components/demo/DemoLayout";
+import DemoDashboard from "./pages/demo/DemoDashboard";
+import DemoTrades from "./pages/demo/DemoTrades";
+import DemoAddTrade from "./pages/demo/DemoAddTrade";
+import DemoAnalytics from "./pages/demo/DemoAnalytics";
+
 const queryClient = new QueryClient();
+
+const DemoPage = ({ component: Component }: { component: React.ComponentType<{ openModal: (msg?: string) => void }> }) => {
+  return (
+    <DemoLayout>
+      {({ openModal }: { openModal: (msg?: string) => void }) => <Component openModal={openModal} />}
+    </DemoLayout>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -39,6 +54,14 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+
+            {/* Demo routes - no auth required */}
+            <Route path="/demo" element={<DemoPage component={DemoDashboard} />} />
+            <Route path="/demo/trades" element={<DemoPage component={DemoTrades} />} />
+            <Route path="/demo/add-trade" element={<DemoPage component={DemoAddTrade} />} />
+            <Route path="/demo/analytics" element={<DemoPage component={DemoAnalytics} />} />
+
+            {/* Authenticated routes */}
             <Route path="/dashboard" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
             <Route path="/dashboard/trades" element={<DashboardLayout><TradesPage /></DashboardLayout>} />
             <Route path="/dashboard/add-trade" element={<DashboardLayout><AddTradePage /></DashboardLayout>} />
