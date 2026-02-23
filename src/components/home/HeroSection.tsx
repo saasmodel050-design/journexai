@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 
 const HeroSection = () => {
@@ -50,14 +51,18 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
-              Start Journaling Trades
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
-              <Play className="w-4 h-4 mr-2" />
-              See How It Works
-            </Button>
+            <Link to="/signup">
+              <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
+                Start Journaling Trades
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <a href="#how-it-works">
+              <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
+                <Play className="w-4 h-4 mr-2" />
+                See How It Works
+              </Button>
+            </a>
           </motion.div>
 
           {/* Stats */}
