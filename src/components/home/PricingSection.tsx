@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const plans = [
   {
@@ -94,12 +95,14 @@ const PricingSection = () => {
                   </li>
                 ))}
               </ul>
-              <Button
-                className={plan.highlighted ? "neon-glow w-full" : "w-full"}
-                variant={plan.highlighted ? "default" : "outline"}
-              >
-                Get Started <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+              <Link to="/signup">
+                <Button
+                  className={plan.highlighted ? "neon-glow w-full" : "w-full"}
+                  variant={plan.highlighted ? "default" : "outline"}
+                >
+                  Get Started <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
             </motion.div>
           ))}
         </div>

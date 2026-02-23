@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   const ref = useRef(null);
@@ -24,10 +25,12 @@ const CTASection = () => {
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
               Join thousands of traders who are using AI to break bad habits and build consistent profits.
             </p>
-            <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
-              Start Journaling Trades — It's Free
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            <Link to="/signup">
+              <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
+                Start Journaling Trades — It's Free
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
             <p className="text-xs text-muted-foreground mt-4">No credit card required. Free forever plan available.</p>
           </div>
         </motion.div>
