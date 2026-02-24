@@ -40,8 +40,10 @@ const AIInsights = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="section-padding" ref={ref}>
-      <div className="container mx-auto px-4">
+    <section className="section-padding relative" ref={ref}>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-accent/4 rounded-full blur-[130px]" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -49,7 +51,7 @@ const AIInsights = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">AI Insights</span>
-          <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-4 mb-4 font-display">
             Insights You'd <span className="gradient-text">Never Find</span> Alone
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
