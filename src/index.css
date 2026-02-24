@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,57 +6,56 @@
 
 @layer base {
   :root {
-    --background: 260 30% 4%;
-    --foreground: 240 10% 93%;
+    --background: 220 25% 5%;
+    --foreground: 210 20% 92%;
 
-    --card: 260 25% 8%;
-    --card-foreground: 240 10% 93%;
+    --card: 220 20% 9%;
+    --card-foreground: 210 20% 92%;
 
-    --popover: 260 25% 8%;
-    --popover-foreground: 240 10% 93%;
+    --popover: 220 20% 9%;
+    --popover-foreground: 210 20% 92%;
 
-    --primary: 270 80% 65%;
-    --primary-foreground: 260 30% 4%;
+    --primary: 190 95% 45%;
+    --primary-foreground: 220 25% 5%;
 
-    --secondary: 260 20% 13%;
-    --secondary-foreground: 240 10% 85%;
+    --secondary: 220 20% 14%;
+    --secondary-foreground: 210 20% 85%;
 
-    --muted: 260 18% 14%;
-    --muted-foreground: 250 12% 50%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 15% 55%;
 
-    --accent: 320 70% 55%;
-    --accent-foreground: 240 10% 95%;
+    --accent: 250 75% 60%;
+    --accent-foreground: 210 20% 95%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 260 15% 16%;
-    --input: 260 15% 16%;
-    --ring: 270 80% 65%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 190 95% 45%;
 
     --radius: 0.75rem;
 
     --neon-cyan: 190 95% 45%;
     --neon-blue: 220 90% 56%;
-    --neon-purple: 270 80% 65%;
-    --neon-pink: 320 70% 55%;
+    --neon-purple: 260 80% 60%;
     --neon-green: 160 84% 39%;
     --neon-red: 0 72% 51%;
 
-    --glass: 260 20% 10%;
-    --glass-border: 260 15% 20%;
+    --glass: 220 20% 12%;
+    --glass-border: 220 15% 22%;
 
     --chart-green: 160 84% 39%;
     --chart-red: 0 72% 51%;
 
-    --sidebar-background: 260 30% 5%;
-    --sidebar-foreground: 240 10% 93%;
-    --sidebar-primary: 270 80% 65%;
-    --sidebar-primary-foreground: 260 30% 4%;
-    --sidebar-accent: 260 20% 13%;
-    --sidebar-accent-foreground: 240 10% 93%;
-    --sidebar-border: 260 15% 16%;
-    --sidebar-ring: 270 80% 65%;
+    --sidebar-background: 220 25% 7%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 190 95% 45%;
+    --sidebar-primary-foreground: 220 25% 5%;
+    --sidebar-accent: 220 20% 14%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 190 95% 45%;
   }
 }
 
@@ -84,7 +83,7 @@
   }
 
   .neon-glow {
-    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.5), 0 0 60px -15px hsl(var(--primary) / 0.3);
+    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.4), 0 0 60px -15px hsl(var(--primary) / 0.2);
   }
 
   .neon-text {
@@ -92,7 +91,7 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-neon-pink to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-neon-blue to-accent;
   }
 
   .gradient-border {
@@ -125,46 +124,6 @@
   .animate-slide-up {
     animation: slide-up 0.6s ease-out forwards;
   }
-
-  /* Animated wave background */
-  .wave-bg {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: 0;
-  }
-
-  .wave-bg::before,
-  .wave-bg::after {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-    background: radial-gradient(ellipse at 30% 50%, hsl(var(--primary) / 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 30%, hsl(var(--accent) / 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, hsl(var(--neon-blue) / 0.08) 0%, transparent 40%);
-    animation: wave-drift 20s ease-in-out infinite;
-  }
-
-  .wave-bg::after {
-    background: radial-gradient(ellipse at 60% 40%, hsl(var(--neon-pink) / 0.08) 0%, transparent 45%),
-                radial-gradient(ellipse at 20% 70%, hsl(var(--primary) / 0.06) 0%, transparent 50%);
-    animation: wave-drift 25s ease-in-out infinite reverse;
-  }
-
-  /* Particle dots overlay */
-  .particles-bg {
-    background-image: radial-gradient(1px 1px at 20px 30px, hsl(var(--primary) / 0.3) 0%, transparent 100%),
-                       radial-gradient(1px 1px at 40px 70px, hsl(var(--accent) / 0.2) 0%, transparent 100%),
-                       radial-gradient(1px 1px at 50px 160px, hsl(var(--neon-blue) / 0.25) 0%, transparent 100%),
-                       radial-gradient(1px 1px at 90px 40px, hsl(var(--primary) / 0.2) 0%, transparent 100%),
-                       radial-gradient(1px 1px at 130px 80px, hsl(var(--neon-pink) / 0.15) 0%, transparent 100%),
-                       radial-gradient(1px 1px at 160px 120px, hsl(var(--primary) / 0.3) 0%, transparent 100%);
-    background-size: 200px 200px;
-    animation: particle-float 30s linear infinite;
-  }
 }
 
 @keyframes float {
@@ -174,25 +133,12 @@
 
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3); }
-  50% { box-shadow: 0 0 40px -5px hsl(var(--primary) / 0.6); }
+  50% { box-shadow: 0 0 40px -5px hsl(var(--primary) / 0.5); }
 }
 
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes wave-drift {
-  0% { transform: rotate(0deg) translate(0, 0); }
-  25% { transform: rotate(2deg) translate(20px, -15px); }
-  50% { transform: rotate(0deg) translate(-10px, 10px); }
-  75% { transform: rotate(-2deg) translate(15px, 5px); }
-  100% { transform: rotate(0deg) translate(0, 0); }
-}
-
-@keyframes particle-float {
-  from { background-position: 0 0; }
-  to { background-position: 200px 200px; }
 }
 
 /* Scrollbar styling */

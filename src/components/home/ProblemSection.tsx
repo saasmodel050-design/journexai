@@ -1,4 +1,5 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { XCircle, RefreshCw, Brain, BookX, AlertTriangle } from "lucide-react";
 
@@ -17,8 +18,6 @@ const ProblemSection = () => {
   return (
     <section className="section-padding relative" ref={ref}>
       <div className="absolute inset-0 candlestick-bg opacity-40" />
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-destructive/4 rounded-full blur-[120px]" />
-
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -27,7 +26,7 @@ const ProblemSection = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-medium text-chart-red uppercase tracking-wider">The Problem</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-4 mb-4 font-display">
+          <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">
             Most Traders <span className="text-chart-red">Fail</span> Because…
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">

@@ -51,10 +51,8 @@ const PricingSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="section-padding relative" ref={ref}>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/4 rounded-full blur-[150px]" />
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="section-padding" ref={ref}>
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -62,7 +60,7 @@ const PricingSection = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">Pricing</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-4 mb-4 font-display">
+          <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">
             Start Free, Scale When Ready
           </h2>
         </motion.div>

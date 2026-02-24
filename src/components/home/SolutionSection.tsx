@@ -17,9 +17,7 @@ const SolutionSection = () => {
 
   return (
     <section className="section-padding relative" ref={ref}>
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/4 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/4 rounded-full blur-[100px]" />
-
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[120px]" />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -28,7 +26,7 @@ const SolutionSection = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">The Solution</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-4 mb-4 font-display">
+          <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">
             AI That Turns Your <span className="gradient-text">Trading Data</span> Into Edge
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">

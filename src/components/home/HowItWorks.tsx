@@ -28,10 +28,8 @@ const HowItWorks = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="how-it-works" className="section-padding relative" ref={ref}>
-      <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-primary/4 rounded-full blur-[130px]" />
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="section-padding" ref={ref}>
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -39,7 +37,7 @@ const HowItWorks = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">How It Works</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-4 font-display">
+          <h2 className="text-3xl sm:text-4xl font-bold mt-4">
             Three Steps to <span className="gradient-text">Better Trading</span>
           </h2>
         </motion.div>
@@ -56,7 +54,7 @@ const HowItWorks = () => {
               {i < steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary/30 to-transparent" />
               )}
-              <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 relative group hover:bg-primary/15 transition-colors">
+              <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 relative">
                 <s.icon className="w-8 h-8 text-primary" />
                 <span className="absolute -top-2 -right-2 w-7 h-7 rounded-lg bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center font-mono">
                   {s.step}

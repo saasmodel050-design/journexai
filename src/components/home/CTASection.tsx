@@ -9,18 +9,17 @@ const CTASection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="section-padding relative" ref={ref}>
+    <section className="section-padding" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="glass-card p-12 md:p-16 text-center max-w-3xl mx-auto relative overflow-hidden neon-glow"
+          className="glass-card p-12 md:p-16 text-center max-w-3xl mx-auto relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-accent/8" />
-          <div className="absolute inset-0 particles-bg opacity-20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 font-display">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Start Improving Your Trading <span className="gradient-text">Today</span>
             </h2>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
