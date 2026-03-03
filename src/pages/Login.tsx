@@ -5,7 +5,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { TrendingUp, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
+import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 
 const Login = () => {
@@ -37,10 +38,8 @@ const Login = () => {
       >
         <div className="glass-card p-8">
           <div className="flex items-center gap-2 mb-8 justify-center">
-            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-primary" />
-            </div>
-            <span className="text-xl font-bold">TradeMind AI</span>
+            <img src={journexLogo} alt="Journex Ai" className="w-10 h-10 rounded-xl" />
+            <span className="text-xl font-bold">Journex Ai</span>
           </div>
 
           <h1 className="text-2xl font-bold text-center mb-2">Welcome back</h1>
