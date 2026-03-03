@@ -1,8 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { NavLink } from '@/components/NavLink';
 import {
-  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, TrendingUp,
+  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings,
 } from 'lucide-react';
+import journexLogo from "@/assets/journex_logo.png";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter,
 } from '@/components/ui/sidebar';
@@ -25,10 +26,8 @@ const DashboardSidebar = () => {
     <Sidebar>
       <SidebarHeader className="p-4 border-b border-sidebar-border">
         <NavLink to="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <TrendingUp className="w-5 h-5 text-primary" />
-          </div>
-          <span className="font-bold text-lg">TradeMind</span>
+          <img src={journexLogo} alt="Journex Ai" className="w-8 h-8 rounded-lg" />
+          <span className="font-bold text-lg">Journex Ai</span>
         </NavLink>
       </SidebarHeader>
 

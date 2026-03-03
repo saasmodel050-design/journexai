@@ -43,7 +43,7 @@ const About = () => {
             </h1>
             <p className="text-muted-foreground text-lg">
               Most traders lose money because they repeat mistakes they don't even know they're making.
-              TradeMind AI was built to solve this — a platform that turns your trading data into a personal performance coach.
+              Journex Ai was built to solve this — a platform that turns your trading data into a personal performance coach.
             </p>
           </motion.div>
 

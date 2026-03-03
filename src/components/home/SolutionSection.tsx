@@ -30,7 +30,7 @@ const SolutionSection = () => {
             AI That Turns Your <span className="gradient-text">Trading Data</span> Into Edge
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            TradeMind AI analyzes every trade to find hidden patterns, emotional triggers, and opportunities for improvement.
+            Journex Ai analyzes every trade to find hidden patterns, emotional triggers, and opportunities for improvement.
           </p>
         </motion.div>
 

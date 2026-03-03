@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, TrendingUp } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import journexLogo from "@/assets/journex_logo.png";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -36,11 +37,9 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center neon-glow">
-            <TrendingUp className="w-5 h-5 text-primary" />
-          </div>
+          <img src={journexLogo} alt="Journex Ai" className="w-8 h-8 rounded-lg" />
           <span className="text-lg font-bold text-foreground">
-            Trade<span className="text-primary">Mind</span> AI
+            Journex<span className="text-primary"> Ai</span>
           </span>
         </Link>
 

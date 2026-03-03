@@ -47,7 +47,7 @@ const SignupModal = ({ open, onClose, message }: SignupModalProps) => {
             </h3>
 
             <p className="text-muted-foreground text-sm mb-6">
-              Join thousands of traders improving their performance with TradeMind AI.
+              Join thousands of traders improving their performance with Journex Ai.
             </p>
 
             <div className="space-y-3">

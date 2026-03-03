@@ -61,7 +61,7 @@ const DashboardPreview = () => {
         >
           <img
             src={dashboardPreview}
-            alt="TradeMind AI full dashboard preview"
+            alt="Journex Ai full dashboard preview"
             className="w-full rounded-xl"
           />
         </motion.div>

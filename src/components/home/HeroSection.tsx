@@ -95,7 +95,7 @@ const HeroSection = () => {
           <div className="glass-card p-2 rounded-2xl neon-glow">
             <img
               src={dashboardPreview}
-              alt="TradeMind AI Dashboard showing trading analytics, win rate, profit/loss chart, and AI insights"
+              alt="Journex Ai Dashboard showing trading analytics, win rate, profit/loss chart, and AI insights"
               className="w-full rounded-xl"
             />
           </div>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { TrendingUp, Twitter, Github, Linkedin, Mail } from "lucide-react";
+import { Twitter, Github, Linkedin, Mail } from "lucide-react";
+import journexLogo from "@/assets/journex_logo.png";
 
 const Footer = () => {
   return (
@@ -9,11 +10,9 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-primary" />
-              </div>
+              <img src={journexLogo} alt="Journex Ai" className="w-8 h-8 rounded-lg" />
               <span className="text-lg font-bold text-foreground">
-                Trade<span className="text-primary">Mind</span> AI
+                Journex<span className="text-primary"> Ai</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
@@ -86,7 +85,7 @@ const Footer = () => {
 
         {/* Newsletter */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 TradeMind AI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2026 Journex Ai. All rights reserved.</p>
           <div className="flex items-center gap-2">
             <div className="flex items-center glass-card px-1 py-1 rounded-lg">
               <Mail className="w-4 h-4 text-muted-foreground ml-3 mr-2" />

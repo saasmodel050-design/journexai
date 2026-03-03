@@ -5,7 +5,7 @@ import { Mail, MessageSquare, Handshake, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const faqs = [
-  { q: "What markets does TradeMind AI support?", a: "We support crypto, forex, futures, stocks, and options trading across all major brokers." },
+  { q: "What markets does Journex Ai support?", a: "We support crypto, forex, futures, stocks, and options trading across all major brokers." },
   { q: "Can I import trades from my broker?", a: "Yes! We support CSV imports from most major brokers and platforms including MetaTrader, TradingView, and more." },
   { q: "Is my trading data secure?", a: "Absolutely. All data is encrypted at rest and in transit with enterprise-grade security." },
   { q: "Can I cancel my subscription anytime?", a: "Yes, you can cancel anytime. Your data remains accessible on the free plan." },
@@ -63,9 +63,9 @@ const Contact = () => {
               className="space-y-6"
             >
               {[
-                { icon: Mail, title: "Email", desc: "support@trademindai.com" },
+                { icon: Mail, title: "Email", desc: "support@journexai.com" },
                 { icon: MessageSquare, title: "Support", desc: "Live chat available Mon-Fri, 9am-6pm EST" },
-                { icon: Handshake, title: "Partnerships", desc: "partnerships@trademindai.com" },
+                { icon: Handshake, title: "Partnerships", desc: "partnerships@journexai.com" },
               ].map((item, i) => (
                 <div key={i} className="glass-card-hover p-5 flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
