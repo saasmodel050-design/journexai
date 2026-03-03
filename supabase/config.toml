@@ -1,1 +1,4 @@
 project_id = "enrqkphwtnpylvnqwjwz"
+
+[functions.ai-trading-coach]
+verify_jwt = false
