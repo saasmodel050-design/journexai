@@ -22,6 +22,8 @@ export type Database = {
           full_name: string
           id: string
           market_type: string
+          plan: string
+          plan_status: string
           updated_at: string
           user_id: string
         }
@@ -32,6 +34,8 @@ export type Database = {
           full_name: string
           id?: string
           market_type?: string
+          plan?: string
+          plan_status?: string
           updated_at?: string
           user_id: string
         }
@@ -42,6 +46,8 @@ export type Database = {
           full_name?: string
           id?: string
           market_type?: string
+          plan?: string
+          plan_status?: string
           updated_at?: string
           user_id?: string
         }
