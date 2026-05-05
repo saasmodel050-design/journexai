@@ -84,6 +84,10 @@ export default function AITrainerPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { trades } = useTrades();
+  const { isFree } = usePlan();
+  const userMsgCount = messages.filter(m => m.role === 'user').length;
+  const remaining = Math.max(0, FREE_AI_MESSAGE_LIMIT - userMsgCount);
+  const aiLocked = isFree && userMsgCount >= FREE_AI_MESSAGE_LIMIT;
 
   // Compute stats
   const totalTrades = trades.length;
