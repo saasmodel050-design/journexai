@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Bot, User, Sparkles, TrendingUp, TrendingDown, AlertTriangle, Target, Zap, BarChart3 } from "lucide-react";
+import { Send, Bot, User, Sparkles, TrendingUp, TrendingDown, AlertTriangle, Target, Zap, BarChart3, Crown, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTrades } from "@/hooks/useTrades";
+import { usePlan, FREE_AI_MESSAGE_LIMIT } from "@/hooks/usePlan";
 import ReactMarkdown from "react-markdown";
+import { toast } from "sonner";
 
 type Message = { role: "user" | "assistant"; content: string };
 
