@@ -114,6 +114,10 @@ export default function AITrainerPage() {
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
+    if (aiLocked) {
+      toast.error(`Free plan limit reached (${FREE_AI_MESSAGE_LIMIT} AI messages). Upgrade to Pro for unlimited coaching.`);
+      return;
+    }
     const userMsg: Message = { role: "user", content: text.trim() };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
