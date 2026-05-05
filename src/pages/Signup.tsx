@@ -42,8 +42,8 @@ const Signup = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success('Account created! Please check your email to confirm.');
-      navigate('/login');
+      toast.success('Account created!');
+      navigate('/dashboard');
     }
   };
 
