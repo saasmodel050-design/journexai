@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { NavLink } from '@/components/NavLink';
 import {
-  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot,
+  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot, Crown,
 } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
+import { usePlan } from '@/hooks/usePlan';
+import { Button } from '@/components/ui/button';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter,
 } from '@/components/ui/sidebar';
@@ -22,6 +24,7 @@ const navItems = [
 
 const DashboardSidebar = () => {
   const location = useLocation();
+  const { isPro } = usePlan();
 
   return (
     <Sidebar>
@@ -56,10 +59,25 @@ const DashboardSidebar = () => {
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t border-sidebar-border">
-        <div className="glass-card p-3 text-center">
-          <p className="text-xs text-muted-foreground">Pro Plan</p>
-          <p className="text-xs text-primary font-medium">Unlimited Trades</p>
-        </div>
+        {isPro ? (
+          <div className="glass-card p-3 text-center border-primary/30">
+            <div className="flex items-center justify-center gap-1.5 mb-0.5">
+              <Crown className="w-3.5 h-3.5 text-primary" />
+              <p className="text-xs font-semibold text-primary">Pro Plan</p>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Unlimited Trades</p>
+          </div>
+        ) : (
+          <div className="glass-card p-3 text-center space-y-2">
+            <p className="text-xs text-muted-foreground">Free Plan</p>
+            <NavLink to="/dashboard/upgrade">
+              <Button size="sm" className="w-full h-8 text-xs neon-glow">
+                <Crown className="w-3 h-3 mr-1" />
+                Upgrade to Pro
+              </Button>
+            </NavLink>
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
