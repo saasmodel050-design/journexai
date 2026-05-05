@@ -199,8 +199,8 @@ const AddTradePage = () => {
         </div>
 
         <div className="flex gap-3 pt-2">
-          <Button type="submit" className="flex-1" disabled={addTrade.isPending}>
-            {addTrade.isPending ? 'Saving...' : 'Save Trade'}
+          <Button type="submit" className="flex-1" disabled={addTrade.isPending || reachedLimit}>
+            {reachedLimit ? '🔒 Upgrade to Save' : addTrade.isPending ? 'Saving...' : 'Save Trade'}
           </Button>
           <Button type="button" variant="outline" onClick={() => navigate('/dashboard/trades')}>
             Cancel
