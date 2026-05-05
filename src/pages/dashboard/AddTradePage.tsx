@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTrades } from '@/hooks/useTrades';
 import { Button } from '@/components/ui/button';
@@ -7,10 +7,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { usePlan, FREE_TRADE_LIMIT } from '@/hooks/usePlan';
+import { Crown, Lock } from 'lucide-react';
+import { toast } from 'sonner';
 
 const AddTradePage = () => {
   const navigate = useNavigate();
-  const { addTrade } = useTrades();
+  const { addTrade, trades } = useTrades();
+  const { isFree } = usePlan();
+  const reachedLimit = isFree && trades.length >= FREE_TRADE_LIMIT;
 
   const [form, setForm] = useState({
     pair: '',
@@ -33,6 +38,11 @@ const AddTradePage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (reachedLimit) {
+      toast.error(`Free plan limit reached (${FREE_TRADE_LIMIT} trades). Upgrade to Pro for unlimited trades.`);
+      navigate('/dashboard/upgrade');
+      return;
+    }
     await addTrade.mutateAsync({
       pair: form.pair,
       trade_type: form.trade_type,
@@ -59,6 +69,21 @@ const AddTradePage = () => {
         <h1 className="text-2xl font-bold">Add Trade</h1>
         <p className="text-muted-foreground text-sm">Log a new trade entry</p>
       </div>
+
+      {reachedLimit && (
+        <div className="glass-card p-5 border-primary/40 bg-gradient-to-r from-primary/10 to-accent/10 flex items-start gap-3">
+          <Lock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold">Free plan limit reached</h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              You've used all {FREE_TRADE_LIMIT} trades on the Free plan. Upgrade to Pro to log unlimited trades.
+            </p>
+          </div>
+          <Button asChild size="sm" className="neon-glow">
+            <Link to="/dashboard/upgrade"><Crown className="w-3.5 h-3.5 mr-1" /> Upgrade</Link>
+          </Button>
+        </div>
+      )}
 
       <motion.form
         initial={{ opacity: 0, y: 10 }}
@@ -174,8 +199,8 @@ const AddTradePage = () => {
         </div>
 
         <div className="flex gap-3 pt-2">
-          <Button type="submit" className="flex-1" disabled={addTrade.isPending}>
-            {addTrade.isPending ? 'Saving...' : 'Save Trade'}
+          <Button type="submit" className="flex-1" disabled={addTrade.isPending || reachedLimit}>
+            {reachedLimit ? '🔒 Upgrade to Save' : addTrade.isPending ? 'Saving...' : 'Save Trade'}
           </Button>
           <Button type="button" variant="outline" onClick={() => navigate('/dashboard/trades')}>
             Cancel

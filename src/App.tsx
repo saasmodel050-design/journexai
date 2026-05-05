@@ -22,6 +22,7 @@ import StrategiesPage from "./pages/dashboard/StrategiesPage";
 import ReportsPage from "./pages/dashboard/ReportsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 import AITrainerPage from "./pages/dashboard/AITrainerPage";
+import UpgradePage from "./pages/dashboard/UpgradePage";
 
 // Demo pages
 import DemoLayout from "./components/demo/DemoLayout";
@@ -72,6 +73,7 @@ const App = () => (
             <Route path="/dashboard/strategies" element={<DashboardLayout><StrategiesPage /></DashboardLayout>} />
             <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
+            <Route path="/dashboard/upgrade" element={<DashboardLayout><UpgradePage /></DashboardLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

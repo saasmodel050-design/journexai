@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Bot, User, Sparkles, TrendingUp, TrendingDown, AlertTriangle, Target, Zap, BarChart3 } from "lucide-react";
+import { Send, Bot, User, Sparkles, TrendingUp, TrendingDown, AlertTriangle, Target, Zap, BarChart3, Crown, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTrades } from "@/hooks/useTrades";
+import { usePlan, FREE_AI_MESSAGE_LIMIT } from "@/hooks/usePlan";
 import ReactMarkdown from "react-markdown";
+import { toast } from "sonner";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -81,6 +84,10 @@ export default function AITrainerPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { trades } = useTrades();
+  const { isFree } = usePlan();
+  const userMsgCount = messages.filter(m => m.role === 'user').length;
+  const remaining = Math.max(0, FREE_AI_MESSAGE_LIMIT - userMsgCount);
+  const aiLocked = isFree && userMsgCount >= FREE_AI_MESSAGE_LIMIT;
 
   // Compute stats
   const totalTrades = trades.length;
@@ -107,6 +114,10 @@ export default function AITrainerPage() {
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
+    if (aiLocked) {
+      toast.error(`Free plan limit reached (${FREE_AI_MESSAGE_LIMIT} AI messages). Upgrade to Pro for unlimited coaching.`);
+      return;
+    }
     const userMsg: Message = { role: "user", content: text.trim() };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -242,20 +253,32 @@ export default function AITrainerPage() {
           </ScrollArea>
 
           {/* Input */}
-          <div className="p-4 border-t border-border">
+          <div className="p-4 border-t border-border space-y-2">
+            {isFree && (
+              <div className="flex items-center justify-between gap-2 text-xs px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
+                <span className="text-muted-foreground flex items-center gap-1.5">
+                  <Lock className="w-3 h-3 text-primary" />
+                  Free plan: <span className="text-foreground font-medium">{remaining}</span> / {FREE_AI_MESSAGE_LIMIT} AI messages left
+                </span>
+                <Link to="/dashboard/upgrade" className="text-primary font-semibold hover:underline flex items-center gap-1">
+                  <Crown className="w-3 h-3" /> Upgrade
+                </Link>
+              </div>
+            )}
             <div className="flex gap-2 items-end">
               <textarea
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask your AI trading coach..."
+                placeholder={aiLocked ? "Upgrade to Pro to keep chatting..." : "Ask your AI trading coach..."}
+                disabled={aiLocked}
                 rows={1}
-                className="flex-1 resize-none bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all"
+                className="flex-1 resize-none bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all disabled:opacity-50"
               />
               <Button
                 onClick={() => sendMessage(input)}
-                disabled={!input.trim() || isLoading}
+                disabled={!input.trim() || isLoading || aiLocked}
                 size="icon"
                 className="h-11 w-11 rounded-xl neon-glow"
               >

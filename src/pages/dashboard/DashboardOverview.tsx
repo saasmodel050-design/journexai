@@ -1,10 +1,15 @@
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, BarChart3, Target, Trophy, Brain } from 'lucide-react';
 import { useTrades } from '@/hooks/useTrades';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import UpgradeBanner from '@/components/dashboard/UpgradeBanner';
+import LockedFeature from '@/components/dashboard/LockedFeature';
+import PlanBadge from '@/components/dashboard/PlanBadge';
+import { usePlan } from '@/hooks/usePlan';
 
 const DashboardOverview = () => {
   const { trades, isLoading } = useTrades();
+  const { isPro } = usePlan();
 
   const totalTrades = trades.length;
   const wins = trades.filter(t => t.result === 'win').length;
@@ -49,10 +54,17 @@ const DashboardOverview = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground text-sm">Your trading performance overview</p>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <PlanBadge />
+          </div>
+          <p className="text-muted-foreground text-sm">Your trading performance overview</p>
+        </div>
       </div>
+
+      <UpgradeBanner />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -131,9 +143,10 @@ const DashboardOverview = () => {
             <div className="flex items-center gap-2 mb-4">
               <Brain className="w-5 h-5 text-neon-purple" />
               <h3 className="text-sm font-semibold">AI Mistake Finder</h3>
+              {!isPro && <span className="ml-auto text-[10px] uppercase tracking-wider text-muted-foreground">Limited preview</span>}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {insights.map((insight, i) => (
+              {(isPro ? insights : insights.slice(0, 1)).map((insight, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
@@ -146,6 +159,14 @@ const DashboardOverview = () => {
                   </div>
                   <p className="text-sm text-foreground/80">{insight.message}</p>
                 </motion.div>
+              ))}
+              {!isPro && Array.from({ length: Math.max(0, 2) }).map((_, i) => (
+                <LockedFeature key={`locked-${i}`}>
+                  <div className="p-4 rounded-xl bg-secondary/50 border border-border h-[110px]">
+                    <div className="text-xs font-medium mb-2 text-neon-purple">🔒 Pro Insight</div>
+                    <p className="text-sm text-foreground/80">Advanced behavioral pattern detected across your last 30 trades.</p>
+                  </div>
+                </LockedFeature>
               ))}
             </div>
           </div>

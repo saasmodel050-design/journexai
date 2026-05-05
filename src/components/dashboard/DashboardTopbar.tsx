@@ -2,7 +2,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, LogOut, User } from 'lucide-react';
+import { Bell, LogOut, User, Crown } from 'lucide-react';
+import PlanBadge from './PlanBadge';
+import { usePlan } from '@/hooks/usePlan';
+import { Link } from 'react-router-dom';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -26,6 +29,15 @@ const DashboardTopbar = () => {
       </div>
 
       <div className="flex items-center gap-2">
+        <PlanBadge />
+        {!usePlan().isPro && (
+          <Button asChild size="sm" variant="outline" className="h-8 border-primary/40 text-primary hover:bg-primary/10">
+            <Link to="/dashboard/upgrade">
+              <Crown className="w-3.5 h-3.5 mr-1" />
+              Upgrade
+            </Link>
+          </Button>
+        )}
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="w-4 h-4" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
