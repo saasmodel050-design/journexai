@@ -48,8 +48,8 @@ const AddTradePage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (reachedLimit) {
-      toast.error(`Free plan limit reached (${FREE_TRADE_LIMIT} trades). Upgrade to Pro for unlimited trades.`);
-      navigate('/dashboard/upgrade');
+      toast.error(limitMessage);
+      setUpgradeOpen(true);
       return;
     }
     await addTrade.mutateAsync({
@@ -79,20 +79,35 @@ const AddTradePage = () => {
         <p className="text-muted-foreground text-sm">Log a new trade entry</p>
       </div>
 
+      {isFree && (
+        <div className="glass-card p-4 border-border flex flex-wrap items-center gap-3 text-xs">
+          <span className="text-muted-foreground">Trades today:</span>
+          <span className="font-mono font-medium">{usage.todayCount}/{usage.dailyLimit}</span>
+          <span className="text-muted-foreground ml-2">This month:</span>
+          <span className="font-mono font-medium">{usage.monthCount}/{usage.monthlyLimit}</span>
+          <Button asChild size="sm" variant="outline" className="ml-auto h-7 border-primary/40 text-primary">
+            <Link to="/dashboard/upgrade"><Crown className="w-3 h-3 mr-1" /> Upgrade</Link>
+          </Button>
+        </div>
+      )}
+
       {reachedLimit && (
         <div className="glass-card p-5 border-primary/40 bg-gradient-to-r from-primary/10 to-accent/10 flex items-start gap-3">
           <Lock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
           <div className="flex-1">
-            <h3 className="text-sm font-semibold">Free plan limit reached</h3>
-            <p className="text-xs text-muted-foreground mt-1">
-              You've used all {FREE_TRADE_LIMIT} trades on the Free plan. Upgrade to Pro to log unlimited trades.
-            </p>
+            <h3 className="text-sm font-semibold">
+              {reachedMonthly ? 'Monthly trade limit reached' : 'Daily trade limit reached'}
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">{limitMessage}</p>
           </div>
-          <Button asChild size="sm" className="neon-glow">
-            <Link to="/dashboard/upgrade"><Crown className="w-3.5 h-3.5 mr-1" /> Upgrade</Link>
+          <Button size="sm" className="neon-glow" onClick={() => setUpgradeOpen(true)}>
+            <Crown className="w-3.5 h-3.5 mr-1" /> Upgrade
           </Button>
         </div>
       )}
+
+      <ProUpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} title={limitMessage} />
+
 
       <motion.form
         initial={{ opacity: 0, y: 10 }}
