@@ -77,7 +77,20 @@ async function streamChat({
   onDone();
 }
 
+import ProFeatureGate from "@/components/dashboard/ProFeatureGate";
+
 export default function AITrainerPage() {
+  return (
+    <ProFeatureGate
+      featureName="AI Trainer"
+      description="Personal AI trading coach trained on your data"
+    >
+      <AITrainerContent />
+    </ProFeatureGate>
+  );
+}
+
+function AITrainerContent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
