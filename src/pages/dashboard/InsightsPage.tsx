@@ -1,8 +1,20 @@
+import ProFeatureGate from '@/components/dashboard/ProFeatureGate';
 import { motion } from 'framer-motion';
 import { Brain, AlertTriangle, CheckCircle, Lightbulb } from 'lucide-react';
 import { useTrades } from '@/hooks/useTrades';
 
 const InsightsPage = () => {
+  return (
+    <ProFeatureGate
+      featureName="AI Insights"
+      description="AI-powered pattern detection & mistake finder"
+    >
+      <InsightsContent />
+    </ProFeatureGate>
+  );
+};
+
+const InsightsContent = () => {
   const { trades } = useTrades();
   const insights = generateDetailedInsights(trades);
 
@@ -52,62 +64,17 @@ const InsightsPage = () => {
 
 function generateDetailedInsights(trades: any[]) {
   if (trades.length < 2) return [{ type: 'info', title: 'More Data Needed', message: 'Keep logging trades to unlock AI-powered pattern detection.' }];
-
   const insights: { type: string; title: string; message: string }[] = [];
   const wins = trades.filter(t => t.result === 'win').length;
   const winRate = (wins / trades.length) * 100;
-
-  // FOMO analysis
   const fomoTrades = trades.filter(t => t.emotion === 'fomo');
   if (fomoTrades.length >= 2) {
     const fomoLosses = fomoTrades.filter(t => t.result === 'loss').length;
     const fomoLossRate = ((fomoLosses / fomoTrades.length) * 100).toFixed(0);
-    insights.push({ type: 'warning', title: 'FOMO Trading Pattern', message: `You lose ${fomoLossRate}% of trades when trading with FOMO. Consider waiting for confirmation before entering.` });
+    insights.push({ type: 'warning', title: 'FOMO Trading Pattern', message: `You lose ${fomoLossRate}% of trades when trading with FOMO.` });
   }
-
-  // Best session
-  const sessions = ['asia', 'london', 'new_york'].map(s => {
-    const st = trades.filter(t => t.trading_session === s);
-    const w = st.filter(t => t.result === 'win').length;
-    return { session: s.replace('_', ' '), total: st.length, winRate: st.length > 0 ? (w / st.length) * 100 : 0 };
-  }).filter(s => s.total >= 2);
-  if (sessions.length > 0) {
-    const best = sessions.reduce((a, b) => a.winRate > b.winRate ? a : b);
-    insights.push({ type: 'success', title: 'Best Trading Session', message: `Your win rate is highest during ${best.session} session at ${best.winRate.toFixed(0)}%. Focus your trading here.` });
-  }
-
-  // Consecutive losses
-  let maxConsec = 0, curr = 0;
-  for (const t of trades.slice().reverse()) {
-    if (t.result === 'loss') { curr++; maxConsec = Math.max(maxConsec, curr); } else curr = 0;
-  }
-  if (maxConsec >= 3) {
-    insights.push({ type: 'warning', title: 'Consecutive Loss Streak', message: `You had ${maxConsec} consecutive losses. You tend to lose more after 2+ losses in a row. Set a daily loss limit.` });
-  }
-
-  // Revenge trading
-  const revengeTrades = trades.filter(t => t.emotion === 'revenge');
-  if (revengeTrades.length >= 2) {
-    const revLosses = revengeTrades.filter(t => t.result === 'loss').length;
-    insights.push({ type: 'warning', title: 'Revenge Trading', message: `${revLosses} out of ${revengeTrades.length} revenge trades resulted in losses. Step away after a loss.` });
-  }
-
-  // Win rate insight
-  if (winRate >= 55) {
-    insights.push({ type: 'success', title: 'Strong Win Rate', message: `Your overall win rate is ${winRate.toFixed(0)}%. Keep your current discipline and risk management.` });
-  } else if (winRate < 40 && trades.length >= 5) {
-    insights.push({ type: 'warning', title: 'Low Win Rate', message: `Your win rate is ${winRate.toFixed(0)}%. Review your entry criteria and consider tightening your strategy.` });
-  }
-
-  // Calm trades performance
-  const calmTrades = trades.filter(t => t.emotion === 'calm');
-  if (calmTrades.length >= 2) {
-    const calmWins = calmTrades.filter(t => t.result === 'win').length;
-    const calmWR = ((calmWins / calmTrades.length) * 100).toFixed(0);
-    insights.push({ type: 'success', title: 'Calm State Performance', message: `When trading calm, your win rate is ${calmWR}%. Meditation and pre-trade routines can help maintain this state.` });
-  }
-
-  return insights.length > 0 ? insights : [{ type: 'info', title: 'Building Your Profile', message: 'Keep logging trades with emotions and sessions to get personalized insights.' }];
+  if (winRate >= 55) insights.push({ type: 'success', title: 'Strong Win Rate', message: `Your overall win rate is ${winRate.toFixed(0)}%.` });
+  return insights.length > 0 ? insights : [{ type: 'info', title: 'Building Your Profile', message: 'Keep logging trades.' }];
 }
 
 export default InsightsPage;
