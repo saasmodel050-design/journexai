@@ -138,38 +138,48 @@ const DashboardOverview = () => {
             </div>
           </div>
 
-          {/* AI Insights */}
-          <div className="glass-card p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <Brain className="w-5 h-5 text-neon-purple" />
-              <h3 className="text-sm font-semibold">AI Mistake Finder</h3>
-              {!isPro && <span className="ml-auto text-[10px] uppercase tracking-wider text-muted-foreground">Limited preview</span>}
+          {/* AI Insights — Pro only */}
+          {isPro ? (
+            <div className="glass-card p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <Brain className="w-5 h-5 text-neon-purple" />
+                <h3 className="text-sm font-semibold">AI Mistake Finder</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {insights.map((insight, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.15 }}
+                    className="p-4 rounded-xl bg-secondary/50 border border-border"
+                  >
+                    <div className={`text-xs font-medium mb-2 ${insight.type === 'warning' ? 'text-neon-red' : insight.type === 'success' ? 'text-neon-green' : 'text-neon-blue'}`}>
+                      {insight.type === 'warning' ? '⚠️ Pattern Detected' : insight.type === 'success' ? '✅ Strength Found' : '💡 Insight'}
+                    </div>
+                    <p className="text-sm text-foreground/80">{insight.message}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {(isPro ? insights : insights.slice(0, 1)).map((insight, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.15 }}
-                  className="p-4 rounded-xl bg-secondary/50 border border-border"
-                >
-                  <div className={`text-xs font-medium mb-2 ${insight.type === 'warning' ? 'text-neon-red' : insight.type === 'success' ? 'text-neon-green' : 'text-neon-blue'}`}>
-                    {insight.type === 'warning' ? '⚠️ Pattern Detected' : insight.type === 'success' ? '✅ Strength Found' : '💡 Insight'}
-                  </div>
-                  <p className="text-sm text-foreground/80">{insight.message}</p>
-                </motion.div>
-              ))}
-              {!isPro && Array.from({ length: Math.max(0, 2) }).map((_, i) => (
-                <LockedFeature key={`locked-${i}`}>
-                  <div className="p-4 rounded-xl bg-secondary/50 border border-border h-[110px]">
-                    <div className="text-xs font-medium mb-2 text-neon-purple">🔒 Pro Insight</div>
-                    <p className="text-sm text-foreground/80">Advanced behavioral pattern detected across your last 30 trades.</p>
-                  </div>
-                </LockedFeature>
-              ))}
-            </div>
-          </div>
+          ) : (
+            <LockedFeature message="Upgrade to Pro to unlock AI Mistake Finder">
+              <div className="glass-card p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Brain className="w-5 h-5 text-neon-purple" />
+                  <h3 className="text-sm font-semibold">AI Mistake Finder</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="p-4 rounded-xl bg-secondary/50 border border-border h-[110px]">
+                      <div className="text-xs font-medium mb-2 text-neon-purple">🔒 Pro Insight</div>
+                      <p className="text-sm text-foreground/80">Advanced behavioral pattern detected across your recent trades.</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </LockedFeature>
+          )}
         </>
       )}
     </div>
