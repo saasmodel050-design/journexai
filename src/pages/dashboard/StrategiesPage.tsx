@@ -1,7 +1,14 @@
 import { useTrades } from '@/hooks/useTrades';
 import { Target } from 'lucide-react';
+import ProFeatureGate from '@/components/dashboard/ProFeatureGate';
 
-const StrategiesPage = () => {
+const StrategiesPage = () => (
+  <ProFeatureGate featureName="Strategies" description="Track performance by strategy">
+    <StrategiesContent />
+  </ProFeatureGate>
+);
+
+const StrategiesContent = () => {
   const { trades } = useTrades();
 
   const strategyMap = new Map<string, { total: number; wins: number; losses: number; pnl: number }>();
