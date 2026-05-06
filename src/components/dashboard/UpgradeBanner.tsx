@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePlan, FREE_TRADE_LIMIT } from '@/hooks/usePlan';
-import { useTrades } from '@/hooks/useTrades';
+import { usePlan, useTradeUsage } from '@/hooks/usePlan';
 import { useState } from 'react';
 
 const UpgradeBanner = () => {
   const { isFree, isLoading } = usePlan();
-  const { trades } = useTrades();
+  const { todayCount, monthCount, dailyLimit, monthlyLimit } = useTradeUsage();
   const [dismissed, setDismissed] = useState(false);
 
   if (isLoading || !isFree || dismissed) return null;
 
-  const used = trades.length;
-  const pct = Math.min((used / FREE_TRADE_LIMIT) * 100, 100);
+  const monthPct = Math.min((monthCount / monthlyLimit) * 100, 100);
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 p-4 sm:p-5">
@@ -24,12 +22,15 @@ const UpgradeBanner = () => {
             <Sparkles className="w-5 h-5 text-primary" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold">You're on the Free plan</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {used} / {FREE_TRADE_LIMIT} trades used · Upgrade to Pro for unlimited trades & full AI insights.
-            </p>
+            <h3 className="text-sm font-semibold">
+              Unlock AI insights, reports, and unlimited trades with Pro
+            </h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground mt-1">
+              <span>Trades today: <span className="font-mono text-foreground">{todayCount}/{dailyLimit}</span></span>
+              <span>This month: <span className="font-mono text-foreground">{monthCount}/{monthlyLimit}</span></span>
+            </div>
             <div className="mt-2 h-1.5 w-full sm:w-64 rounded-full bg-secondary overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-primary to-accent transition-all" style={{ width: `${pct}%` }} />
+              <div className="h-full bg-gradient-to-r from-primary to-accent transition-all" style={{ width: `${monthPct}%` }} />
             </div>
           </div>
         </div>
