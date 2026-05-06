@@ -1,7 +1,14 @@
 import { useTrades } from '@/hooks/useTrades';
 import { FileText } from 'lucide-react';
+import ProFeatureGate from '@/components/dashboard/ProFeatureGate';
 
-const ReportsPage = () => {
+const ReportsPage = () => (
+  <ProFeatureGate featureName="Reports" description="Monthly performance breakdowns">
+    <ReportsContent />
+  </ProFeatureGate>
+);
+
+const ReportsContent = () => {
   const { trades } = useTrades();
 
   // Monthly breakdown

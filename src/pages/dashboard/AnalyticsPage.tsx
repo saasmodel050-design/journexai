@@ -1,8 +1,15 @@
 import { useTrades } from '@/hooks/useTrades';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { BarChart3 } from 'lucide-react';
+import ProFeatureGate from '@/components/dashboard/ProFeatureGate';
 
-const AnalyticsPage = () => {
+const AnalyticsPage = () => (
+  <ProFeatureGate featureName="Analytics" description="Deep dive into your trading patterns">
+    <AnalyticsContent />
+  </ProFeatureGate>
+);
+
+const AnalyticsContent = () => {
   const { trades } = useTrades();
 
   // Emotion breakdown
