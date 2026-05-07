@@ -24,6 +24,21 @@ import SettingsPage from "./pages/dashboard/SettingsPage";
 import AITrainerPage from "./pages/dashboard/AITrainerPage";
 import UpgradePage from "./pages/dashboard/UpgradePage";
 
+// Admin
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminOverview from "./pages/admin/AdminOverview";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminPlans from "./pages/admin/AdminPlans";
+import AdminContent from "./pages/admin/AdminContent";
+import AdminAI from "./pages/admin/AdminAI";
+import AdminFlags from "./pages/admin/AdminFlags";
+import AdminNotifications from "./pages/admin/AdminNotifications";
+import AdminTickets from "./pages/admin/AdminTickets";
+import AdminAudit from "./pages/admin/AdminAudit";
+import AdminBilling from "./pages/admin/AdminBilling";
+import AdminDatabase from "./pages/admin/AdminDatabase";
+import AdminBackups from "./pages/admin/AdminBackups";
+
 // Demo pages
 import DemoLayout from "./components/demo/DemoLayout";
 import DemoDashboard from "./pages/demo/DemoDashboard";
@@ -74,6 +89,21 @@ const App = () => (
             <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
             <Route path="/dashboard/upgrade" element={<DashboardLayout><UpgradePage /></DashboardLayout>} />
+
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminLayout><AdminOverview /></AdminLayout>} />
+            <Route path="/admin/users" element={<AdminLayout requireSuper><AdminUsers /></AdminLayout>} />
+            <Route path="/admin/plans" element={<AdminLayout requireSuper><AdminPlans /></AdminLayout>} />
+            <Route path="/admin/content" element={<AdminLayout requireSuper><AdminContent /></AdminLayout>} />
+            <Route path="/admin/ai" element={<AdminLayout requireSuper><AdminAI /></AdminLayout>} />
+            <Route path="/admin/flags" element={<AdminLayout requireSuper><AdminFlags /></AdminLayout>} />
+            <Route path="/admin/notifications" element={<AdminLayout requireSuper><AdminNotifications /></AdminLayout>} />
+            <Route path="/admin/tickets" element={<AdminLayout><AdminTickets /></AdminLayout>} />
+            <Route path="/admin/audit" element={<AdminLayout><AdminAudit /></AdminLayout>} />
+            <Route path="/admin/billing" element={<AdminLayout requireSuper><AdminBilling /></AdminLayout>} />
+            <Route path="/admin/database" element={<AdminLayout requireSuper><AdminDatabase /></AdminLayout>} />
+            <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

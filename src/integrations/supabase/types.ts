@@ -14,6 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_logs: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          prompt: string | null
+          response: string | null
+          tokens: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          prompt?: string | null
+          response?: string | null
+          tokens?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          prompt?: string | null
+          response?: string | null
+          tokens?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      ai_settings: {
+        Row: {
+          daily_message_limit: number
+          free_access: boolean
+          id: string
+          model: string
+          personality: string
+          response_depth: string
+          system_prompt: string
+          updated_at: string
+        }
+        Insert: {
+          daily_message_limit?: number
+          free_access?: boolean
+          id?: string
+          model?: string
+          personality?: string
+          response_depth?: string
+          system_prompt?: string
+          updated_at?: string
+        }
+        Update: {
+          daily_message_limit?: number
+          free_access?: boolean
+          id?: string
+          model?: string
+          personality?: string
+          response_depth?: string
+          system_prompt?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          admin_id: string | null
+          after: Json | null
+          before: Json | null
+          created_at: string
+          entity: string | null
+          entity_id: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          admin_id?: string | null
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string | null
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          description: string | null
+          enabled: boolean
+          id: string
+          key: string
+          label: string
+          updated_at: string
+        }
+        Insert: {
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key: string
+          label: string
+          updated_at?: string
+        }
+        Update: {
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key?: string
+          label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      plans: {
+        Row: {
+          active: boolean
+          ai_trainer_enabled: boolean
+          created_at: string
+          daily_trade_limit: number | null
+          features: Json
+          id: string
+          insights_enabled: boolean
+          monthly_price: number
+          monthly_trade_limit: number | null
+          name: string
+          reports_enabled: boolean
+          slug: string
+          sort_order: number
+          strategies_enabled: boolean
+          updated_at: string
+          yearly_price: number
+        }
+        Insert: {
+          active?: boolean
+          ai_trainer_enabled?: boolean
+          created_at?: string
+          daily_trade_limit?: number | null
+          features?: Json
+          id?: string
+          insights_enabled?: boolean
+          monthly_price?: number
+          monthly_trade_limit?: number | null
+          name: string
+          reports_enabled?: boolean
+          slug: string
+          sort_order?: number
+          strategies_enabled?: boolean
+          updated_at?: string
+          yearly_price?: number
+        }
+        Update: {
+          active?: boolean
+          ai_trainer_enabled?: boolean
+          created_at?: string
+          daily_trade_limit?: number | null
+          features?: Json
+          id?: string
+          insights_enabled?: boolean
+          monthly_price?: number
+          monthly_trade_limit?: number | null
+          name?: string
+          reports_enabled?: boolean
+          slug?: string
+          sort_order?: number
+          strategies_enabled?: boolean
+          updated_at?: string
+          yearly_price?: number
+        }
+        Relationships: []
+      }
+      platform_notifications: {
+        Row: {
+          active: boolean
+          body: string | null
+          created_at: string
+          created_by: string | null
+          display: string
+          id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          active?: boolean
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          display?: string
+          id?: string
+          title: string
+          type?: string
+        }
+        Update: {
+          active?: boolean
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          display?: string
+          id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -52,6 +265,104 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      site_content: {
+        Row: {
+          draft: Json
+          id: string
+          page: string
+          published: Json
+          section_key: string
+          updated_at: string
+        }
+        Insert: {
+          draft?: Json
+          id?: string
+          page: string
+          published?: Json
+          section_key: string
+          updated_at?: string
+        }
+        Update: {
+          draft?: Json
+          id?: string
+          page?: string
+          published?: Json
+          section_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          id: string
+          message: string
+          priority: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          priority?: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          priority?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ticket_replies: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          is_admin_reply: boolean
+          ticket_id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          is_admin_reply?: boolean
+          ticket_id: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          is_admin_reply?: boolean
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_replies_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       trades: {
         Row: {
@@ -119,15 +430,43 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "super_admin" | "support_admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,6 +593,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["super_admin", "support_admin", "user"],
+    },
   },
 } as const
