@@ -92,6 +92,7 @@ const App = () => (
             <Route path="/dashboard/upgrade" element={<DashboardLayout><UpgradePage /></DashboardLayout>} />
 
             {/* Admin routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout><AdminOverview /></AdminLayout>} />
             <Route path="/admin/users" element={<AdminLayout requireSuper><AdminUsers /></AdminLayout>} />
             <Route path="/admin/plans" element={<AdminLayout requireSuper><AdminPlans /></AdminLayout>} />
