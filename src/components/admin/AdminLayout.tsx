@@ -13,8 +13,8 @@ export default function AdminLayout({ children, requireSuper = false }: { childr
   if (authLoading || loading) {
     return <div className="min-h-screen flex items-center justify-center bg-background"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
   }
-  if (!user) return <Navigate to="/login" replace />;
-  if (!isAdmin) return <Navigate to="/dashboard" replace />;
+  if (!user) return <Navigate to="/admin/login" replace />;
+  if (!isAdmin) return <Navigate to="/admin/login" replace />;
   if (requireSuper && !isSuperAdmin) return <Navigate to="/admin" replace />;
 
   return (
