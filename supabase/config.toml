@@ -2,3 +2,6 @@ project_id = "enrqkphwtnpylvnqwjwz"
 
 [functions.ai-trading-coach]
 verify_jwt = false
+
+[functions.seed-admin]
+verify_jwt = false
