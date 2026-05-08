@@ -9,6 +9,7 @@ const items = [
   { to: "/admin", end: true, label: "Overview", icon: LayoutDashboard },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/plans", label: "Plans & Pricing", icon: CreditCard },
+  { to: "/admin/trials", label: "Pro Trials", icon: CreditCard },
   { to: "/admin/content", label: "Content (CMS)", icon: FileText },
   { to: "/admin/ai", label: "AI Trainer", icon: Bot },
   { to: "/admin/flags", label: "Feature Toggles", icon: ToggleLeft },

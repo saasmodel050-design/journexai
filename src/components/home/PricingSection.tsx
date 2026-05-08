@@ -95,12 +95,13 @@ const PricingSection = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/signup">
+              <Link to={plan.name === "Free" ? "/signup" : "/start-trial"}>
                 <Button
                   className={plan.highlighted ? "neon-glow w-full" : "w-full"}
                   variant={plan.highlighted ? "default" : "outline"}
                 >
-                  Get Started <ArrowRight className="w-4 h-4 ml-2" />
+                  {plan.name === "Free" ? "Get Started" : "Buy Pro Plan — Start Free Trial"}
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
             </motion.div>
