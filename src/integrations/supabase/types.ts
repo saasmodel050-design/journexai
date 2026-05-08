@@ -230,37 +230,67 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          country: string | null
           created_at: string
           experience_level: string
           full_name: string
           id: string
           market_type: string
+          payment_status: string
+          phone: string | null
           plan: string
           plan_status: string
+          subscription_type: string
+          trial_end_date: string | null
+          trial_expired_email_sent_at: string | null
+          trial_reminder_day1_sent_at: string | null
+          trial_reminder_day2_sent_at: string | null
+          trial_reminder_day3_sent_at: string | null
+          trial_start_date: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           experience_level?: string
           full_name: string
           id?: string
           market_type?: string
+          payment_status?: string
+          phone?: string | null
           plan?: string
           plan_status?: string
+          subscription_type?: string
+          trial_end_date?: string | null
+          trial_expired_email_sent_at?: string | null
+          trial_reminder_day1_sent_at?: string | null
+          trial_reminder_day2_sent_at?: string | null
+          trial_reminder_day3_sent_at?: string | null
+          trial_start_date?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           experience_level?: string
           full_name?: string
           id?: string
           market_type?: string
+          payment_status?: string
+          phone?: string | null
           plan?: string
           plan_status?: string
+          subscription_type?: string
+          trial_end_date?: string | null
+          trial_expired_email_sent_at?: string | null
+          trial_reminder_day1_sent_at?: string | null
+          trial_reminder_day2_sent_at?: string | null
+          trial_reminder_day3_sent_at?: string | null
+          trial_start_date?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -427,6 +457,39 @@ export type Database = {
           trading_session?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      trial_history: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          outcome: string
+          trial_end_date: string
+          trial_start_date: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          outcome?: string
+          trial_end_date: string
+          trial_start_date?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          outcome?: string
+          trial_end_date?: string
+          trial_start_date?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
