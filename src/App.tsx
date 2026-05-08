@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import StartTrial from "./pages/StartTrial";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -39,6 +40,7 @@ import AdminAudit from "./pages/admin/AdminAudit";
 import AdminBilling from "./pages/admin/AdminBilling";
 import AdminDatabase from "./pages/admin/AdminDatabase";
 import AdminBackups from "./pages/admin/AdminBackups";
+import AdminTrials from "./pages/admin/AdminTrials";
 
 // Demo pages
 import DemoLayout from "./components/demo/DemoLayout";
@@ -72,6 +74,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/start-trial" element={<StartTrial />} />
 
             {/* Demo routes - no auth required */}
             <Route path="/demo" element={<DemoPage component={DemoDashboard} />} />
@@ -105,6 +108,7 @@ const App = () => (
             <Route path="/admin/billing" element={<AdminLayout requireSuper><AdminBilling /></AdminLayout>} />
             <Route path="/admin/database" element={<AdminLayout requireSuper><AdminDatabase /></AdminLayout>} />
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
+            <Route path="/admin/trials" element={<AdminLayout requireSuper><AdminTrials /></AdminLayout>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

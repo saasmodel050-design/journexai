@@ -31,9 +31,13 @@ const UpgradePage = () => {
   const handleUpgrade = async (target: 'pro' | 'free') => {
     if (!user) return;
     setLoading(true);
+    const updates: any =
+      target === 'pro'
+        ? { plan: 'pro', plan_status: 'active', subscription_type: 'paid', payment_status: 'paid' }
+        : { plan: 'free', plan_status: 'active', subscription_type: 'none' };
     const { error } = await supabase
       .from('profiles')
-      .update({ plan: target, plan_status: 'active' })
+      .update(updates)
       .eq('user_id', user.id);
     setLoading(false);
     if (error) return toast.error(error.message);
