@@ -92,6 +92,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ReferralCapture />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
@@ -101,6 +102,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/start-trial" element={<StartTrial />} />
+            <Route path="/affiliate" element={<Affiliate />} />
+            <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
 
             {/* Demo routes - no auth required */}
             <Route path="/demo" element={<DemoPage component={DemoDashboard} />} />
