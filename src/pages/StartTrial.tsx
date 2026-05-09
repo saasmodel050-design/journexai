@@ -11,6 +11,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { getReferralCode, clearReferral } from '@/lib/referral';
 import journexLogo from '@/assets/journex_logo.png';
 
 const COUNTRIES = [
@@ -66,6 +67,7 @@ const StartTrial = () => {
       return;
     }
 
+    const ref_code = getReferralCode();
     const { error } = await signUp(email, password, {
       full_name: fullName,
       experience_level: experience,
@@ -73,6 +75,7 @@ const StartTrial = () => {
       phone,
       country,
       start_trial: 'true',
+      ...(ref_code ? { ref_code } : {}),
     });
 
     setLoading(false);
@@ -81,6 +84,7 @@ const StartTrial = () => {
       return;
     }
 
+    clearReferral();
     toast.success('🎉 Your 3-day Pro trial has started!');
     navigate('/dashboard');
   };

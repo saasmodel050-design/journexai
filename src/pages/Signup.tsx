@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Eye, EyeOff } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
+import { getReferralCode, clearReferral } from '@/lib/referral';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -33,15 +34,18 @@ const Signup = () => {
       return;
     }
     setLoading(true);
+    const ref_code = getReferralCode();
     const { error } = await signUp(email, password, {
       full_name: fullName,
       experience_level: experienceLevel || 'beginner',
       market_type: marketType || 'crypto',
+      ...(ref_code ? { ref_code } : {}),
     });
     setLoading(false);
     if (error) {
       toast.error(error.message);
     } else {
+      clearReferral();
       toast.success('Account created!');
       navigate('/dashboard');
     }
