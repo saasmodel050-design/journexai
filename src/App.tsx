@@ -65,9 +65,8 @@ function ReferralCapture() {
             affiliate_id: aff.id, referral_code: code,
             user_agent: navigator.userAgent, referrer: document.referrer || null,
           });
-          await (supabase as any).rpc ? null : null;
-          // increment counter best-effort
-          await (supabase as any).from("affiliates").update({ total_clicks: undefined }).eq("id", aff.id).then(() => {});
+          const { data: cur } = await (supabase as any).from("affiliates").select("total_clicks").eq("id", aff.id).single();
+          if (cur) await (supabase as any).from("affiliates").update({ total_clicks: Number(cur.total_clicks || 0) + 1 }).eq("id", aff.id);
         }
       })();
     }
