@@ -41,6 +41,39 @@ import AdminBilling from "./pages/admin/AdminBilling";
 import AdminDatabase from "./pages/admin/AdminDatabase";
 import AdminBackups from "./pages/admin/AdminBackups";
 import AdminTrials from "./pages/admin/AdminTrials";
+import AdminAffiliates from "./pages/admin/AdminAffiliates";
+import Affiliate from "./pages/Affiliate";
+import AffiliateDashboard from "./pages/AffiliateDashboard";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { captureReferralFromUrl } from "@/lib/referral";
+import { supabase } from "@/integrations/supabase/client";
+
+function ReferralCapture() {
+  const loc = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(loc.search);
+    const code = params.get("ref");
+    if (code) {
+      captureReferralFromUrl();
+      // best-effort click log
+      (async () => {
+        const { data: aff } = await (supabase as any)
+          .from("affiliates").select("id").eq("referral_code", code).eq("status", "active").maybeSingle();
+        if (aff?.id) {
+          await (supabase as any).from("affiliate_clicks").insert({
+            affiliate_id: aff.id, referral_code: code,
+            user_agent: navigator.userAgent, referrer: document.referrer || null,
+          });
+          await (supabase as any).rpc ? null : null;
+          // increment counter best-effort
+          await (supabase as any).from("affiliates").update({ total_clicks: undefined }).eq("id", aff.id).then(() => {});
+        }
+      })();
+    }
+  }, [loc.search]);
+  return null;
+}
 
 // Demo pages
 import DemoLayout from "./components/demo/DemoLayout";
