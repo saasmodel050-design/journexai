@@ -41,6 +41,32 @@ import AdminBilling from "./pages/admin/AdminBilling";
 import AdminDatabase from "./pages/admin/AdminDatabase";
 import AdminBackups from "./pages/admin/AdminBackups";
 import AdminTrials from "./pages/admin/AdminTrials";
+import AdminAffiliates from "./pages/admin/AdminAffiliates";
+import Affiliate from "./pages/Affiliate";
+import AffiliateDashboard from "./pages/AffiliateDashboard";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { captureReferralFromUrl } from "@/lib/referral";
+import { supabase } from "@/integrations/supabase/client";
+
+function ReferralCapture() {
+  const loc = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(loc.search);
+    const code = params.get("ref");
+    if (code) {
+      captureReferralFromUrl();
+      (async () => {
+        await (supabase as any).rpc("track_affiliate_click", {
+          _code: code,
+          _ua: navigator.userAgent,
+          _referrer: document.referrer || null,
+        });
+      })();
+    }
+  }, [loc.search]);
+  return null;
+}
 
 // Demo pages
 import DemoLayout from "./components/demo/DemoLayout";
@@ -66,6 +92,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ReferralCapture />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
@@ -75,6 +102,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/start-trial" element={<StartTrial />} />
+            <Route path="/affiliate" element={<Affiliate />} />
+            <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
 
             {/* Demo routes - no auth required */}
             <Route path="/demo" element={<DemoPage component={DemoDashboard} />} />
@@ -109,6 +138,7 @@ const App = () => (
             <Route path="/admin/database" element={<AdminLayout requireSuper><AdminDatabase /></AdminLayout>} />
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
             <Route path="/admin/trials" element={<AdminLayout requireSuper><AdminTrials /></AdminLayout>} />
+            <Route path="/admin/affiliates" element={<AdminLayout requireSuper><AdminAffiliates /></AdminLayout>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
