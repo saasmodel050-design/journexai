@@ -138,6 +138,7 @@ const App = () => (
             <Route path="/admin/database" element={<AdminLayout requireSuper><AdminDatabase /></AdminLayout>} />
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
             <Route path="/admin/trials" element={<AdminLayout requireSuper><AdminTrials /></AdminLayout>} />
+            <Route path="/admin/affiliates" element={<AdminLayout requireSuper><AdminAffiliates /></AdminLayout>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
