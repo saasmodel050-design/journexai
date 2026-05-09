@@ -800,6 +800,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      track_affiliate_click: {
+        Args: { _code: string; _referrer?: string; _ua?: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "super_admin" | "support_admin" | "user"
