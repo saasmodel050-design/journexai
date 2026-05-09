@@ -56,18 +56,12 @@ function ReferralCapture() {
     const code = params.get("ref");
     if (code) {
       captureReferralFromUrl();
-      // best-effort click log
       (async () => {
-        const { data: aff } = await (supabase as any)
-          .from("affiliates").select("id").eq("referral_code", code).eq("status", "active").maybeSingle();
-        if (aff?.id) {
-          await (supabase as any).from("affiliate_clicks").insert({
-            affiliate_id: aff.id, referral_code: code,
-            user_agent: navigator.userAgent, referrer: document.referrer || null,
-          });
-          const { data: cur } = await (supabase as any).from("affiliates").select("total_clicks").eq("id", aff.id).single();
-          if (cur) await (supabase as any).from("affiliates").update({ total_clicks: Number(cur.total_clicks || 0) + 1 }).eq("id", aff.id);
-        }
+        await (supabase as any).rpc("track_affiliate_click", {
+          _code: code,
+          _ua: navigator.userAgent,
+          _referrer: document.referrer || null,
+        });
       })();
     }
   }, [loc.search]);
