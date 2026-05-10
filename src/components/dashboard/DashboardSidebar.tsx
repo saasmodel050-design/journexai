@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { NavLink } from '@/components/NavLink';
 import {
-  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot, Crown,
+  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot, Crown, Users,
 } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { usePlan } from '@/hooks/usePlan';
