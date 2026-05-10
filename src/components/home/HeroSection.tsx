@@ -3,8 +3,16 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const HeroSection = () => {
+  const c = useSiteContent("home", "hero", {
+    badge: "AI-Powered Trading Intelligence",
+    title: "Your AI Trading Coach That Finds Your Mistakes Before They Cost You Money",
+    subtitle: "Track trades, detect emotional trading, and improve performance with AI-powered insights. Stop repeating costly mistakes and start trading consistently.",
+    cta_primary: "Start Journaling Trades",
+    cta_secondary: "Try Demo Dashboard",
+  });
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Background effects */}
