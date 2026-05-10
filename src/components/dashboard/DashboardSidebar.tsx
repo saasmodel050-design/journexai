@@ -20,6 +20,7 @@ const navItems = [
   { title: 'Strategies', url: '/dashboard/strategies', icon: Target },
   { title: 'Reports', url: '/dashboard/reports', icon: FileText },
   { title: 'Settings', url: '/dashboard/settings', icon: Settings },
+  { title: 'Affiliate', url: '/affiliate/dashboard', icon: Users },
 ];
 
 const DashboardSidebar = () => {
