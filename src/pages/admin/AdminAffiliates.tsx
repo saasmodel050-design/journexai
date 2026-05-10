@@ -21,7 +21,16 @@ export default function AdminAffiliates() {
     setAffiliates(a ?? []);
     setPayouts(p ?? []);
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    const ch = supabase
+      .channel("admin_affiliates_live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "affiliates" }, () => load())
+      .on("postgres_changes", { event: "*", schema: "public", table: "payouts" }, () => load())
+      .on("postgres_changes", { event: "*", schema: "public", table: "referrals" }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, []);
 
   const setStatus = async (id: string, status: string) => {
     const patch: any = { status };
