@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { NavLink } from '@/components/NavLink';
 import {
-  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot, Crown,
+  LayoutDashboard, LineChart, PlusCircle, BarChart3, Brain, Target, FileText, Settings, Bot, Crown, Users,
 } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { usePlan } from '@/hooks/usePlan';
@@ -20,6 +20,7 @@ const navItems = [
   { title: 'Strategies', url: '/dashboard/strategies', icon: Target },
   { title: 'Reports', url: '/dashboard/reports', icon: FileText },
   { title: 'Settings', url: '/dashboard/settings', icon: Settings },
+  { title: 'Affiliate', url: '/affiliate/dashboard', icon: Users },
 ];
 
 const DashboardSidebar = () => {
