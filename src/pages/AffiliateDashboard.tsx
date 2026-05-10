@@ -187,7 +187,14 @@ export default function AffiliateDashboard() {
               <div className="font-semibold">Earnings — last 6 months</div>
               <div className="text-xs text-muted-foreground">Based on approved commissions</div>
             </div>
-            <Button onClick={() => setPayoutOpen(true)}>Request Payout</Button>
+            {affiliate.total_conversions >= 5 ? (
+              <Button onClick={() => setPayoutOpen(true)}>Request Payout</Button>
+            ) : (
+              <div className="text-xs text-muted-foreground text-right max-w-xs">
+                You need at least <span className="text-primary font-semibold">5 successful Pro referrals</span> before requesting payouts.
+                <div className="text-[11px] mt-0.5">Current paid Pro users: {affiliate.total_conversions}/5</div>
+              </div>
+            )}
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
