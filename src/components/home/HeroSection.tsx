@@ -3,8 +3,16 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const HeroSection = () => {
+  const c = useSiteContent("home", "hero", {
+    badge: "AI-Powered Trading Intelligence",
+    title: "Your AI Trading Coach That Finds Your Mistakes Before They Cost You Money",
+    subtitle: "Track trades, detect emotional trading, and improve performance with AI-powered insights. Stop repeating costly mistakes and start trading consistently.",
+    cta_primary: "Start Journaling Trades",
+    cta_secondary: "Try Demo Dashboard",
+  });
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Background effects */}
@@ -21,7 +29,7 @@ const HeroSection = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            AI-Powered Trading Intelligence
+            {c.badge}
           </motion.div>
 
           <motion.h1
@@ -30,9 +38,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6"
           >
-            Your AI Trading Coach That{" "}
-            <span className="gradient-text">Finds Your Mistakes</span>{" "}
-            Before They Cost You Money
+            {c.title}
           </motion.h1>
 
           <motion.p
@@ -41,8 +47,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10"
           >
-            Track trades, detect emotional trading, and improve performance with AI-powered insights.
-            Stop repeating costly mistakes and start trading consistently.
+            {c.subtitle}
           </motion.p>
 
           <motion.div
@@ -53,14 +58,14 @@ const HeroSection = () => {
           >
             <Link to="/signup">
               <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
-                Start Journaling Trades
+                {c.cta_primary}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
             <Link to="/demo">
               <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
                 <Play className="w-4 h-4 mr-2" />
-                Try Demo Dashboard
+                {c.cta_secondary}
               </Button>
             </Link>
           </motion.div>

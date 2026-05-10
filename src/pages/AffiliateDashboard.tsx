@@ -48,7 +48,7 @@ export default function AffiliateDashboard() {
   useEffect(() => {
     if (!affiliate) return;
     setPaypalEmail(affiliate.paypal_email ?? "");
-    (async () => {
+    const loadAll = async () => {
       const [{ data: refs }, { data: coms }, { data: pays }] = await Promise.all([
         (supabase as any).from("referrals").select("*").eq("affiliate_id", affiliate.id).order("signup_date", { ascending: false }),
         (supabase as any).from("commissions").select("*").eq("affiliate_id", affiliate.id).order("created_at", { ascending: false }),
@@ -57,8 +57,6 @@ export default function AffiliateDashboard() {
       setReferrals(refs ?? []);
       setCommissions(coms ?? []);
       setPayouts(pays ?? []);
-
-      // build last 6 months chart
       const now = new Date();
       const buckets: { month: string; earnings: number }[] = [];
       for (let i = 5; i >= 0; i--) {
@@ -71,8 +69,19 @@ export default function AffiliateDashboard() {
         if (idx >= 0) buckets[idx].earnings += Number(c.commission_amount || 0);
       });
       setChartData(buckets);
-    })();
-  }, [affiliate]);
+    };
+    loadAll();
+
+    // Realtime subscriptions
+    const ch = supabase
+      .channel(`aff_${affiliate.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "referrals", filter: `affiliate_id=eq.${affiliate.id}` }, () => { loadAll(); refresh(); })
+      .on("postgres_changes", { event: "*", schema: "public", table: "commissions", filter: `affiliate_id=eq.${affiliate.id}` }, () => { loadAll(); refresh(); })
+      .on("postgres_changes", { event: "*", schema: "public", table: "payouts", filter: `affiliate_id=eq.${affiliate.id}` }, () => { loadAll(); refresh(); })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "affiliates", filter: `id=eq.${affiliate.id}` }, () => refresh())
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [affiliate, refresh]);
 
   if (authLoading || loading) {
     return <div className="min-h-screen flex items-center justify-center bg-background"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>;
@@ -178,7 +187,14 @@ export default function AffiliateDashboard() {
               <div className="font-semibold">Earnings — last 6 months</div>
               <div className="text-xs text-muted-foreground">Based on approved commissions</div>
             </div>
-            <Button onClick={() => setPayoutOpen(true)}>Request Payout</Button>
+            {affiliate.total_conversions >= 5 ? (
+              <Button onClick={() => setPayoutOpen(true)}>Request Payout</Button>
+            ) : (
+              <div className="text-xs text-muted-foreground text-right max-w-xs">
+                You need at least <span className="text-primary font-semibold">5 successful Pro referrals</span> before requesting payouts.
+                <div className="text-[11px] mt-0.5">Current paid Pro users: {affiliate.total_conversions}/5</div>
+              </div>
+            )}
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
