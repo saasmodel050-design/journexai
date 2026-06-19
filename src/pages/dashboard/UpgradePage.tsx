@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 const freeFeatures = [
   'Up to 20 trades',
@@ -25,6 +26,7 @@ const proFeatures = [
 const UpgradePage = () => {
   const { plan, isPro, refetch } = usePlan();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
@@ -91,7 +93,7 @@ const UpgradePage = () => {
             <Crown className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-bold">Pro</h3>
           </div>
-          <p className="text-3xl font-bold">$19<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+          <p className="text-3xl font-bold">$39<span className="text-sm font-normal text-muted-foreground">/month</span></p>
           <ul className="space-y-2">
             {proFeatures.map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm">
@@ -103,16 +105,16 @@ const UpgradePage = () => {
           <Button
             className="w-full neon-glow"
             disabled={isPro || loading}
-            onClick={() => handleUpgrade('pro')}
+            onClick={() => navigate('/dashboard/checkout')}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-            {isPro ? 'You are Pro 👑' : 'Upgrade to Pro'}
+            {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}
           </Button>
         </div>
       </div>
 
       <p className="text-xs text-center text-muted-foreground">
-        This is a demo upgrade flow. Payment integration coming soon.
+        Secure crypto checkout · USDT, BTC, ETH supported.
       </p>
     </div>
   );

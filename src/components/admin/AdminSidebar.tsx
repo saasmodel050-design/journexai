@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard, Users, CreditCard, FileText, Bot, ToggleLeft,
-  Bell, LifeBuoy, ScrollText, Receipt, Database, Archive, Shield, Share2
+  Bell, LifeBuoy, ScrollText, Receipt, Database, Archive, Shield, Share2, Wallet
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ const items = [
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/plans", label: "Plans & Pricing", icon: CreditCard },
   { to: "/admin/trials", label: "Pro Trials", icon: CreditCard },
+  { to: "/admin/payments", label: "Crypto Payments", icon: Wallet },
   { to: "/admin/affiliates", label: "Affiliates", icon: Share2 },
   { to: "/admin/content", label: "Content (CMS)", icon: FileText },
   { to: "/admin/ai", label: "AI Trainer", icon: Bot },
