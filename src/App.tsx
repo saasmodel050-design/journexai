@@ -25,6 +25,8 @@ import ReportsPage from "./pages/dashboard/ReportsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 import AITrainerPage from "./pages/dashboard/AITrainerPage";
 import UpgradePage from "./pages/dashboard/UpgradePage";
+import CheckoutPage from "./pages/dashboard/CheckoutPage";
+import AdminPayments from "./pages/admin/AdminPayments";
 
 // Admin
 import AdminLayout from "./components/admin/AdminLayout";
@@ -122,6 +124,7 @@ const App = () => (
             <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
             <Route path="/dashboard/upgrade" element={<DashboardLayout><UpgradePage /></DashboardLayout>} />
+            <Route path="/dashboard/checkout" element={<DashboardLayout><CheckoutPage /></DashboardLayout>} />
 
             {/* Admin routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -139,6 +142,7 @@ const App = () => (
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
             <Route path="/admin/trials" element={<AdminLayout requireSuper><AdminTrials /></AdminLayout>} />
             <Route path="/admin/affiliates" element={<AdminLayout requireSuper><AdminAffiliates /></AdminLayout>} />
+            <Route path="/admin/payments" element={<AdminLayout requireSuper><AdminPayments /></AdminLayout>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
