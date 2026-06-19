@@ -283,6 +283,81 @@ export type Database = {
           },
         ]
       }
+      crypto_payments: {
+        Row: {
+          activated_at: string | null
+          amount: number
+          country: string | null
+          created_at: string
+          email: string
+          experience: string | null
+          full_name: string
+          id: string
+          method: string
+          network: string
+          notes: string | null
+          plan: string
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          screenshot_url: string | null
+          status: string
+          telegram: string | null
+          txid: string
+          updated_at: string
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          activated_at?: string | null
+          amount: number
+          country?: string | null
+          created_at?: string
+          email: string
+          experience?: string | null
+          full_name: string
+          id?: string
+          method: string
+          network: string
+          notes?: string | null
+          plan?: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          screenshot_url?: string | null
+          status?: string
+          telegram?: string | null
+          txid: string
+          updated_at?: string
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          activated_at?: string | null
+          amount?: number
+          country?: string | null
+          created_at?: string
+          email?: string
+          experience?: string | null
+          full_name?: string
+          id?: string
+          method?: string
+          network?: string
+          notes?: string | null
+          plan?: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          screenshot_url?: string | null
+          status?: string
+          telegram?: string | null
+          txid?: string
+          updated_at?: string
+          user_id?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
       feature_flags: {
         Row: {
           description: string | null
@@ -306,6 +381,42 @@ export type Database = {
           id?: string
           key?: string
           label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payment_wallets: {
+        Row: {
+          active: boolean
+          address: string
+          created_at: string
+          id: string
+          label: string
+          method: string
+          network: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          address: string
+          created_at?: string
+          id?: string
+          label: string
+          method: string
+          network: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          address?: string
+          created_at?: string
+          id?: string
+          label?: string
+          method?: string
+          network?: string
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []
