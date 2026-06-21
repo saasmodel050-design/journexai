@@ -1,6 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useTrades } from '@/hooks/useTrades';
 import { useTrades } from '@/hooks/useTrades';
 
 export const FREE_DAILY_TRADE_LIMIT = 1;
