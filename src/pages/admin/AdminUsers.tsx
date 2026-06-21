@@ -34,10 +34,29 @@ export default function AdminUsers() {
   });
 
   const updatePlan = async (u: any, plan: string) => {
-    const before = { plan: u.plan };
-    const { error } = await (supabase as any).from("profiles").update({ plan }).eq("user_id", u.user_id);
+    const before = { plan: u.plan, plan_status: u.plan_status, subscription_type: u.subscription_type, payment_status: u.payment_status };
+    const updates: any = { plan };
+    if (plan === 'free') {
+      updates.plan_status = 'active';
+      updates.subscription_type = 'none';
+      updates.payment_status = 'unpaid';
+      updates.trial_start_date = null;
+      updates.trial_end_date = null;
+    } else if (plan === 'pro') {
+      updates.plan_status = 'active';
+      updates.subscription_type = 'paid';
+      updates.payment_status = 'paid';
+    }
+    const { data, error } = await (supabase as any)
+      .from("profiles")
+      .update(updates)
+      .eq("user_id", u.user_id)
+      .select();
     if (error) return toast.error(error.message);
-    await logAudit(user!.id, "update_user_plan", "profiles", u.user_id, before, { plan });
+    if (!data || data.length === 0) {
+      return toast.error("No rows updated — you may not have permission (super_admin required).");
+    }
+    await logAudit(user!.id, "update_user_plan", "profiles", u.user_id, before, updates);
     toast.success(`Plan updated to ${plan}`);
     load();
   };
