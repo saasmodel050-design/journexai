@@ -1,14 +1,13 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useLivePlans } from "@/hooks/useSiteContent";
 
 const FALLBACK = [
-  { slug: "free", name: "Free", monthly_price: 0, features: ["Manual trade logging", "Basic statistics"], sort_order: 1 },
-  { slug: "starter", name: "Starter", monthly_price: 19, features: ["Everything in Free", "AI Mistake Finder", "Unlimited trades"], sort_order: 2 },
-  { slug: "pro", name: "Pro", monthly_price: 49, features: ["Everything in Starter", "AI Trading Coach", "Priority support"], sort_order: 3 },
+  { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: ["Manual trade logging", "Basic statistics"], sort_order: 1 },
+  { slug: "pro", name: "Pro", monthly_price: 19, yearly_price: 150, features: ["Unlimited trades", "Full AI Coach"], sort_order: 2 },
 ];
 
 const PricingSection = () => {
@@ -16,6 +15,8 @@ const PricingSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const livePlans = useLivePlans();
   const plans = livePlans.length ? livePlans : FALLBACK;
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+
 
   return (
     <section className="section-padding" ref={ref} id="pricing">
