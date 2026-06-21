@@ -8,8 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { useLivePlans } from "@/hooks/useSiteContent";
 
-const PRO_PRICE = 39;
 const PRO_FEATURES = [
   "Unlimited Trades",
   "Advanced Analytics",
