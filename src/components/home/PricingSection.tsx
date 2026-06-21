@@ -31,11 +31,32 @@ const PricingSection = () => {
           <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">Start Free, Scale When Ready</h2>
         </motion.div>
 
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex p-1 rounded-full border border-border/60 bg-card/40 backdrop-blur">
+            {(["monthly", "yearly"] as const).map((b) => (
+              <button
+                key={b}
+                onClick={() => setBilling(b)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  billing === b ? "bg-primary text-primary-foreground shadow" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {b === "monthly" ? "Monthly" : "Yearly"}
+                {b === "yearly" && <span className="ml-2 text-xs text-primary-foreground/80">Save 35%</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan: any, i: number) => {
             const highlighted = plan.slug === "starter" || (plans.length === 2 && i === 0);
             const isFree = Number(plan.monthly_price) === 0;
             const features = Array.isArray(plan.features) ? plan.features : [];
+            const price = billing === "yearly"
+              ? Number(plan.yearly_price ?? plan.monthly_price * 12 * 0.65)
+              : Number(plan.monthly_price);
+            const suffix = isFree ? "forever" : billing === "yearly" ? "/year" : "/month";
             return (
               <motion.div
                 key={plan.id ?? plan.slug}
@@ -51,8 +72,8 @@ const PricingSection = () => {
                 )}
                 <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
                 <div className="mt-4 mb-2">
-                  <span className="text-4xl font-black text-foreground font-mono">${Number(plan.monthly_price)}</span>
-                  <span className="text-muted-foreground text-sm ml-1">{isFree ? "forever" : "/month"}</span>
+                  <span className="text-4xl font-black text-foreground font-mono">${price}</span>
+                  <span className="text-muted-foreground text-sm ml-1">{suffix}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-6">{plan.description ?? ""}</p>
                 <ul className="space-y-3 mb-8 flex-1">
