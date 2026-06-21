@@ -32,9 +32,13 @@ interface Wallet {
 export default function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const billing = (searchParams.get('billing') === 'yearly' ? 'yearly' : 'monthly') as 'monthly' | 'yearly';
   const livePlans = useLivePlans();
   const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
-  const PRO_PRICE = Number(proPlan?.monthly_price ?? 39);
+  const monthlyPrice = Number(proPlan?.monthly_price ?? 39);
+  const yearlyPrice = Number(proPlan?.yearly_price ?? Math.round(monthlyPrice * 12 * 0.65));
+  const PRO_PRICE = billing === 'yearly' ? yearlyPrice : monthlyPrice;
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<string>("usdt_trc20");
   const [step, setStep] = useState<1 | 2 | 3>(1);
