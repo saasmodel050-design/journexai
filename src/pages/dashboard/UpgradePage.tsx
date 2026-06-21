@@ -30,9 +30,12 @@ const UpgradePage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const livePlans = useLivePlans();
   const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
-  const proPrice = Number(proPlan?.monthly_price ?? 39);
+  const monthlyPrice = Number(proPlan?.monthly_price ?? 39);
+  const yearlyPrice = Number(proPlan?.yearly_price ?? Math.round(monthlyPrice * 12 * 0.65));
+  const proPrice = billing === 'yearly' ? yearlyPrice : monthlyPrice;
   const proLiveFeatures: string[] = Array.isArray(proPlan?.features) && proPlan.features.length ? proPlan.features : proFeatures;
 
   const handleUpgrade = async (target: 'pro' | 'free') => {
