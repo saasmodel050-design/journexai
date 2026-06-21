@@ -66,6 +66,24 @@ const UpgradePage = () => {
         </p>
       </div>
 
+      <div className="flex justify-center">
+        <div className="inline-flex p-1 rounded-full border border-border/60 bg-card/40 backdrop-blur">
+          {(['monthly', 'yearly'] as const).map((b) => (
+            <button
+              key={b}
+              onClick={() => setBilling(b)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                billing === b ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {b === 'monthly' ? 'Monthly' : 'Yearly'}
+              {b === 'yearly' && <span className="ml-2 text-xs opacity-80">Save 35%</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Free */}
         <div className="glass-card p-6 space-y-4">
