@@ -8,8 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { useLivePlans } from "@/hooks/useSiteContent";
 
-const PRO_PRICE = 39;
 const PRO_FEATURES = [
   "Unlimited Trades",
   "Advanced Analytics",
@@ -32,6 +32,9 @@ interface Wallet {
 export default function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const livePlans = useLivePlans();
+  const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
+  const PRO_PRICE = Number(proPlan?.monthly_price ?? 39);
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<string>("usdt_trc20");
   const [step, setStep] = useState<1 | 2 | 3>(1);

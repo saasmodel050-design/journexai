@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useLivePlans } from '@/hooks/useSiteContent';
 
 const freeFeatures = [
   'Up to 20 trades',
@@ -29,6 +30,10 @@ const UpgradePage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
+  const livePlans = useLivePlans();
+  const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
+  const proPrice = Number(proPlan?.monthly_price ?? 39);
+  const proLiveFeatures: string[] = Array.isArray(proPlan?.features) && proPlan.features.length ? proPlan.features : proFeatures;
 
   const handleUpgrade = async (target: 'pro' | 'free') => {
     if (!user) return;
@@ -93,9 +98,9 @@ const UpgradePage = () => {
             <Crown className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-bold">Pro</h3>
           </div>
-          <p className="text-3xl font-bold">$39<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">/month</span></p>
           <ul className="space-y-2">
-            {proFeatures.map((f) => (
+            {proLiveFeatures.map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm">
                 <Check className="w-4 h-4 text-primary shrink-0" />
                 {f}
