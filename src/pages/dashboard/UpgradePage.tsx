@@ -119,7 +119,10 @@ const UpgradePage = () => {
             <Crown className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-bold">Pro</h3>
           </div>
-          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">{billing === 'yearly' ? '/year' : '/month'}</span></p>
+          {billing === 'yearly' && (
+            <p className="text-xs text-primary">≈ ${Math.round(yearlyPrice / 12)}/mo · billed yearly</p>
+          )}
           <ul className="space-y-2">
             {proLiveFeatures.map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm">
@@ -131,7 +134,7 @@ const UpgradePage = () => {
           <Button
             className="w-full neon-glow"
             disabled={isPro || loading}
-            onClick={() => navigate('/dashboard/checkout')}
+            onClick={() => navigate(`/dashboard/checkout?billing=${billing}`)}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}
