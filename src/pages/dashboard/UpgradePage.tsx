@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useLivePlans } from '@/hooks/useSiteContent';
 
 const freeFeatures = [
   'Up to 20 trades',
