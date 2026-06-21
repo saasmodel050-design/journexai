@@ -98,9 +98,9 @@ const UpgradePage = () => {
             <Crown className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-bold">Pro</h3>
           </div>
-          <p className="text-3xl font-bold">$39<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">/month</span></p>
           <ul className="space-y-2">
-            {proFeatures.map((f) => (
+            {proLiveFeatures.map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm">
                 <Check className="w-4 h-4 text-primary shrink-0" />
                 {f}
