@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useTrades } from '@/hooks/useTrades';
-import { useTrades } from '@/hooks/useTrades';
 
 export const FREE_DAILY_TRADE_LIMIT = 1;
 export const FREE_MONTHLY_TRADE_LIMIT = 30;
