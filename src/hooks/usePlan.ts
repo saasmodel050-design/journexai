@@ -25,7 +25,7 @@ export function usePlan() {
       })
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [user?.id, qc]);
+  }, [user?.id]);
 
 
   const query = useQuery({
