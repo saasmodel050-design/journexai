@@ -30,9 +30,12 @@ const UpgradePage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const livePlans = useLivePlans();
   const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
-  const proPrice = Number(proPlan?.monthly_price ?? 39);
+  const monthlyPrice = Number(proPlan?.monthly_price ?? 39);
+  const yearlyPrice = Number(proPlan?.yearly_price ?? Math.round(monthlyPrice * 12 * 0.65));
+  const proPrice = billing === 'yearly' ? yearlyPrice : monthlyPrice;
   const proLiveFeatures: string[] = Array.isArray(proPlan?.features) && proPlan.features.length ? proPlan.features : proFeatures;
 
   const handleUpgrade = async (target: 'pro' | 'free') => {
@@ -62,6 +65,24 @@ const UpgradePage = () => {
           <span className="text-primary font-semibold capitalize">{plan}</span>
         </p>
       </div>
+
+      <div className="flex justify-center">
+        <div className="inline-flex p-1 rounded-full border border-border/60 bg-card/40 backdrop-blur">
+          {(['monthly', 'yearly'] as const).map((b) => (
+            <button
+              key={b}
+              onClick={() => setBilling(b)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                billing === b ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {b === 'monthly' ? 'Monthly' : 'Yearly'}
+              {b === 'yearly' && <span className="ml-2 text-xs opacity-80">Save 35%</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Free */}
@@ -98,7 +119,10 @@ const UpgradePage = () => {
             <Crown className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-bold">Pro</h3>
           </div>
-          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+          <p className="text-3xl font-bold">${proPrice}<span className="text-sm font-normal text-muted-foreground">{billing === 'yearly' ? '/year' : '/month'}</span></p>
+          {billing === 'yearly' && (
+            <p className="text-xs text-primary">≈ ${Math.round(yearlyPrice / 12)}/mo · billed yearly</p>
+          )}
           <ul className="space-y-2">
             {proLiveFeatures.map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm">
@@ -110,7 +134,7 @@ const UpgradePage = () => {
           <Button
             className="w-full neon-glow"
             disabled={isPro || loading}
-            onClick={() => navigate('/dashboard/checkout')}
+            onClick={() => navigate(`/dashboard/checkout?billing=${billing}`)}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}
