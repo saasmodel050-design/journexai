@@ -112,6 +112,7 @@ ${trades.slice(0, 20).map((t: any) => `- ${t.pair} ${t.trade_type} | Entry: ${t.
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
+        max_tokens: 8000,
         messages: [
           { role: "system", content: SYSTEM_PROMPT + tradesContext },
           ...messages,
