@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 
@@ -53,6 +54,17 @@ const posts = [
 const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Trading Blog — Psychology, Risk & Performance | Journex Ai"
+        description="Expert articles on trading psychology, risk management, mistake patterns, and performance optimization from the Journex Ai team."
+        path="/blog"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "Journex Ai Blog",
+          url: "https://journexai.lovable.app/blog",
+        }}
+      />
       <Navbar />
       <div className="pt-24 section-padding">
         <div className="container mx-auto px-4">
@@ -87,6 +99,7 @@ const Blog = () => {
           </div>
 
           {/* Posts */}
+          <h2 className="sr-only">Latest articles</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {posts.map((post, i) => (
               <motion.article
