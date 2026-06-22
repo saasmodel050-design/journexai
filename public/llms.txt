@@ -1,0 +1,18 @@
+# Journex Ai
+
+> AI-powered trading journal and coach for crypto, forex, and futures traders. Log trades, detect emotional patterns, and improve performance with personalized AI insights.
+
+Journex Ai turns trade history into actionable coaching: pattern detection across thousands of trades, emotional-trigger analysis, session performance metrics, and an AI Mistake Finder that surfaces what silently destroys profits.
+
+## Pages
+- [Home](/): Product overview, features, pricing, and AI insights demo.
+- [About](/about): Mission, why traders fail, how AI helps, and product vision.
+- [Blog](/blog): Articles on trading psychology, risk management, and performance optimization.
+- [Contact](/contact): Support, partnerships, and frequently asked questions.
+- [Demo Dashboard](/demo): Fully functional dashboard with sample data — no signup required.
+- [Affiliate Program](/affiliate): Earn commissions by referring traders to Journex Ai.
+
+## Optional
+- [Privacy Policy](/privacy): How user trading data is stored and protected.
+- [Sign Up](/signup): Create an account to start journaling trades.
+- [Log In](/login): Sign in to the trading dashboard.

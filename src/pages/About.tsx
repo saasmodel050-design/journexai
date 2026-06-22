@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 import { Target, TrendingDown, Brain, Eye } from "lucide-react";
 
@@ -29,6 +30,11 @@ const sections = [
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="About Journex Ai — Built by Traders, for Traders"
+        description="Journex Ai turns trading data into a personal performance coach. Learn our mission, why traders fail, and how AI helps you improve."
+        path="/about"
+      />
       <Navbar />
       <div className="pt-24 section-padding">
         <div className="container mx-auto px-4">
@@ -47,6 +53,7 @@ const About = () => {
             </p>
           </motion.div>
 
+          <h2 className="sr-only">What we believe</h2>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {sections.map((s, i) => (
               <motion.div
