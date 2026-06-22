@@ -10,6 +10,7 @@ import { useTrades } from "@/hooks/useTrades";
 import { usePlan, FREE_AI_MESSAGE_LIMIT } from "@/hooks/usePlan";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 type Message = { role: "user" | "assistant"; content: string };
 
