@@ -94,22 +94,24 @@ ${trades.slice(0, 20).map((t: any) => `- ${t.pair} ${t.trade_type} | Entry: ${t.
       tradesContext = "\n\n[User has no trades logged yet. Encourage them to start logging trades to get personalized insights.]";
     }
 
-    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-    if (!GEMINI_API_KEY) {
-      return new Response(JSON.stringify({ error: "GEMINI_API_KEY not configured" }), {
+    const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
+    if (!OPENROUTER_API_KEY) {
+      return new Response(JSON.stringify({ error: "OPENROUTER_API_KEY not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${GEMINI_API_KEY}`,
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "https://journexai.lovable.app",
+        "X-Title": "Journex AI",
       },
       body: JSON.stringify({
-        model: "gemini-2.0-flash",
+        model: "google/gemini-2.0-flash-001",
         messages: [
           { role: "system", content: SYSTEM_PROMPT + tradesContext },
           ...messages,
