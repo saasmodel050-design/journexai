@@ -47,8 +47,8 @@ serve(async (req) => {
       }
     );
 
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser(accessToken);
-    if (userError || !user) {
+    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(accessToken);
+    if (claimsError || !claimsData?.claims?.sub) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
