@@ -121,7 +121,6 @@ ${trades.slice(0, 20).map((t: any) => `- ${t.pair} ${t.trade_type} | Entry: ${t.
     });
 
     if (!response.ok) {
-      if (response.status === 429) {
       const errorText = await response.text();
       console.error("OpenRouter error:", response.status, errorText);
       let message = errorText;
