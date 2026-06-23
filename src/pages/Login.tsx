@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
+import Seo from '@/components/Seo';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,6 +32,11 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background trading-grid p-4">
+      <Seo
+        title="Login — Journex Ai"
+        description="Sign in to your Journex Ai account to access your AI trading journal, insights, and coach."
+        path="/login"
+      />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -13,6 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
 import journexLogo from '@/assets/journex_logo.png';
+import Seo from '@/components/Seo';
 
 const COUNTRIES = [
   'United States', 'United Kingdom', 'Canada', 'Australia', 'India', 'Pakistan',
@@ -97,6 +98,11 @@ const StartTrial = () => {
 
   return (
     <div className="min-h-screen bg-background trading-grid p-4 py-10 flex items-center justify-center">
+      <Seo
+        title="Start your 3-day Pro trial — Journex Ai"
+        description="Try Journex Ai Pro free for 3 days: unlimited trades, AI insights, mistake finder, and the full trading coach."
+        path="/start-trial"
+      />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
