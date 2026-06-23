@@ -1,10 +1,16 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 
 const Privacy = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Privacy Policy — Journex Ai"
+        description="How Journex Ai collects, uses, and protects your trading data and personal information."
+        path="/privacy"
+      />
       <Navbar />
       <div className="pt-24 section-padding">
         <div className="container mx-auto px-4">
