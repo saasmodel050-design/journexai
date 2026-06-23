@@ -55,6 +55,28 @@ serve(async (req) => {
       });
     }
 
+    // Server-side Pro plan enforcement
+    const userId = claimsData.claims.sub;
+    const { data: profile } = await supabaseClient
+      .from("profiles")
+      .select("plan, plan_status, trial_end_date")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    const isPro = profile?.plan === "pro" ||
+      (profile?.plan === "pro_trial" &&
+        profile?.trial_end_date &&
+        new Date(profile.trial_end_date).getTime() > Date.now());
+
+    if (!isPro) {
+      return new Response(
+        JSON.stringify({ error: "AI Trainer is available on the Pro plan. Please upgrade to continue." }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+
+
     const { messages } = await req.json();
 
     // Fetch user's recent trades for context
