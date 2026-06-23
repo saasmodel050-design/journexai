@@ -108,7 +108,6 @@ const HeroSection = () => {
               decoding="async"
             />
           </div>
-          </div>
           {/* Floating cards */}
           <motion.div
             animate={{ y: [0, -8, 0] }}
