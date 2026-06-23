@@ -26,8 +26,12 @@ export function useAdminRole() {
   return { roles, isAdmin, isSuperAdmin, isSupportAdmin, loading: loading || authLoading };
 }
 
-export async function logAudit(adminId: string, action: string, entity?: string, entityId?: string, before?: any, after?: any) {
-  await (supabase as any).from("audit_logs").insert({
-    admin_id: adminId, action, entity, entity_id: entityId, before, after,
+export async function logAudit(_adminId: string, action: string, entity?: string, entityId?: string, before?: any, after?: any) {
+  await (supabase as any).rpc("log_admin_audit", {
+    p_action: action,
+    p_entity: entity ?? null,
+    p_entity_id: entityId ?? null,
+    p_before: before ?? null,
+    p_after: after ?? null,
   });
 }
