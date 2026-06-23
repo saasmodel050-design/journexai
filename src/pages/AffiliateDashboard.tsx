@@ -17,6 +17,7 @@ import { affiliateUrl } from "@/lib/referral";
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import journexLogo from "@/assets/journex_logo.png";
+import Seo from "@/components/Seo";
 
 function StatCard({ icon: Icon, label, value, accent = "primary" }: any) {
   return (
@@ -120,6 +121,11 @@ export default function AffiliateDashboard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Affiliate Dashboard — Journex Ai"
+        description="Track your Journex Ai referral clicks, conversions, commissions, and payouts in real time."
+        path="/affiliate/dashboard"
+      />
       {/* Topbar */}
       <header className="border-b border-border/50 bg-card/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">

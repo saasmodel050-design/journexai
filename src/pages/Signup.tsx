@@ -10,6 +10,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
+import Seo from '@/components/Seo';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -53,6 +54,11 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background trading-grid p-4">
+      <Seo
+        title="Create your free Journex Ai account"
+        description="Sign up free to start journaling trades, tracking emotions, and getting AI insights for crypto, forex, and futures."
+        path="/signup"
+      />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

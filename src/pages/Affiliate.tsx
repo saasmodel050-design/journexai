@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 const benefits = [
   { icon: DollarSign, title: "20% Commission", desc: "Earn 20% recurring commission on every Pro plan you refer." },
@@ -68,7 +69,13 @@ export default function Affiliate() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Affiliate Program — Earn 20% with Journex Ai"
+        description="Promote Journex Ai and earn recurring 20% commissions on every Pro plan referral with real-time tracking and fast payouts."
+        path="/affiliate"
+      />
       <Navbar />
+
 
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-4 trading-grid overflow-hidden">
