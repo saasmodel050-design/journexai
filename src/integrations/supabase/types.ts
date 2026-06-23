@@ -911,6 +911,16 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      log_admin_audit: {
+        Args: {
+          p_action: string
+          p_after?: Json
+          p_before?: Json
+          p_entity?: string
+          p_entity_id?: string
+        }
+        Returns: string
+      }
       track_affiliate_click: {
         Args: { _code: string; _referrer?: string; _ua?: string }
         Returns: undefined
