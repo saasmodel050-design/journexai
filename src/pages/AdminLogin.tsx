@@ -9,21 +9,15 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, ShieldCheck, Loader2 } from "lucide-react";
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState("saasmodel050@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user, signIn, loading: authLoading } = useAuth();
   const { isAdmin, loading: roleLoading } = useAdminRole();
   const navigate = useNavigate();
-
-  // Best-effort: ensure the super admin account exists on first visit.
-  useEffect(() => {
-    supabase.functions.invoke("seed-admin").catch(() => {});
-  }, []);
 
   if (!authLoading && user && isAdmin && !roleLoading) {
     return <Navigate to="/admin" replace />;
@@ -32,12 +26,6 @@ const AdminLogin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Make sure admin account is provisioned before sign-in attempt.
-    try {
-      await supabase.functions.invoke("seed-admin");
-    } catch {
-      /* non-fatal */
-    }
     const { error } = await signIn(email, password);
     setLoading(false);
     if (error) {
@@ -47,6 +35,7 @@ const AdminLogin = () => {
     toast.success("Welcome, admin");
     navigate("/admin");
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background trading-grid p-4">
