@@ -102,6 +102,10 @@ const HeroSection = () => {
               src={dashboardPreview}
               alt="Journex Ai Dashboard showing trading analytics, win rate, profit/loss chart, and AI insights"
               className="w-full rounded-xl"
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
           {/* Floating cards */}
