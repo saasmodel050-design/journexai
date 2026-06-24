@@ -80,9 +80,9 @@ const Contact = () => {
               className="space-y-6"
             >
               {[
-                { icon: Mail, title: "Email", desc: "support@journexai.com" },
+                { icon: Mail, title: "Email", desc: "saasmodel050@gmail.com" },
                 { icon: MessageSquare, title: "Support", desc: "Live chat available Mon-Fri, 9am-6pm EST" },
-                { icon: Handshake, title: "Partnerships", desc: "partnerships@journexai.com" },
+                { icon: Handshake, title: "Partnerships", desc: "saasmodel050@gmail.com" },
               ].map((item, i) => (
                 <div key={i} className="glass-card-hover p-5 flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
