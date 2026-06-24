@@ -70,6 +70,7 @@ const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
+              onClick={(e) => handleNavClick(e, link.to)}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                 location.pathname === link.to
                   ? "text-primary bg-primary/10"
