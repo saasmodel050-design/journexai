@@ -11,7 +11,7 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import StartTrial from "./pages/StartTrial";
+import { Navigate } from "react-router-dom";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -42,7 +42,7 @@ import AdminAudit from "./pages/admin/AdminAudit";
 import AdminBilling from "./pages/admin/AdminBilling";
 import AdminDatabase from "./pages/admin/AdminDatabase";
 import AdminBackups from "./pages/admin/AdminBackups";
-import AdminTrials from "./pages/admin/AdminTrials";
+
 import AdminAffiliates from "./pages/admin/AdminAffiliates";
 import Affiliate from "./pages/Affiliate";
 import AffiliateDashboard from "./pages/AffiliateDashboard";
@@ -103,7 +103,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/start-trial" element={<StartTrial />} />
+            <Route path="/start-trial" element={<Navigate to="/signup" replace />} />
             <Route path="/affiliate" element={<Affiliate />} />
             <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
 
@@ -140,7 +140,7 @@ const App = () => (
             <Route path="/admin/billing" element={<AdminLayout requireSuper><AdminBilling /></AdminLayout>} />
             <Route path="/admin/database" element={<AdminLayout requireSuper><AdminDatabase /></AdminLayout>} />
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
-            <Route path="/admin/trials" element={<AdminLayout requireSuper><AdminTrials /></AdminLayout>} />
+            <Route path="/admin/trials" element={<Navigate to="/admin/users" replace />} />
             <Route path="/admin/affiliates" element={<AdminLayout requireSuper><AdminAffiliates /></AdminLayout>} />
             <Route path="/admin/payments" element={<AdminLayout requireSuper><AdminPayments /></AdminLayout>} />
 

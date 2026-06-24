@@ -83,9 +83,9 @@ const PricingSection = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to={isFree ? "/signup" : "/start-trial"}>
+                <Link to={isFree ? "/signup" : "/signup?plan=pro"}>
                   <Button className={highlighted ? "neon-glow w-full" : "w-full"} variant={highlighted ? "default" : "outline"}>
-                    {isFree ? "Get Started" : `Start ${plan.name} — Free Trial`}
+                    {isFree ? "Get Started" : `Get ${plan.name}`}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>

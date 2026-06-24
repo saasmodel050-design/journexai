@@ -49,18 +49,17 @@ export function usePlan() {
   });
 
   const plan: Plan = (query.data?.plan as Plan) ?? 'free';
-  const trialEnd = query.data?.trial_end_date ? new Date(query.data.trial_end_date) : null;
-  const now = new Date();
-  const isTrial = plan === 'pro_trial';
-  const trialActive = !!(isTrial && trialEnd && trialEnd.getTime() > now.getTime());
-  const msLeft = trialEnd ? Math.max(0, trialEnd.getTime() - now.getTime()) : 0;
-  const daysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
-  const hoursLeft = Math.floor(msLeft / (1000 * 60 * 60));
+  const trialEnd = null as Date | null;
+  const isTrial = false;
+  const trialActive = false;
+  const msLeft = 0;
+  const daysLeft = 0;
+  const hoursLeft = 0;
 
-  // Pro features unlocked for paying Pro AND active trial
-  const isPro = plan === 'pro' || trialActive;
+  // Trials disabled platform-wide
+  const isPro = plan === 'pro';
   const isFree = !isPro;
-  const trialExpired = query.data?.plan_status === 'trial_expired';
+  const trialExpired = false;
 
   return {
     plan,

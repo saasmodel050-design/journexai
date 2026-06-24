@@ -111,9 +111,9 @@ const About = () => {
               trade like a professional.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-8">
-              <Link to="/start-trial">
+              <Link to="/signup">
                 <Button size="lg" className="neon-glow">
-                  Start 3-Day Pro Trial <ArrowRight className="w-4 h-4 ml-2" />
+                  Get Started Free <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
               <Link to="/demo">
@@ -336,9 +336,9 @@ const About = () => {
                 that separates pros from gamblers.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
-                <Link to="/start-trial">
+                <Link to="/signup">
                   <Button size="lg" className="neon-glow">
-                    Start 3-Day Pro Trial <ArrowRight className="w-4 h-4 ml-2" />
+                    Get Started Free <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
                 <Link to="/contact">
