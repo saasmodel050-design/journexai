@@ -19,6 +19,26 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e: React.MouseEvent, to: string) => {
+    if (to.includes("#")) {
+      const [path, hash] = to.split("#");
+      const targetPath = path || "/";
+      if (location.pathname === targetPath) {
+        e.preventDefault();
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      } else {
+        e.preventDefault();
+        navigate(to);
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
