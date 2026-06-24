@@ -121,6 +121,7 @@ const Navbar = () => {
                 <Link
                   key={link.to}
                   to={link.to}
+                  onClick={(e) => handleNavClick(e, link.to)}
                   className="px-4 py-3 text-sm font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 >
                   {link.label}
