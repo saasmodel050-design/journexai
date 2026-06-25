@@ -42,9 +42,22 @@ export default function AdminAffiliates() {
   };
 
   const setRate = async (id: string, rate: number) => {
-    const { error } = await (supabase as any).from("affiliates").update({ commission_rate: rate }).eq("id", id);
+    if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
+      return toast.error("Rate must be between 0 and 100");
+    }
+    const { data, error } = await (supabase as any)
+      .from("affiliates")
+      .update({ commission_rate: rate })
+      .eq("id", id)
+      .select("id, commission_rate");
     if (error) return toast.error(error.message);
-    toast.success("Commission rate updated");
+    if (!data || data.length === 0) {
+      return toast.error("Update blocked — you must be signed in as a Super Admin.");
+    }
+    if (Number(data[0].commission_rate) !== rate) {
+      return toast.error("Update was reverted by server policy.");
+    }
+    toast.success(`Commission rate set to ${rate}%`);
     load();
   };
 
