@@ -8,9 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { usePlan, useTradeUsage } from '@/hooks/usePlan';
-import { Crown, Lock } from 'lucide-react';
+import { Crown, Lock, CalendarIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import ProUpgradeModal from '@/components/dashboard/ProUpgradeModal';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 const AddTradePage = () => {
   const navigate = useNavigate();
