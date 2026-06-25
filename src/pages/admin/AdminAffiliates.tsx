@@ -42,9 +42,22 @@ export default function AdminAffiliates() {
   };
 
   const setRate = async (id: string, rate: number) => {
-    const { error } = await (supabase as any).from("affiliates").update({ commission_rate: rate }).eq("id", id);
+    if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
+      return toast.error("Rate must be between 0 and 100");
+    }
+    const { data, error } = await (supabase as any)
+      .from("affiliates")
+      .update({ commission_rate: rate })
+      .eq("id", id)
+      .select("id, commission_rate");
     if (error) return toast.error(error.message);
-    toast.success("Commission rate updated");
+    if (!data || data.length === 0) {
+      return toast.error("Update blocked — you must be signed in as a Super Admin.");
+    }
+    if (Number(data[0].commission_rate) !== rate) {
+      return toast.error("Update was reverted by server policy.");
+    }
+    toast.success(`Commission rate set to ${rate}%`);
     load();
   };
 
@@ -112,8 +125,16 @@ export default function AdminAffiliates() {
                     <TableCell className="font-mono text-xs">{a.referral_code}</TableCell>
                     <TableCell><Badge variant="outline" className="capitalize">{a.status}</Badge></TableCell>
                     <TableCell>
-                      <Input type="number" defaultValue={a.commission_rate} className="w-20 h-8"
-                        onBlur={(e) => { const v = Number(e.target.value); if (v !== Number(a.commission_rate)) setRate(a.id, v); }} />
+                      <Input
+                        key={`${a.id}-${a.commission_rate}`}
+                        type="number"
+                        min={0}
+                        max={100}
+                        step={1}
+                        defaultValue={a.commission_rate}
+                        className="w-20 h-8"
+                        onBlur={(e) => { const v = Number(e.target.value); if (v !== Number(a.commission_rate)) setRate(a.id, v); }}
+                      />
                     </TableCell>
                     <TableCell>{a.total_referrals}</TableCell>
                     <TableCell>{a.total_conversions}</TableCell>
