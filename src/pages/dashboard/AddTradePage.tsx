@@ -158,7 +158,7 @@ const AddTradePage = () => {
         </div>
 
         {/* Position & Risk */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Position Size</Label>
             <Input type="number" step="any" placeholder="1.0" value={form.position_size} onChange={(e) => update('position_size', e.target.value)} className="bg-secondary/50 border-border font-mono" />
@@ -167,54 +167,59 @@ const AddTradePage = () => {
             <Label>Risk %</Label>
             <Input type="number" step="any" placeholder="1.0" value={form.risk_percent} onChange={(e) => update('risk_percent', e.target.value)} className="bg-secondary/50 border-border font-mono" />
           </div>
-          <div className="space-y-2">
-            <Label>Date & Time</Label>
-            <div className="flex gap-2">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className={cn(
-                      "flex-1 justify-start text-left font-normal bg-secondary/50 border-border",
-                      !form.trade_time && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+        </div>
+
+        {/* Date & Time */}
+        <div className="space-y-2">
+          <Label>Date & Time</Label>
+          <div className="flex gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    "flex-1 justify-start text-left font-normal bg-secondary/50 border-border",
+                    !form.trade_time && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                  <span className="truncate">
                     {form.trade_time ? format(new Date(form.trade_time), "PPP") : "Pick date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={form.trade_time ? new Date(form.trade_time) : undefined}
-                    onSelect={(d) => {
-                      if (!d) return;
-                      const time = form.trade_time ? form.trade_time.slice(11, 16) : '00:00';
-                      const [h, m] = time.split(':').map(Number);
-                      const next = new Date(d);
-                      next.setHours(h, m, 0, 0);
-                      update('trade_time', toLocalInput(next));
-                    }}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
-              <Input
-                type="time"
-                value={form.trade_time ? form.trade_time.slice(11, 16) : ''}
-                onChange={(e) => {
-                  const base = form.trade_time ? new Date(form.trade_time) : new Date();
-                  const [h, m] = e.target.value.split(':').map(Number);
-                  base.setHours(h || 0, m || 0, 0, 0);
-                  update('trade_time', toLocalInput(base));
-                }}
-                className="w-28 bg-secondary/50 border-border font-mono"
-              />
-            </div>
+                  </span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={form.trade_time ? new Date(form.trade_time) : undefined}
+                  onSelect={(d) => {
+                    if (!d) return;
+                    const time = form.trade_time ? form.trade_time.slice(11, 16) : '00:00';
+                    const [h, m] = time.split(':').map(Number);
+                    const next = new Date(d);
+                    next.setHours(h, m, 0, 0);
+                    update('trade_time', toLocalInput(next));
+                  }}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+            <Input
+              type="time"
+              value={form.trade_time ? form.trade_time.slice(11, 16) : ''}
+              onChange={(e) => {
+                const base = form.trade_time ? new Date(form.trade_time) : new Date();
+                const [h, m] = e.target.value.split(':').map(Number);
+                base.setHours(h || 0, m || 0, 0, 0);
+                update('trade_time', toLocalInput(base));
+              }}
+              className="w-32 shrink-0 bg-secondary/50 border-border font-mono"
+            />
           </div>
         </div>
+
 
         {/* Session & Strategy */}
         <div className="grid grid-cols-2 gap-4">
