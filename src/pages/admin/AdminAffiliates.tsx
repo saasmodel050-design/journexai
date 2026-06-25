@@ -125,8 +125,16 @@ export default function AdminAffiliates() {
                     <TableCell className="font-mono text-xs">{a.referral_code}</TableCell>
                     <TableCell><Badge variant="outline" className="capitalize">{a.status}</Badge></TableCell>
                     <TableCell>
-                      <Input type="number" defaultValue={a.commission_rate} className="w-20 h-8"
-                        onBlur={(e) => { const v = Number(e.target.value); if (v !== Number(a.commission_rate)) setRate(a.id, v); }} />
+                      <Input
+                        key={`${a.id}-${a.commission_rate}`}
+                        type="number"
+                        min={0}
+                        max={100}
+                        step={1}
+                        defaultValue={a.commission_rate}
+                        className="w-20 h-8"
+                        onBlur={(e) => { const v = Number(e.target.value); if (v !== Number(a.commission_rate)) setRate(a.id, v); }}
+                      />
                     </TableCell>
                     <TableCell>{a.total_referrals}</TableCell>
                     <TableCell>{a.total_conversions}</TableCell>
