@@ -15,6 +15,10 @@ import ProUpgradeModal from '@/components/dashboard/ProUpgradeModal';
 const AddTradePage = () => {
   const navigate = useNavigate();
   const { addTrade } = useTrades();
+  const toLocalInput = (d: Date) => {
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - tz).toISOString().slice(0, 16);
+  };
   const { isFree } = usePlan();
   const usage = useTradeUsage();
   const reachedDaily = isFree && usage.reachedDaily;
