@@ -8,9 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { usePlan, useTradeUsage } from '@/hooks/usePlan';
-import { Crown, Lock } from 'lucide-react';
+import { Crown, Lock, CalendarIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import ProUpgradeModal from '@/components/dashboard/ProUpgradeModal';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 const AddTradePage = () => {
   const navigate = useNavigate();
@@ -165,7 +169,50 @@ const AddTradePage = () => {
           </div>
           <div className="space-y-2">
             <Label>Date & Time</Label>
-            <Input type="datetime-local" value={form.trade_time} onChange={(e) => update('trade_time', e.target.value)} className="bg-secondary/50 border-border" />
+            <div className="flex gap-2">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className={cn(
+                      "flex-1 justify-start text-left font-normal bg-secondary/50 border-border",
+                      !form.trade_time && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {form.trade_time ? format(new Date(form.trade_time), "PPP") : "Pick date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={form.trade_time ? new Date(form.trade_time) : undefined}
+                    onSelect={(d) => {
+                      if (!d) return;
+                      const time = form.trade_time ? form.trade_time.slice(11, 16) : '00:00';
+                      const [h, m] = time.split(':').map(Number);
+                      const next = new Date(d);
+                      next.setHours(h, m, 0, 0);
+                      update('trade_time', toLocalInput(next));
+                    }}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+              <Input
+                type="time"
+                value={form.trade_time ? form.trade_time.slice(11, 16) : ''}
+                onChange={(e) => {
+                  const base = form.trade_time ? new Date(form.trade_time) : new Date();
+                  const [h, m] = e.target.value.split(':').map(Number);
+                  base.setHours(h || 0, m || 0, 0, 0);
+                  update('trade_time', toLocalInput(base));
+                }}
+                className="w-28 bg-secondary/50 border-border font-mono"
+              />
+            </div>
           </div>
         </div>
 
