@@ -100,6 +100,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <ReferralCapture />
           <Routes>
             <Route path="/" element={<Index />} />
