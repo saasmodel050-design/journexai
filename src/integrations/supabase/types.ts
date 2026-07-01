@@ -913,10 +913,6 @@ export type Database = {
         }
         Returns: string
       }
-      track_affiliate_click: {
-        Args: { _code: string; _referrer?: string; _ua?: string }
-        Returns: undefined
-      }
     }
     Enums: {
       app_role: "super_admin" | "support_admin" | "user"
