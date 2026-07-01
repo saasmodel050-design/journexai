@@ -59,10 +59,8 @@ function ReferralCapture() {
     if (code) {
       captureReferralFromUrl();
       (async () => {
-        await (supabase as any).rpc("track_affiliate_click", {
-          _code: code,
-          _ua: navigator.userAgent,
-          _referrer: document.referrer || null,
+        await (supabase as any).functions.invoke("track-click", {
+          body: { code, ua: navigator.userAgent, referrer: document.referrer || null },
         });
       })();
     }
