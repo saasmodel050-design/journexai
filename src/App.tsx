@@ -51,6 +51,14 @@ import { useLocation } from "react-router-dom";
 import { captureReferralFromUrl } from "@/lib/referral";
 import { supabase } from "@/integrations/supabase/client";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+}
+
 function ReferralCapture() {
   const loc = useLocation();
   useEffect(() => {
@@ -92,6 +100,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <ReferralCapture />
           <Routes>
             <Route path="/" element={<Index />} />
