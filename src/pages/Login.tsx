@@ -9,6 +9,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -52,6 +53,11 @@ const Login = () => {
           <p className="text-muted-foreground text-center mb-8">Sign in to your trading journal</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            <GoogleSignInButton label="Sign in with Google" />
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+              <div className="relative flex justify-center text-xs"><span className="bg-background px-2 text-muted-foreground">or</span></div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
