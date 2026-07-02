@@ -9,6 +9,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 
 const Login = () => {
   const [email, setEmail] = useState('');
