@@ -74,6 +74,14 @@ const Signup = () => {
           <h1 className="text-2xl font-bold text-center mb-2">Create your account</h1>
           <p className="text-muted-foreground text-center mb-6">Start journaling your trades today</p>
 
+          <div className="space-y-4 mb-4">
+            <GoogleSignInButton label="Sign up with Google" />
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+              <div className="relative flex justify-center text-xs"><span className="bg-background px-2 text-muted-foreground">or</span></div>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name</Label>
