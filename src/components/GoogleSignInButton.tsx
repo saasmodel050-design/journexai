@@ -1,23 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function GoogleSignInButton({ label = "Continue with Google" }: { label?: string }) {
+export default function GoogleSignInButton({
+  label = "Continue with Google",
+  redirectTo = "/dashboard",
+}: {
+  label?: string;
+  redirectTo?: string;
+}) {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        toast.error(result.error.message || "Google sign-in failed");
+        setLoading(false);
+        return;
+      }
+
+      // Full-page redirect flow — browser is navigating to Google now.
+      if (result.redirected) return;
+
+      // Popup flow: session is set by the wrapper. Confirm before navigating.
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        toast.error("Sign-in did not complete. Please try again.");
+        setLoading(false);
+        return;
+      }
+      navigate(redirectTo, { replace: true });
+    } catch (e: any) {
+      toast.error(e?.message || "Google sign-in failed");
       setLoading(false);
-      toast.error(result.error.message || "Google sign-in failed");
-      return;
     }
-    if (result.redirected) return;
-    window.location.href = "/dashboard";
   };
 
   return (
