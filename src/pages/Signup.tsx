@@ -11,6 +11,7 @@ import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
 import Seo from '@/components/Seo';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
