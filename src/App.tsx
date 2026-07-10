@@ -25,8 +25,7 @@ import ReportsPage from "./pages/dashboard/ReportsPage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 import AITrainerPage from "./pages/dashboard/AITrainerPage";
 import UpgradePage from "./pages/dashboard/UpgradePage";
-import CheckoutPage from "./pages/dashboard/CheckoutPage";
-import AdminPayments from "./pages/admin/AdminPayments";
+import Pricing from "./pages/Pricing";
 
 // Admin
 import AdminLayout from "./components/admin/AdminLayout";
@@ -108,6 +107,7 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/start-trial" element={<Navigate to="/signup" replace />} />
@@ -131,7 +131,7 @@ const App = () => (
             <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
             <Route path="/dashboard/upgrade" element={<DashboardLayout><UpgradePage /></DashboardLayout>} />
-            <Route path="/dashboard/checkout" element={<DashboardLayout><CheckoutPage /></DashboardLayout>} />
+            <Route path="/dashboard/checkout" element={<Navigate to="/pricing" replace />} />
 
             {/* Admin routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -149,7 +149,7 @@ const App = () => (
             <Route path="/admin/backups" element={<AdminLayout requireSuper><AdminBackups /></AdminLayout>} />
             <Route path="/admin/trials" element={<Navigate to="/admin/users" replace />} />
             <Route path="/admin/affiliates" element={<AdminLayout requireSuper><AdminAffiliates /></AdminLayout>} />
-            <Route path="/admin/payments" element={<AdminLayout requireSuper><AdminPayments /></AdminLayout>} />
+            <Route path="/admin/payments" element={<Navigate to="/admin" replace />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -134,7 +134,7 @@ const UpgradePage = () => {
           <Button
             className="w-full neon-glow"
             disabled={isPro || loading}
-            onClick={() => navigate(`/dashboard/checkout?billing=${billing}`)}
+            onClick={() => navigate(`/pricing`)}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}
