@@ -9,6 +9,7 @@ const Pricing = () => {
       <Seo
         title="Pricing — Journex Ai"
         description="Simple, transparent pricing for Journex Ai. Start free and upgrade when you're ready to unlock the full AI trading coach."
+        path="/pricing"
       />
       <Navbar />
       <main className="pt-24">
