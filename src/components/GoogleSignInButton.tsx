@@ -39,6 +39,11 @@ export default function GoogleSignInButton({
         setLoading(false);
         return;
       }
+      const intent = consumePurchaseIntent();
+      if (intent) {
+        window.location.href = whopCheckoutUrl(intent.billing);
+        return;
+      }
       navigate(redirectTo, { replace: true });
     } catch (e: any) {
       toast.error(e?.message || "Google sign-in failed");
