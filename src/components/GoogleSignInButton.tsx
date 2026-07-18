@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { consumePurchaseIntent, whopCheckoutUrl } from "@/lib/checkout";
 
 export default function GoogleSignInButton({
   label = "Continue with Google",
@@ -36,6 +37,11 @@ export default function GoogleSignInButton({
       if (!data.session) {
         toast.error("Sign-in did not complete. Please try again.");
         setLoading(false);
+        return;
+      }
+      const intent = consumePurchaseIntent();
+      if (intent) {
+        window.location.href = whopCheckoutUrl(intent.billing);
         return;
       }
       navigate(redirectTo, { replace: true });

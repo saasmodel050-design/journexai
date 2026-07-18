@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useLivePlans } from '@/hooks/useSiteContent';
+import { startProCheckout } from '@/lib/checkout';
 
 const freeFeatures = [
   'Up to 20 trades',
@@ -134,7 +135,7 @@ const UpgradePage = () => {
           <Button
             className="w-full neon-glow"
             disabled={isPro || loading}
-            onClick={() => navigate(`/pricing`)}
+            onClick={() => startProCheckout(billing, (p) => navigate(p))}
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}

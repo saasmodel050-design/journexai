@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,14 +10,22 @@ import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
+import { consumePurchaseIntent, whopCheckoutUrl } from '@/lib/checkout';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authLoading || !user) return;
+    const intent = consumePurchaseIntent();
+    if (intent) window.location.href = whopCheckoutUrl(intent.billing);
+    else navigate('/dashboard', { replace: true });
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +35,9 @@ const Login = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      navigate('/dashboard');
+      const intent = consumePurchaseIntent();
+      if (intent) window.location.href = whopCheckoutUrl(intent.billing);
+      else navigate('/dashboard');
     }
   };
 

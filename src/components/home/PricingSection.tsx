@@ -4,6 +4,8 @@ import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useLivePlans } from "@/hooks/useSiteContent";
+import { useNavigate } from "react-router-dom";
+import { startProCheckout } from "@/lib/checkout";
 
 const FALLBACK = [
   { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: ["Manual trade logging", "Basic statistics"], sort_order: 1 },
@@ -16,6 +18,7 @@ const PricingSection = () => {
   const livePlans = useLivePlans();
   const plans = livePlans.length ? livePlans : FALLBACK;
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const navigate = useNavigate();
 
 
   return (
@@ -83,12 +86,17 @@ const PricingSection = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to={isFree ? "/signup" : "/signup?plan=pro"}>
-                  <Button className={highlighted ? "neon-glow w-full" : "w-full"} variant={highlighted ? "default" : "outline"}>
-                    {isFree ? "Get Started" : `Get ${plan.name}`}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                <Button
+                  className={highlighted ? "neon-glow w-full" : "w-full"}
+                  variant={highlighted ? "default" : "outline"}
+                  onClick={() => {
+                    if (isFree) navigate("/signup");
+                    else startProCheckout(billing, (p) => navigate(p));
+                  }}
+                >
+                  {isFree ? "Get Started" : `Get ${plan.name}`}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </motion.div>
             );
           })}

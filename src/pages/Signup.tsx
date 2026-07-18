@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
 import Seo from '@/components/Seo';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
+import { consumePurchaseIntent, savePurchaseIntent, whopCheckoutUrl, peekPurchaseIntent, type Billing } from '@/lib/checkout';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -22,8 +23,30 @@ const Signup = () => {
   const [marketType, setMarketType] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
+  const { signUp, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Detect purchase intent from query (?plan=pro or ?next=checkout) and persist it.
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    const next = searchParams.get('next');
+    const billing = (searchParams.get('billing') as Billing) || 'monthly';
+    if ((plan === 'pro' || next === 'checkout') && !peekPurchaseIntent()) {
+      savePurchaseIntent(billing);
+    }
+  }, [searchParams]);
+
+  // If the user is already signed in, don't force another signup — resume the flow.
+  useEffect(() => {
+    if (authLoading || !user) return;
+    const intent = consumePurchaseIntent();
+    if (intent) {
+      window.location.href = whopCheckoutUrl(intent.billing);
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +72,12 @@ const Signup = () => {
     } else {
       clearReferral();
       toast.success('Account created!');
-      navigate('/dashboard');
+      const intent = consumePurchaseIntent();
+      if (intent) {
+        window.location.href = whopCheckoutUrl(intent.billing);
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
