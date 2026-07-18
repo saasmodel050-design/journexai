@@ -4,6 +4,8 @@ import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useLivePlans } from "@/hooks/useSiteContent";
+import { useNavigate } from "react-router-dom";
+import { startProCheckout } from "@/lib/checkout";
 
 const FALLBACK = [
   { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: ["Manual trade logging", "Basic statistics"], sort_order: 1 },
