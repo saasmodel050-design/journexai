@@ -23,8 +23,30 @@ const Signup = () => {
   const [marketType, setMarketType] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
+  const { signUp, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Detect purchase intent from query (?plan=pro or ?next=checkout) and persist it.
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    const next = searchParams.get('next');
+    const billing = (searchParams.get('billing') as Billing) || 'monthly';
+    if ((plan === 'pro' || next === 'checkout') && !peekPurchaseIntent()) {
+      savePurchaseIntent(billing);
+    }
+  }, [searchParams]);
+
+  // If the user is already signed in, don't force another signup — resume the flow.
+  useEffect(() => {
+    if (authLoading || !user) return;
+    const intent = consumePurchaseIntent();
+    if (intent) {
+      window.location.href = whopCheckoutUrl(intent.billing);
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +72,12 @@ const Signup = () => {
     } else {
       clearReferral();
       toast.success('Account created!');
-      navigate('/dashboard');
+      const intent = consumePurchaseIntent();
+      if (intent) {
+        window.location.href = whopCheckoutUrl(intent.billing);
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
