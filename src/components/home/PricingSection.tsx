@@ -18,6 +18,7 @@ const PricingSection = () => {
   const livePlans = useLivePlans();
   const plans = livePlans.length ? livePlans : FALLBACK;
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const navigate = useNavigate();
 
 
   return (
