@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
 import Seo from '@/components/Seo';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
+import { consumePurchaseIntent, savePurchaseIntent, whopCheckoutUrl, peekPurchaseIntent, type Billing } from '@/lib/checkout';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
