@@ -86,12 +86,17 @@ const PricingSection = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to={isFree ? "/signup" : "/signup?plan=pro"}>
-                  <Button className={highlighted ? "neon-glow w-full" : "w-full"} variant={highlighted ? "default" : "outline"}>
-                    {isFree ? "Get Started" : `Get ${plan.name}`}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                <Button
+                  className={highlighted ? "neon-glow w-full" : "w-full"}
+                  variant={highlighted ? "default" : "outline"}
+                  onClick={() => {
+                    if (isFree) navigate("/signup");
+                    else startProCheckout(billing, (p) => navigate(p));
+                  }}
+                >
+                  {isFree ? "Get Started" : `Get ${plan.name}`}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </motion.div>
             );
           })}
