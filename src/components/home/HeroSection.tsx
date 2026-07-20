@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
@@ -10,8 +10,8 @@ const HeroSection = () => {
     badge: "AI-Powered Trading Intelligence",
     title: "Your AI Trading Coach That Finds Your Mistakes Before They Cost You Money",
     subtitle: "Track trades, detect emotional trading, and improve performance with AI-powered insights. Stop repeating costly mistakes and start trading consistently.",
-    cta_primary: "Start Journaling Trades",
-    cta_secondary: "Try Demo Dashboard",
+    cta_primary: "Start Free — Log Your First Trade",
+    cta_secondary: "Try Live Demo",
   });
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
@@ -68,7 +68,22 @@ const HeroSection = () => {
                 {c.cta_secondary}
               </Button>
             </Link>
+            <Link to="/pricing">
+              <Button variant="ghost" size="lg" className="text-base px-6 py-6 text-muted-foreground hover:text-foreground">
+                <Tag className="w-4 h-4 mr-2" />
+                See Pricing
+              </Button>
+            </Link>
           </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-xs text-muted-foreground mt-5"
+          >
+            Free forever plan • No credit card required • Upgrade to Pro anytime
+          </motion.p>
 
           {/* Stats */}
           <motion.div
