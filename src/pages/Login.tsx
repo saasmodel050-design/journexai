@@ -10,7 +10,7 @@ import journexLogo from "@/assets/journex_logo.png";
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
-import { consumePurchaseIntent, whopCheckoutUrl } from '@/lib/checkout';
+import { consumePurchaseIntent, goToWhop } from '@/lib/checkout';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ const Login = () => {
   useEffect(() => {
     if (authLoading || !user) return;
     const intent = consumePurchaseIntent();
-    if (intent) window.location.href = whopCheckoutUrl(intent.billing);
+    if (intent) goToWhop(intent.billing);
     else navigate('/dashboard', { replace: true });
   }, [user, authLoading, navigate]);
 
@@ -36,7 +36,7 @@ const Login = () => {
       toast.error(error.message);
     } else {
       const intent = consumePurchaseIntent();
-      if (intent) window.location.href = whopCheckoutUrl(intent.billing);
+      if (intent) goToWhop(intent.billing);
       else navigate('/dashboard');
     }
   };

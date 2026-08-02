@@ -2,9 +2,8 @@
 import { supabase } from "@/integrations/supabase/client";
 
 const WHOP_URLS = {
-  monthly: "https://whop.com/journex/journex-pro-plan",
-  // Fallback to monthly link until a dedicated yearly Whop URL is provided.
-  yearly: "https://whop.com/journex/journex-pro-plan",
+  monthly: "https://whop.com/journex/journex-pro-plan/",
+  yearly: "https://whop.com/journex/plan-yearly/",
 } as const;
 
 export type Billing = "monthly" | "yearly";
@@ -37,8 +36,15 @@ export function peekPurchaseIntent(): { plan: "pro"; billing: Billing } | null {
   }
 }
 
-export function whopCheckoutUrl(billing: Billing = "monthly") {
-  return WHOP_URLS[billing] ?? WHOP_URLS.monthly;
+export function whopCheckoutUrl(
+  billing: Billing = "monthly",
+  user?: { id?: string; email?: string | null },
+) {
+  const base = WHOP_URLS[billing] ?? WHOP_URLS.monthly;
+  const url = new URL(base);
+  if (user?.email) url.searchParams.set("email", user.email);
+  if (user?.id) url.searchParams.set("metadata[user_id]", user.id);
+  return url.toString();
 }
 
 /**
@@ -52,11 +58,23 @@ export async function startProCheckout(
 ) {
   const { data } = await supabase.auth.getSession();
   if (data.session) {
-    window.location.href = whopCheckoutUrl(billing);
+    window.location.href = whopCheckoutUrl(billing, {
+      id: data.session.user.id,
+      email: data.session.user.email,
+    });
     return;
   }
   savePurchaseIntent(billing);
   const target = `/signup?next=checkout&billing=${billing}`;
   if (navigate) navigate(target);
   else window.location.href = target;
+}
+
+/** Redirect the current (authenticated) user to the correct Whop checkout URL. */
+export async function goToWhop(billing: Billing = "monthly") {
+  const { data } = await supabase.auth.getSession();
+  window.location.href = whopCheckoutUrl(billing, {
+    id: data.session?.user.id,
+    email: data.session?.user.email,
+  });
 }
