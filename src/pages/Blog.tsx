@@ -62,7 +62,7 @@ const Blog = () => {
           "@context": "https://schema.org",
           "@type": "Blog",
           name: "Journex Ai Blog",
-          url: "https://journexai.lovable.app/blog",
+          url: "https://journexai.vercel.app/blog",
         }}
       />
       <Navbar />
