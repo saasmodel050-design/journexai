@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { getReferralCode, clearReferral } from '@/lib/referral';
 import Seo from '@/components/Seo';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
-import { consumePurchaseIntent, savePurchaseIntent, whopCheckoutUrl, peekPurchaseIntent, type Billing } from '@/lib/checkout';
+import { consumePurchaseIntent, savePurchaseIntent, goToWhop, peekPurchaseIntent, type Billing } from '@/lib/checkout';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -42,7 +42,7 @@ const Signup = () => {
     if (authLoading || !user) return;
     const intent = consumePurchaseIntent();
     if (intent) {
-      window.location.href = whopCheckoutUrl(intent.billing);
+      goToWhop(intent.billing);
     } else {
       navigate('/dashboard', { replace: true });
     }
@@ -74,7 +74,7 @@ const Signup = () => {
       toast.success('Account created!');
       const intent = consumePurchaseIntent();
       if (intent) {
-        window.location.href = whopCheckoutUrl(intent.billing);
+        goToWhop(intent.billing);
       } else {
         navigate('/dashboard');
       }
