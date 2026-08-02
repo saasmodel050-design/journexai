@@ -2,9 +2,8 @@
 import { supabase } from "@/integrations/supabase/client";
 
 const WHOP_URLS = {
-  monthly: "https://whop.com/journex/journex-pro-plan",
-  // Fallback to monthly link until a dedicated yearly Whop URL is provided.
-  yearly: "https://whop.com/journex/journex-pro-plan",
+  monthly: "https://whop.com/journex/journex-pro-plan/",
+  yearly: "https://whop.com/journex/plan-yearly/",
 } as const;
 
 export type Billing = "monthly" | "yearly";
