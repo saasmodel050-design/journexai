@@ -6,6 +6,7 @@ Journex Ai turns trade history into actionable coaching: pattern detection acros
 
 ## Pages
 - [Home](/): Product overview, features, pricing, and AI insights demo.
+- [Pricing](/pricing): Free and Pro plan pricing, billing options, and FAQ.
 - [About](/about): Mission, why traders fail, how AI helps, and product vision.
 - [Blog](/blog): Articles on trading psychology, risk management, and performance optimization.
 - [Contact](/contact): Support, partnerships, and frequently asked questions.
