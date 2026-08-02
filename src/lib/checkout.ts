@@ -69,3 +69,12 @@ export async function startProCheckout(
   if (navigate) navigate(target);
   else window.location.href = target;
 }
+
+/** Redirect the current (authenticated) user to the correct Whop checkout URL. */
+export async function goToWhop(billing: Billing = "monthly") {
+  const { data } = await supabase.auth.getSession();
+  window.location.href = whopCheckoutUrl(billing, {
+    id: data.session?.user.id,
+    email: data.session?.user.email,
+  });
+}
