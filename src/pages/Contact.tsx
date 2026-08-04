@@ -57,16 +57,16 @@ const Contact = () => {
               <h3 className="text-xl font-semibold text-foreground mb-6">Send us a message</h3>
               <form className="space-y-5">
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Name</label>
-                  <input className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
+                  <label htmlFor="contact-name" className="text-sm text-muted-foreground mb-2 block">Name</label>
+                  <input id="contact-name" name="name" autoComplete="name" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
                 </div>
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Email</label>
-                  <input type="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
+                  <label htmlFor="contact-email" className="text-sm text-muted-foreground mb-2 block">Email</label>
+                  <input id="contact-email" name="email" type="email" autoComplete="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
                 </div>
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Message</label>
-                  <textarea rows={5} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
+                  <label htmlFor="contact-message" className="text-sm text-muted-foreground mb-2 block">Message</label>
+                  <textarea id="contact-message" name="message" rows={5} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
                 </div>
                 <Button className="w-full neon-glow" size="lg">Send Message</Button>
               </form>
