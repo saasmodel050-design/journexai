@@ -167,24 +167,24 @@ export default function Affiliate() {
           </DialogHeader>
           <form onSubmit={submit} className="space-y-3">
             <div className="space-y-1.5">
-              <Label>Full Name</Label>
-              <Input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} required maxLength={100} />
+              <Label htmlFor="aff-full-name">Full Name</Label>
+              <Input id="aff-full-name" value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} required maxLength={100} />
             </div>
             <div className="space-y-1.5">
-              <Label>Email</Label>
-              <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required maxLength={255} />
+              <Label htmlFor="aff-email">Email</Label>
+              <Input id="aff-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required maxLength={255} />
             </div>
             <div className="space-y-1.5">
-              <Label>Country</Label>
-              <Input value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} required maxLength={100} />
+              <Label htmlFor="aff-country">Country</Label>
+              <Input id="aff-country" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} required maxLength={100} />
             </div>
             <div className="space-y-1.5">
-              <Label>Social / Website (optional)</Label>
-              <Input value={form.social_url} onChange={(e) => setForm({ ...form, social_url: e.target.value })} placeholder="https://..." maxLength={255} />
+              <Label htmlFor="aff-social">Social / Website (optional)</Label>
+              <Input id="aff-social" value={form.social_url} onChange={(e) => setForm({ ...form, social_url: e.target.value })} placeholder="https://..." maxLength={255} />
             </div>
             <div className="space-y-1.5">
-              <Label>Why do you want to join? (optional)</Label>
-              <Textarea value={form.motivation} onChange={(e) => setForm({ ...form, motivation: e.target.value })} maxLength={500} rows={3} />
+              <Label htmlFor="aff-motivation">Why do you want to join? (optional)</Label>
+              <Textarea id="aff-motivation" value={form.motivation} onChange={(e) => setForm({ ...form, motivation: e.target.value })} maxLength={500} rows={3} />
             </div>
             <Button type="submit" disabled={submitting} className="w-full neon-glow">
               {submitting ? "Submitting…" : "Submit Application"}
