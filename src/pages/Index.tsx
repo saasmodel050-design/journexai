@@ -17,7 +17,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Journex AI — AI Trading Journal & Coach for Crypto, Forex & Futures"
+        title="Journex Ai — AI Trading Journal & Analytics"
         description="Log trades in seconds. Journex AI detects emotional trading, tracks your performance, and coaches you like a private analyst. Free forever plan."
         path="/"
         jsonLd={{
