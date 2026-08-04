@@ -2,8 +2,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, LogOut, User, Crown } from 'lucide-react';
+import { LogOut, User, Crown } from 'lucide-react';
 import PlanBadge from './PlanBadge';
+import NotificationsBell from './NotificationsBell';
 import { usePlan } from '@/hooks/usePlan';
 import { Link } from 'react-router-dom';
 import {
