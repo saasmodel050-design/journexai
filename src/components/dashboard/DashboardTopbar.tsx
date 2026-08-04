@@ -2,8 +2,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, LogOut, User, Crown } from 'lucide-react';
+import { LogOut, User, Crown } from 'lucide-react';
 import PlanBadge from './PlanBadge';
+import NotificationsBell from './NotificationsBell';
 import { usePlan } from '@/hooks/usePlan';
 import { Link } from 'react-router-dom';
 import {
@@ -38,10 +39,7 @@ const DashboardTopbar = () => {
             </Link>
           </Button>
         )}
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
-        </Button>
+        <NotificationsBell />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
