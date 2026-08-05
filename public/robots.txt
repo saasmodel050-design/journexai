@@ -16,4 +16,4 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /affiliate/dashboard
 
-Sitemap: https://journexai.lovable.app/sitemap.xml
+Sitemap: https://journexai.vercel.app/sitemap.xml
