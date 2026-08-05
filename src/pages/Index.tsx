@@ -17,8 +17,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Journex Ai — AI Trading Coach That Finds Your Mistakes"
-        description="Log trades in seconds. Journex AI detects emotional trading, tracks your performance, and coaches you like a private analyst. Free forever plan."
+        title="AI Trading Journal & Coach | Journex Ai"
+        description="Journex Ai is an AI trading journal and coach for crypto, forex, and futures. Log trades in seconds, spot emotional mistakes, and get AI insights. Free plan."
         path="/"
         jsonLd={{
           "@context": "https://schema.org",
