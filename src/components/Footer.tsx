@@ -29,7 +29,7 @@ const Footer = () => {
 
           {/* Product */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4 text-sm">Product</h4>
+            <h3 className="font-semibold text-foreground mb-4 text-sm">Product</h3>
             <ul className="space-y-3">
               {["Features", "Pricing", "Dashboard", "API"].map((item) => (
                 <li key={item}>
@@ -41,7 +41,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4 text-sm">Resources</h4>
+            <h3 className="font-semibold text-foreground mb-4 text-sm">Resources</h3>
             <ul className="space-y-3">
               {["Blog", "Documentation", "Help Center", "Community"].map((item) => (
                 <li key={item}>
@@ -53,7 +53,7 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4 text-sm">Company</h4>
+            <h3 className="font-semibold text-foreground mb-4 text-sm">Company</h3>
             <ul className="space-y-3">
               {[
                 { label: "About", to: "/about" },
@@ -69,7 +69,7 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4 text-sm">Legal</h4>
+            <h3 className="font-semibold text-foreground mb-4 text-sm">Legal</h3>
             <ul className="space-y-3">
               {[
                 { label: "Privacy Policy", to: "/privacy" },
