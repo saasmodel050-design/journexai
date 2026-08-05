@@ -20,15 +20,26 @@ const Index = () => {
         title="AI Trading Journal & Coach | Journex Ai"
         description="Journex Ai is an AI trading journal and coach for crypto, forex, and futures. Log trades in seconds, spot emotional mistakes, and get AI insights. Free plan."
         path="/"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "Journex AI",
-          applicationCategory: "FinanceApplication",
-          operatingSystem: "Web",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1240" },
-        }}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Journex AI",
+            applicationCategory: "FinanceApplication",
+            operatingSystem: "Web",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1240" },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://journexai.vercel.app/" },
+              { "@type": "ListItem", position: 2, name: "Pricing", item: "https://journexai.vercel.app/pricing" },
+              { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.vercel.app/about" },
+            ],
+          },
+        ]}
       />
       <Navbar />
       <HeroSection />
