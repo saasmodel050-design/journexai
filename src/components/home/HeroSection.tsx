@@ -7,9 +7,9 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 
 const HeroSection = () => {
   const c = useSiteContent("home", "hero", {
-    badge: "AI-Powered Trading Intelligence",
-    title: "Your AI Trading Coach That Finds Your Mistakes Before They Cost You Money",
-    subtitle: "Track trades, detect emotional trading, and improve performance with AI-powered insights. Stop repeating costly mistakes and start trading consistently.",
+    badge: "AI Trading Journal & Coach",
+    title: "The AI Trading Journal That Finds Your Mistakes Before They Cost You Money",
+    subtitle: "Journex AI is an AI trading journal and coach for crypto, forex, and futures traders. Log trades in seconds, detect emotional trading, and get AI insights that stop you repeating costly mistakes.",
     cta_primary: "Start Free — Log Your First Trade",
     cta_secondary: "Try Live Demo",
   });
