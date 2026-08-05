@@ -48,6 +48,28 @@ const WhatIsSection = () => {
             performance, detect the emotional habits killing your edge, and give you clear steps to fix them.
             Think of it as a private analyst reviewing every trade you take.
           </p>
+          <p className="text-sm text-muted-foreground mt-5">
+            Research on trader behaviour backs this up: studies of retail traders find that overtrading and
+            emotional decision-making systematically reduce returns — see{" "}
+            <a
+              href="https://faculty.haas.berkeley.edu/odean/papers/returns/individual%20investor%20performance%20final.pdf"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              Barber &amp; Odean, "Trading Is Hazardous to Your Wealth" (Journal of Finance)
+            </a>{" "}
+            and the{" "}
+            <a
+              href="https://www.esma.europa.eu/press-news/esma-news/esma-issues-warning-cfds-binary-options-and-other-speculative-products"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              ESMA warning on speculative retail trading products
+            </a>
+            .
+          </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
