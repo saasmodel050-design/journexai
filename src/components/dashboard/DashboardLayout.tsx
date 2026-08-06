@@ -25,12 +25,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-background overflow-x-hidden">
         <DashboardSidebar />
-        <div className="flex-1 flex flex-col min-h-screen">
+        <div className="flex-1 min-w-0 flex flex-col min-h-screen">
           <DashboardTopbar />
-          <main className="flex-1 p-6 overflow-auto space-y-4">
-            
+          <main className="flex-1 min-w-0 w-full max-w-full overflow-x-hidden p-4 sm:p-6 space-y-4">
             {children}
           </main>
         </div>

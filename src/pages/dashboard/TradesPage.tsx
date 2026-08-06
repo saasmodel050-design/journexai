@@ -31,8 +31,8 @@ const TradesPage = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 w-full max-w-full min-w-0">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">Trade History</h1>
           <p className="text-muted-foreground text-sm">{trades.length} total trades</p>
@@ -79,9 +79,9 @@ const TradesPage = () => {
           <p className="text-muted-foreground text-sm">Start adding trades to build your history.</p>
         </motion.div>
       ) : (
-        <div className="glass-card overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
+        <div className="glass-card overflow-hidden w-full max-w-full min-w-0">
+          <div className="w-full max-w-full overflow-x-auto">
+            <Table className="min-w-[900px]">
               <TableHeader>
                 <TableRow className="border-border hover:bg-transparent">
                   <TableHead className="text-xs">Pair</TableHead>
