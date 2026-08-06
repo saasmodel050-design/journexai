@@ -40,6 +40,26 @@ export function useTrades() {
     },
   });
 
+  const updateTrade = useMutation({
+    mutationFn: async ({ id, ...updates }: Partial<Trade> & { id: string }) => {
+      const { data, error } = await supabase
+        .from('trades')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trades'] });
+      toast.success('Trade updated');
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+  });
+
   const deleteTrade = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from('trades').delete().eq('id', id);
@@ -54,5 +74,5 @@ export function useTrades() {
     },
   });
 
-  return { trades: tradesQuery.data ?? [], isLoading: tradesQuery.isLoading, addTrade, deleteTrade };
+  return { trades: tradesQuery.data ?? [], isLoading: tradesQuery.isLoading, addTrade, updateTrade, deleteTrade };
 }
