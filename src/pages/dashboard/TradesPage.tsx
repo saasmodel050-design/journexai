@@ -131,14 +131,26 @@ const TradesPage = () => {
                       {new Date(trade.trade_time).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-neon-red"
-                        onClick={() => deleteTrade.mutate(trade.id)}
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label="Edit trade"
+                          className="h-7 w-7 text-muted-foreground hover:text-primary"
+                          onClick={() => setEditing(trade)}
+                        >
+                          <Pencil className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label="Delete trade"
+                          className="h-7 w-7 text-muted-foreground hover:text-neon-red"
+                          onClick={() => deleteTrade.mutate(trade.id)}
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -147,6 +159,14 @@ const TradesPage = () => {
           </div>
         </div>
       )}
+
+      <EditTradeDialog
+        trade={editing}
+        open={!!editing}
+        onOpenChange={(o) => !o && setEditing(null)}
+        isSaving={updateTrade.isPending}
+        onSave={(values) => updateTrade.mutate(values, { onSuccess: () => setEditing(null) })}
+      />
     </div>
   );
 };
