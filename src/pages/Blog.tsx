@@ -62,7 +62,18 @@ const Blog = () => {
           "@context": "https://schema.org",
           "@type": "Blog",
           name: "Journex Ai Blog",
-          url: "https://journexai.vercel.app/blog",
+          url: "https://journexai.lovable.app/blog",
+          publisher: { "@type": "Organization", name: "Journex Ai", url: "https://journexai.lovable.app" },
+          blogPost: posts.map((p) => ({
+            "@type": "BlogPosting",
+            headline: p.title,
+            description: p.excerpt,
+            articleSection: p.category,
+            datePublished: new Date(p.date).toISOString().slice(0, 10),
+            author: { "@type": "Organization", name: "Journex Ai" },
+            publisher: { "@type": "Organization", name: "Journex Ai" },
+            mainEntityOfPage: "https://journexai.lovable.app/blog",
+          })),
         }}
       />
       <Navbar />
