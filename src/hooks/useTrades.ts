@@ -74,5 +74,5 @@ export function useTrades() {
     },
   });
 
-  return { trades: tradesQuery.data ?? [], isLoading: tradesQuery.isLoading, addTrade, deleteTrade };
+  return { trades: tradesQuery.data ?? [], isLoading: tradesQuery.isLoading, addTrade, updateTrade, deleteTrade };
 }
