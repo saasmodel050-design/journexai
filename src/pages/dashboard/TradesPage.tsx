@@ -5,14 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Trash2, LineChart } from 'lucide-react';
+import { Search, Trash2, LineChart, Pencil } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import EditTradeDialog from '@/components/dashboard/EditTradeDialog';
+import type { Trade } from '@/types/database';
 
 const TradesPage = () => {
-  const { trades, isLoading, deleteTrade } = useTrades();
+  const { trades, isLoading, updateTrade, deleteTrade } = useTrades();
   const [search, setSearch] = useState('');
   const [filterResult, setFilterResult] = useState('all');
   const [filterStrategy, setFilterStrategy] = useState('all');
+  const [editing, setEditing] = useState<Trade | null>(null);
 
   const strategies = [...new Set(trades.map(t => t.strategy).filter(Boolean))];
 
