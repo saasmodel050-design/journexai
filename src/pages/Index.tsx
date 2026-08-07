@@ -11,7 +11,11 @@ import HowItWorks from "@/components/home/HowItWorks";
 import AIInsights from "@/components/home/AIInsights";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import PricingSection from "@/components/home/PricingSection";
+import FAQSection, { faqs } from "@/components/home/FAQSection";
 import CTASection from "@/components/home/CTASection";
+
+const UPDATED = "2026-08-07";
+
 
 const Index = () => {
   return (
