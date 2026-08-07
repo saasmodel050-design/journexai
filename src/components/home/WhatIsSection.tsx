@@ -36,18 +36,41 @@ const WhatIsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto glass-card p-6 mb-12 text-left"
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
+            Key takeaway
+          </h2>
+          <p className="text-foreground leading-relaxed">
+            <strong>In short:</strong> Journex Ai is an AI trading journal and coach that logs your crypto,
+            forex, and futures trades in about 20 seconds and tells you exactly which repeated mistakes —
+            revenge trades, over-trading, oversized risk — are costing you money.
+          </p>
+          <p className="text-sm text-muted-foreground mt-3">
+            <strong className="text-foreground">Who it's for:</strong> active crypto, forex, and futures
+            traders, prop-firm and funded-account traders, and serious retail traders who want consistency.{" "}
+            <strong className="text-foreground">When to use it:</strong> after every session to log trades,
+            and weekly to review your AI mistake report. Free plan available, no card required.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto text-center mb-14"
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">What is Journex AI?</span>
           <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-5">
-            The trading journal that actually{" "}
-            <span className="gradient-text">tells you what's wrong</span>
+            What is Journex AI and{" "}
+            <span className="gradient-text">how does it help you trade better?</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Journex AI is an AI-powered trading journal and coach. You log trades in seconds — we track
             performance, detect the emotional habits killing your edge, and give you clear steps to fix them.
             Think of it as a private analyst reviewing every trade you take.
           </p>
+
           <p className="text-sm text-muted-foreground mt-5">
             Research on trader behaviour backs this up: studies of retail traders find that overtrading and
             emotional decision-making systematically reduce returns — see{" "}
