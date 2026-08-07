@@ -11,7 +11,11 @@ import HowItWorks from "@/components/home/HowItWorks";
 import AIInsights from "@/components/home/AIInsights";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import PricingSection from "@/components/home/PricingSection";
+import FAQSection, { faqs } from "@/components/home/FAQSection";
 import CTASection from "@/components/home/CTASection";
+
+const UPDATED = "2026-08-07";
+
 
 const Index = () => {
   return (
@@ -39,6 +43,36 @@ const Index = () => {
               { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.vercel.app/about" },
             ],
           },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "AI Trading Journal & Coach | Journex Ai",
+            description:
+              "Journex Ai is an AI trading journal and coach for crypto, forex, and futures traders.",
+            url: "https://journexai.lovable.app/",
+            datePublished: "2026-01-15",
+            dateModified: UPDATED,
+            inLanguage: "en",
+            about: { "@type": "Thing", name: "AI trading journal" },
+            audience: {
+              "@type": "Audience",
+              audienceType: "Crypto, forex and futures traders",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Journex Ai",
+              url: "https://journexai.lovable.app",
+            },
+          },
         ]}
       />
       <Navbar />
@@ -52,7 +86,15 @@ const Index = () => {
       <AIInsights />
       <TestimonialsSection />
       <PricingSection />
+      <FAQSection />
       <CTASection />
+      <div className="container mx-auto px-4 pb-10">
+        <p className="text-center text-xs text-muted-foreground">
+          Published January 15, 2026 · Last updated{" "}
+          <time dateTime={UPDATED}>August 7, 2026</time>
+        </p>
+      </div>
+
       <Footer />
     </div>
   );
