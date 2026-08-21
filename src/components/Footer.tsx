@@ -18,6 +18,14 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground mb-4">
               Your AI Trading Coach that helps you stop repeating mistakes.
             </p>
+            <a
+              href="mailto:journex.ai.trade@gmail.com"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4 break-all"
+            >
+              <Mail className="w-4 h-4 shrink-0" />
+              journex.ai.trade@gmail.com
+            </a>
+
             <div className="flex gap-3">
               {[Twitter, Github, Linkedin].map((Icon, i) => (
                 <a key={i} href="#" className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
