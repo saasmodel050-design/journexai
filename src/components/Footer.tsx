@@ -72,6 +72,15 @@ const Footer = () => {
                   <Link to={item.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item.label}</Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="mailto:journex.ai.trade@gmail.com"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Support
+                </a>
+              </li>
+
             </ul>
           </div>
 
