@@ -80,20 +80,30 @@ const Contact = () => {
               className="space-y-6"
             >
               {[
-                { icon: Mail, title: "Email", desc: "journex.ai.trade@gmail.com" },
-                { icon: MessageSquare, title: "Support", desc: "Live chat available Mon-Fri, 9am-6pm EST" },
-                { icon: Handshake, title: "Partnerships", desc: "journex.ai.trade@gmail.com" },
+                { icon: Mail, title: "Email", desc: "journex.ai.trade@gmail.com", mail: true },
+                { icon: MessageSquare, title: "Support", desc: "Live chat available Mon-Fri, 9am-6pm EST", mail: false },
+                { icon: Handshake, title: "Partnerships", desc: "journex.ai.trade@gmail.com", mail: true },
               ].map((item, i) => (
                 <div key={i} className="glass-card-hover p-5 flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <item.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <h4 className="font-semibold text-foreground text-sm">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">{item.desc}</p>
+                    {item.mail ? (
+                      <a
+                        href={`mailto:${item.desc}`}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors mt-1 inline-block break-all"
+                      >
+                        {item.desc}
+                      </a>
+                    ) : (
+                      <p className="text-sm text-muted-foreground mt-1">{item.desc}</p>
+                    )}
                   </div>
                 </div>
               ))}
+
 
               {/* FAQ */}
               <div className="glass-card p-6 mt-6">
