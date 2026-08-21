@@ -54,7 +54,7 @@ const Privacy = () => {
                 },
                 {
                   title: "8. Contact Us",
-                  content: "If you have questions about this Privacy Policy, please contact us at privacy@journexai.com.",
+                  content: "If you have questions about this Privacy Policy, please contact us at journex.ai.trade@gmail.com.",
                 },
               ].map((section, i) => (
                 <div key={i} className="glass-card p-6">
