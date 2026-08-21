@@ -38,9 +38,9 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://journexai.vercel.app/" },
-              { "@type": "ListItem", position: 2, name: "Pricing", item: "https://journexai.vercel.app/pricing" },
-              { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.vercel.app/about" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://journexai.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Pricing", item: "https://journexai.lovable.app/pricing" },
+              { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.lovable.app/about" },
             ],
           },
           {
