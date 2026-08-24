@@ -1,9 +1,13 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 import { Mail, MessageSquare, Handshake, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
 
 const faqs = [
   { q: "What markets does Journex Ai support?", a: "We support crypto, forex, futures, stocks, and options trading across all major brokers." },
@@ -13,7 +17,32 @@ const faqs = [
 ];
 
 const Contact = () => {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    setSending(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim(),
+    });
+    setSending(false);
+    if (error) {
+      toast.error("Could not send your message. Please email journex.ai.trade@gmail.com.");
+      return;
+    }
+    toast.success("Message sent! We'll get back to you soon.");
+    setForm({ name: "", email: "", message: "" });
+  };
+
   const faqJsonLd = {
+
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((f) => ({
@@ -55,21 +84,24 @@ const Contact = () => {
               className="glass-card p-8"
             >
               <h3 className="text-xl font-semibold text-foreground mb-6">Send us a message</h3>
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="contact-name" className="text-sm text-muted-foreground mb-2 block">Name</label>
-                  <input id="contact-name" name="name" autoComplete="name" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
+                  <input id="contact-name" name="name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
                 </div>
                 <div>
                   <label htmlFor="contact-email" className="text-sm text-muted-foreground mb-2 block">Email</label>
-                  <input id="contact-email" name="email" type="email" autoComplete="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
+                  <input id="contact-email" name="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
                 </div>
                 <div>
                   <label htmlFor="contact-message" className="text-sm text-muted-foreground mb-2 block">Message</label>
-                  <textarea id="contact-message" name="message" rows={5} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
+                  <textarea id="contact-message" name="message" rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
                 </div>
-                <Button className="w-full neon-glow" size="lg">Send Message</Button>
+                <Button type="submit" disabled={sending} className="w-full neon-glow" size="lg">
+                  {sending ? "Sending..." : "Send Message"}
+                </Button>
               </form>
+
             </motion.div>
 
             {/* Sidebar */}
