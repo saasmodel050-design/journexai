@@ -1,9 +1,13 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 import { Mail, MessageSquare, Handshake, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
 
 const faqs = [
   { q: "What markets does Journex Ai support?", a: "We support crypto, forex, futures, stocks, and options trading across all major brokers." },
