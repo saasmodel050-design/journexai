@@ -17,7 +17,32 @@ const faqs = [
 ];
 
 const Contact = () => {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    setSending(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim(),
+    });
+    setSending(false);
+    if (error) {
+      toast.error("Could not send your message. Please email journex.ai.trade@gmail.com.");
+      return;
+    }
+    toast.success("Message sent! We'll get back to you soon.");
+    setForm({ name: "", email: "", message: "" });
+  };
+
   const faqJsonLd = {
+
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((f) => ({
