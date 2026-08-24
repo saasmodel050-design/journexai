@@ -55,21 +55,24 @@ const Contact = () => {
               className="glass-card p-8"
             >
               <h3 className="text-xl font-semibold text-foreground mb-6">Send us a message</h3>
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="contact-name" className="text-sm text-muted-foreground mb-2 block">Name</label>
-                  <input id="contact-name" name="name" autoComplete="name" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
+                  <input id="contact-name" name="name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="Your name" />
                 </div>
                 <div>
                   <label htmlFor="contact-email" className="text-sm text-muted-foreground mb-2 block">Email</label>
-                  <input id="contact-email" name="email" type="email" autoComplete="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
+                  <input id="contact-email" name="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors" placeholder="you@example.com" />
                 </div>
                 <div>
                   <label htmlFor="contact-message" className="text-sm text-muted-foreground mb-2 block">Message</label>
-                  <textarea id="contact-message" name="message" rows={5} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
+                  <textarea id="contact-message" name="message" rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?" />
                 </div>
-                <Button className="w-full neon-glow" size="lg">Send Message</Button>
+                <Button type="submit" disabled={sending} className="w-full neon-glow" size="lg">
+                  {sending ? "Sending..." : "Send Message"}
+                </Button>
               </form>
+
             </motion.div>
 
             {/* Sidebar */}
