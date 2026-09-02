@@ -1,5 +1,9 @@
-// Single source of truth for per-route static <head> metadata.
-// Used by scripts/prerender.mjs to emit a real HTML file per public route.
+// Single source of truth for per-route <head> metadata.
+// Consumed by:
+//   - scripts/prerender.mjs  -> writes a real static HTML head per public route
+//   - src/lib/routeMeta.ts   -> the client <Seo> component (identical values)
+// Keeping both sides on this file guarantees JS-less crawlers (Facebook,
+// LinkedIn, X, ChatGPT, Perplexity, Bing) see exactly what Googlebot renders.
 export const SITE = "https://journexai.vercel.app";
 
 export const OG_IMAGE =
@@ -20,9 +24,9 @@ export const routes = [
   },
   {
     path: "/about",
-    title: "About Journex Ai — Our Mission for Traders",
+    title: "About Journex Ai — AI Trading Journal & Coach",
     description:
-      "Learn who builds Journex Ai, why we created an AI trading journal, and how we help crypto, forex, and futures traders fix costly emotional mistakes.",
+      "Journex Ai turns your trading data into a personal AI coach for crypto, forex, and futures. Learn our mission, story, and how we help traders break bad habits.",
   },
   {
     path: "/blog",
@@ -32,21 +36,21 @@ export const routes = [
   },
   {
     path: "/contact",
-    title: "Contact Journex Ai — Support & Sales",
+    title: "Contact Journex Ai — Support, Partnerships & FAQs",
     description:
-      "Get in touch with the Journex Ai team for product support, billing questions, partnerships, or feedback on the AI trading journal.",
+      "Reach the Journex Ai team for product support, partnerships, and answers to common trading-journal questions.",
   },
   {
     path: "/privacy",
-    title: "Privacy Policy | Journex Ai",
+    title: "Privacy Policy — Journex Ai",
     description:
-      "How Journex Ai collects, stores, and protects your trading data and personal information, plus your rights and how to contact us.",
+      "How Journex Ai collects, uses, and protects your trading data and personal information.",
   },
   {
     path: "/affiliate",
-    title: "Affiliate Program — Earn 25% Recurring | Journex Ai",
+    title: "Affiliate Program — Earn 20% with Journex Ai",
     description:
-      "Join the Journex Ai affiliate program and earn 25% recurring commission for every trader you refer to our AI trading journal and coach.",
+      "Promote Journex Ai and earn recurring 20% commissions on every Pro plan referral with real-time tracking and fast payouts.",
   },
   {
     path: "/demo",
@@ -55,14 +59,33 @@ export const routes = [
       "Explore a fully interactive Journex Ai demo dashboard with sample trades, analytics, and AI insights. No signup required.",
   },
   {
-    path: "/signup",
-    title: "Create Your Free Account | Journex Ai",
+    path: "/demo/trades",
+    title: "Demo Trade Log — AI Trading Journal | Journex Ai",
     description:
-      "Sign up free for Journex Ai and start logging trades, tracking emotions, and getting AI coaching on your crypto, forex, and futures trading.",
+      "See how Journex Ai logs and organises trades with sample data: entries, exits, R multiples, emotions and session tags.",
+  },
+  {
+    path: "/demo/add-trade",
+    title: "Demo — Log a Trade in Seconds | Journex Ai",
+    description:
+      "Try the Journex Ai trade entry form with sample data and see how fast journaling a crypto, forex or futures trade can be.",
+  },
+  {
+    path: "/demo/analytics",
+    title: "Demo Analytics — Trading Performance Insights | Journex Ai",
+    description:
+      "Preview Journex Ai analytics: win rate, expectancy, drawdown, emotion breakdowns and AI-detected mistake patterns.",
+  },
+  {
+    path: "/signup",
+    title: "Create your free Journex Ai account",
+    description:
+      "Sign up free to start journaling trades, tracking emotions, and getting AI insights for crypto, forex, and futures.",
   },
   {
     path: "/login",
-    title: "Log In | Journex Ai",
-    description: "Log in to your Journex Ai account to access your trading journal, analytics, and AI coach.",
+    title: "Login — Journex Ai",
+    description:
+      "Sign in to your Journex Ai account to access your AI trading journal, insights, and coach.",
   },
 ];
