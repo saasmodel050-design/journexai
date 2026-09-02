@@ -7,8 +7,8 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Pricing — Journex Ai"
-        description="Simple, transparent pricing for Journex Ai. Start free and upgrade when you're ready to unlock the full AI trading coach."
+        title="Pricing — Free & Pro Plans | Journex Ai"
+        description="Simple, transparent pricing for Journex Ai. Start free and upgrade to Pro for the full AI trading coach, unlimited trades, and advanced analytics."
         path="/pricing"
       />
       <Navbar />

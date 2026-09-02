@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-const FALLBACK_SITE = "https://journexai.lovable.app";
+const FALLBACK_SITE = "https://journexai.vercel.app";
 // Self-referencing canonical: use the origin the page is actually served from
 const SITE =
   typeof window !== "undefined" && window.location.origin
