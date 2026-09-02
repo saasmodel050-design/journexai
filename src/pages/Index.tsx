@@ -38,9 +38,9 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://journexai.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Pricing", item: "https://journexai.lovable.app/pricing" },
-              { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.lovable.app/about" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://journexai.vercel.app/" },
+              { "@type": "ListItem", position: 2, name: "Pricing", item: "https://journexai.vercel.app/pricing" },
+              { "@type": "ListItem", position: 3, name: "About", item: "https://journexai.vercel.app/about" },
             ],
           },
           {
@@ -58,7 +58,7 @@ const Index = () => {
             name: "AI Trading Journal & Coach | Journex Ai",
             description:
               "Journex Ai is an AI trading journal and coach for crypto, forex, and futures traders.",
-            url: "https://journexai.lovable.app/",
+            url: "https://journexai.vercel.app/",
             datePublished: "2026-01-15",
             dateModified: UPDATED,
             inLanguage: "en",
@@ -70,7 +70,7 @@ const Index = () => {
             publisher: {
               "@type": "Organization",
               name: "Journex Ai",
-              url: "https://journexai.lovable.app",
+              url: "https://journexai.vercel.app",
             },
           },
         ]}
