@@ -129,7 +129,7 @@ ${trades.slice(0, 20).map((t: any) => `- ${t.pair} ${t.trade_type} | Entry: ${t.
       headers: {
         Authorization: `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://journexai.lovable.app",
+        "HTTP-Referer": "https://journexai.vercel.app",
         "X-Title": "Journex AI",
       },
       body: JSON.stringify({
