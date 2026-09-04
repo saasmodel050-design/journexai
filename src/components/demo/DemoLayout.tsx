@@ -1,9 +1,12 @@
 import { ReactNode, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import DemoSidebar from './DemoSidebar';
 import DemoTopbar from './DemoTopbar';
 import DemoBanner from './DemoBanner';
 import FloatingCTA from './FloatingCTA';
 import SignupModal from './SignupModal';
+import Seo from '@/components/Seo';
+import { routeMeta } from '@/lib/routeMeta';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 interface DemoLayoutProps {
@@ -13,12 +16,16 @@ interface DemoLayoutProps {
 const DemoLayout = ({ children }: DemoLayoutProps) => {
   const [modal, setModal] = useState<{ open: boolean; message?: string }>({ open: false });
   const openModal = (msg?: string) => setModal({ open: true, message: msg });
+  const { pathname } = useLocation();
+  const meta = routeMeta(pathname);
 
   const renderedChildren = typeof children === 'function' ? children({ openModal }) : children;
 
   return (
     <SidebarProvider>
+      <Seo title={meta.title} description={meta.description} path={meta.path} />
       <div className="min-h-screen flex w-full bg-background">
+
         <DemoSidebar openModal={openModal} />
         <div className="flex-1 min-w-0 flex flex-col min-h-screen">
           <DemoTopbar />
