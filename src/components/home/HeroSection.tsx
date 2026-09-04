@@ -26,7 +26,7 @@ const HeroSection = () => {
   });
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-0 overflow-hidden">
+    <section className="relative pt-28 lg:pt-36 pb-0 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 trading-grid opacity-30" />
       <div className="absolute top-1/4 left-1/4 w-[700px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
@@ -68,7 +68,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+              className="flex flex-wrap flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
             >
               <Link to="/signup">
                 <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
