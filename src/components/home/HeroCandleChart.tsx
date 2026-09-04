@@ -65,7 +65,7 @@ const HeroCandleChart = () => {
           <span className="w-3 h-3 rounded-full bg-[hsl(45_93%_55%)]/70" />
           <span className="w-3 h-3 rounded-full bg-chart-green/70" />
         </div>
-        <div className="flex items-center gap-3 font-mono text-xs ml-auto mr-2">
+        <div className="flex items-center gap-3 font-mono text-xs ml-3">
           <span className="text-foreground font-semibold">BTC/USD</span>
           <span className={up ? "text-chart-green" : "text-chart-red"}>
             {up ? "+" : ""}
