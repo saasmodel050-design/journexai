@@ -59,7 +59,7 @@ const HeroCandleChart = () => {
   return (
     <div className="glass-card rounded-2xl overflow-hidden neon-glow">
       {/* Terminal header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 bg-secondary/40">
+      <div className="flex items-center px-4 py-3 border-b border-border/60 bg-secondary/40">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-chart-red/70" />
           <span className="w-3 h-3 rounded-full bg-[hsl(45_93%_55%)]/70" />
