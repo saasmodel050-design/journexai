@@ -18,6 +18,19 @@ const TICKER = [
 ];
 
 const HeroSection = () => {
+  // Cursor-following glow
+  const mouseX = useMotionValue(-500);
+  const mouseY = useMotionValue(-500);
+  const glowX = useSpring(mouseX, { stiffness: 120, damping: 25 });
+  const glowY = useSpring(mouseY, { stiffness: 120, damping: 25 });
+  const glowBg = useMotionTemplate`radial-gradient(500px circle at ${glowX}px ${glowY}px, hsl(var(--primary) / 0.08), transparent 70%)`;
+
+  const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
   const c = useSiteContent("home", "hero", {
     badge: "AI Trading Journal & Coach",
     title: "The AI Trading Journal That Finds Your Mistakes Before They Cost You Money",
@@ -27,9 +40,17 @@ const HeroSection = () => {
   });
 
   return (
-    <section className="relative pt-28 lg:pt-36 pb-0 overflow-hidden">
+    <section
+      onMouseMove={handleMouseMove}
+      className="relative pt-28 lg:pt-36 pb-0 overflow-hidden"
+    >
       {/* Background effects */}
       <div className="absolute inset-0 trading-grid opacity-30" />
+      {/* Cursor glow */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{ background: glowBg }}
+      />
       <div className="absolute top-1/4 left-1/4 w-[700px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px]" />
 
