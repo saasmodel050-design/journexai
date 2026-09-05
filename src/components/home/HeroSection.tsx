@@ -92,18 +92,22 @@ const HeroSection = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-wrap flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
             >
-              <Link to="/signup">
-                <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
-                  {c.cta_primary}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link to="/demo">
-                <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
-                  <Play className="w-4 h-4 mr-2" />
-                  {c.cta_secondary}
-                </Button>
-              </Link>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Link to="/signup">
+                  <Button size="lg" className="neon-glow text-base px-8 py-6 font-semibold">
+                    {c.cta_primary}
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Link to="/demo">
+                  <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border text-foreground hover:bg-secondary">
+                    <Play className="w-4 h-4 mr-2" />
+                    {c.cta_secondary}
+                  </Button>
+                </Link>
+              </motion.div>
               <Link to="/pricing">
                 <Button variant="ghost" size="lg" className="text-base px-6 py-6 text-muted-foreground hover:text-foreground">
                   <Tag className="w-4 h-4 mr-2" />
