@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import cursorAsset from "@/assets/cursor-bull.png.asset.json";
-
-const cursorUrl = (cursorAsset as { url: string }).url;
+import cursorUrl from "@/assets/cursor-bull.png";
 
 const CustomCursor = () => {
   const [enabled, setEnabled] = useState(false);
@@ -55,9 +53,9 @@ const CustomCursor = () => {
         src={cursorUrl}
         alt=""
         draggable={false}
-        className="mix-blend-screen select-none"
+        className="select-none drop-shadow-[0_0_10px_hsl(var(--neon-green)/0.7)]"
         // offset so the glowing arrow tip lands on the exact pointer position
-        style={{ width: 64, height: 64, objectFit: "contain", marginLeft: -40, marginTop: -6 }}
+        style={{ width: 56, height: "auto", marginLeft: -37, marginTop: -4 }}
         animate={{
           scale: pressed ? 0.75 : hovering ? 1.2 : 1,
           rotate: pressed ? -12 : 0,
