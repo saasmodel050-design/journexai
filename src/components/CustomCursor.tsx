@@ -49,21 +49,24 @@ const CustomCursor = () => {
       className="pointer-events-none fixed left-0 top-0 z-[9999]"
       style={{ x: springX, y: springY }}
     >
-      <motion.img
-        src={cursorUrl}
-        alt=""
-        draggable={false}
-        className="select-none drop-shadow-[0_0_10px_hsl(var(--neon-green)/0.7)]"
-        // offset so the glowing arrow tip lands on the exact pointer position
-        style={{ width: 56, height: "auto", marginLeft: -37, marginTop: -4 }}
+      <motion.div
         animate={{
           scale: pressed ? 0.75 : hovering ? 1.2 : 1,
           rotate: pressed ? -12 : 0,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        // anchor the arrow tip at the click point
-        initial={false}
-      />
+      >
+        <img
+          src={cursorUrl}
+          alt=""
+          draggable={false}
+          width={56}
+          height={38}
+          className="select-none drop-shadow-[0_0_12px_hsl(var(--neon-green)/0.8)]"
+          // offset so the glowing arrow tip lands on the exact pointer position
+          style={{ width: 56, height: "auto", marginLeft: -37, marginTop: -4 }}
+        />
+      </motion.div>
       <motion.span
         className="absolute -left-5 -top-5 w-10 h-10 rounded-full border border-neon-green/60"
         animate={{
