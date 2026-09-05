@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { AuthProvider } from "@/hooks/useAuth";
 import { lazy, Suspense, useEffect } from "react";
 import { captureReferralFromUrl } from "@/lib/referral";
+import CustomCursor from "@/components/CustomCursor";
 import { supabase } from "@/integrations/supabase/client";
 
 // Eager: public landing + auth (small, needed immediately)
@@ -103,6 +104,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
+        <CustomCursor />
         <Toaster />
         <Sonner />
         <BrowserRouter>
