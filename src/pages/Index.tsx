@@ -13,6 +13,7 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 import PricingSection from "@/components/home/PricingSection";
 import FAQSection, { faqs } from "@/components/home/FAQSection";
 import CTASection from "@/components/home/CTASection";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const UPDATED = "2026-08-07";
 
@@ -77,17 +78,17 @@ const Index = () => {
       />
       <Navbar />
       <HeroSection />
-      <WhatIsSection />
-      <ProblemSection />
-      <SolutionSection />
-      <FeaturesSection />
-      <DashboardPreview />
-      <HowItWorks />
-      <AIInsights />
-      <TestimonialsSection />
-      <PricingSection />
-      <FAQSection />
-      <CTASection />
+      <ScrollReveal><WhatIsSection /></ScrollReveal>
+      <ScrollReveal><ProblemSection /></ScrollReveal>
+      <ScrollReveal><SolutionSection /></ScrollReveal>
+      <ScrollReveal><FeaturesSection /></ScrollReveal>
+      <ScrollReveal><DashboardPreview /></ScrollReveal>
+      <ScrollReveal><HowItWorks /></ScrollReveal>
+      <ScrollReveal><AIInsights /></ScrollReveal>
+      <ScrollReveal><TestimonialsSection /></ScrollReveal>
+      <ScrollReveal><PricingSection /></ScrollReveal>
+      <ScrollReveal><FAQSection /></ScrollReveal>
+      <ScrollReveal><CTASection /></ScrollReveal>
       <div className="container mx-auto px-4 pb-10">
         <p className="text-center text-xs text-muted-foreground">
           Published January 15, 2026 · Last updated{" "}
