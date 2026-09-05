@@ -56,7 +56,8 @@ const CustomCursor = () => {
         alt=""
         draggable={false}
         className="mix-blend-screen select-none"
-        style={{ width: 64, height: 64, objectFit: "contain" }}
+        // offset so the glowing arrow tip lands on the exact pointer position
+        style={{ width: 64, height: 64, objectFit: "contain", marginLeft: -40, marginTop: -6 }}
         animate={{
           scale: pressed ? 0.75 : hovering ? 1.2 : 1,
           rotate: pressed ? -12 : 0,
@@ -66,7 +67,7 @@ const CustomCursor = () => {
         initial={false}
       />
       <motion.span
-        className="absolute -left-2 -top-2 w-10 h-10 rounded-full border border-neon-green/60"
+        className="absolute -left-5 -top-5 w-10 h-10 rounded-full border border-neon-green/60"
         animate={{
           scale: pressed ? 0.6 : hovering ? 1.4 : 1,
           opacity: hovering ? 1 : 0.5,
