@@ -1,49 +1,22 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import cursorUrl from "@/assets/cursor-bull.png";
-import { useCursorPreference } from "@/hooks/useCursorPreference";
-
-/**
- * Cursor artwork geometry.
- * Source image is 320x235; the arrow tip sits at roughly (240, 18) in source pixels.
- * The artwork is mirrored horizontally, so the tip lands at (WIDTH - 240 * SCALE, 18 * SCALE).
- */
-const WIDTH = 84;
-const SCALE = WIDTH / 320;
-const TIP_X = WIDTH - 240 * SCALE; // ≈ 21
-const TIP_Y = 18 * SCALE; // ≈ 5
 
 const CustomCursor = () => {
-  const { enabled: preferred } = useCursorPreference();
-  const [supported, setSupported] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [hovering, setHovering] = useState(false);
 
-  const x = useMotionValue(-500);
-  const y = useMotionValue(-500);
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
   const springX = useSpring(x, { stiffness: 500, damping: 40, mass: 0.6 });
   const springY = useSpring(y, { stiffness: 500, damping: 40, mass: 0.6 });
 
-  // Desktop pointer only + honour reduced-motion
   useEffect(() => {
-    const query = window.matchMedia(
-      "(pointer: fine) and (hover: hover) and (min-width: 1024px)"
-    );
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setSupported(query.matches && !motionQuery.matches);
-    update();
-    query.addEventListener("change", update);
-    motionQuery.addEventListener("change", update);
-    return () => {
-      query.removeEventListener("change", update);
-      motionQuery.removeEventListener("change", update);
-    };
-  }, []);
-
-  const active = supported && preferred;
-
-  useEffect(() => {
-    if (!active) return;
+    // Only enable on devices with a precise pointer (mouse), not touch
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    if (!fine) return;
+    setEnabled(true);
     document.documentElement.classList.add("custom-cursor-active");
 
     const move = (e: MouseEvent) => {
@@ -66,9 +39,9 @@ const CustomCursor = () => {
       window.removeEventListener("mousedown", down);
       window.removeEventListener("mouseup", up);
     };
-  }, [active, x, y]);
+  }, [x, y]);
 
-  if (!active) return null;
+  if (!enabled) return null;
 
   return (
     <motion.div
@@ -76,16 +49,7 @@ const CustomCursor = () => {
       className="pointer-events-none fixed left-0 top-0 z-[9999]"
       style={{ x: springX, y: springY, width: 0, height: 0 }}
     >
-      {/* Artwork box is offset so the arrow tip sits exactly on the pointer,
-          and scaling is anchored to that same tip. */}
       <motion.div
-        className="absolute"
-        style={{
-          left: -TIP_X,
-          top: -TIP_Y,
-          width: WIDTH,
-          transformOrigin: `${TIP_X}px ${TIP_Y}px`,
-        }}
         animate={{
           scale: pressed ? 0.75 : hovering ? 1.2 : 1,
           rotate: pressed ? -12 : 0,
@@ -96,10 +60,19 @@ const CustomCursor = () => {
           src={cursorUrl}
           alt=""
           draggable={false}
-          width={320}
-          height={235}
-          className="select-none block drop-shadow-[0_0_12px_hsl(var(--neon-green)/0.8)]"
-          style={{ width: WIDTH, height: "auto", maxWidth: "none", transform: "scaleX(-1)" }}
+          width={84}
+          height={57}
+          className="select-none drop-shadow-[0_0_12px_hsl(var(--neon-green)/0.8)]"
+          // 1.5x larger and horizontally flipped so the arrow/bull faces right;
+          // offset keeps the tip anchored to the pointer position
+          style={{
+            width: 84,
+            height: "auto",
+            maxWidth: "none",
+            transform: "scaleX(-1)",
+            marginLeft: -29,
+            marginTop: -6,
+          }}
         />
       </motion.div>
       <motion.span
