@@ -47,7 +47,7 @@ const CustomCursor = () => {
     <motion.div
       aria-hidden
       className="pointer-events-none fixed left-0 top-0 z-[9999]"
-      style={{ x: springX, y: springY }}
+      style={{ x: springX, y: springY, width: 0, height: 0 }}
     >
       <motion.div
         animate={{
@@ -64,7 +64,7 @@ const CustomCursor = () => {
           height={38}
           className="select-none drop-shadow-[0_0_12px_hsl(var(--neon-green)/0.8)]"
           // offset so the glowing arrow tip lands on the exact pointer position
-          style={{ width: 56, height: "auto", marginLeft: -37, marginTop: -4 }}
+          style={{ width: 56, height: "auto", maxWidth: "none", marginLeft: -37, marginTop: -4 }}
         />
       </motion.div>
       <motion.span
