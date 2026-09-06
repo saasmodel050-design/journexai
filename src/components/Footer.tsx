@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Twitter, Github, Linkedin, Mail } from "lucide-react";
 import journexLogo from "@/assets/journex_logo.png";
+import { useCursorPreference } from "@/hooks/useCursorPreference";
 
 const Footer = () => {
+  const { enabled: cursorEnabled, setEnabled: setCursorEnabled } = useCursorPreference();
   return (
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 py-16">
@@ -102,7 +104,17 @@ const Footer = () => {
 
         {/* Newsletter */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 Journex Ai. All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <p className="text-sm text-muted-foreground">© 2026 Journex Ai. All rights reserved.</p>
+            <button
+              type="button"
+              onClick={() => setCursorEnabled(!cursorEnabled)}
+              aria-pressed={cursorEnabled}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
+            >
+              {cursorEnabled ? "Use standard cursor" : "Use animated cursor"}
+            </button>
+          </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center glass-card px-1 py-1 rounded-lg">
               <Mail className="w-4 h-4 text-muted-foreground ml-3 mr-2" />
