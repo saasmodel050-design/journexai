@@ -12,10 +12,12 @@ import { useCursorPreference } from '@/hooks/useCursorPreference';
 
 const SettingsPage = () => {
   const { user } = useAuth();
+  const { enabled: cursorEnabled, setEnabled: setCursorEnabled } = useCursorPreference();
   const [fullName, setFullName] = useState('');
   const [experienceLevel, setExperienceLevel] = useState('beginner');
   const [marketType, setMarketType] = useState('crypto');
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     if (!user) return;
@@ -85,8 +87,31 @@ const SettingsPage = () => {
           {loading ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
+
+      <div className="glass-card p-6 space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold">Accessibility</h2>
+          <p className="text-muted-foreground text-sm">Control motion and pointer effects</p>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <Label htmlFor="custom-cursor-toggle">Animated custom cursor</Label>
+            <p className="text-xs text-muted-foreground">
+              Turn off to use your system cursor. It is disabled automatically on touch devices and
+              when your device requests reduced motion.
+            </p>
+          </div>
+          <Switch
+            id="custom-cursor-toggle"
+            checked={cursorEnabled}
+            onCheckedChange={setCursorEnabled}
+            aria-label="Toggle animated custom cursor"
+          />
+        </div>
+      </div>
     </div>
   );
 };
+
 
 export default SettingsPage;
