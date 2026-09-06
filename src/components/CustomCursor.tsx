@@ -60,11 +60,19 @@ const CustomCursor = () => {
           src={cursorUrl}
           alt=""
           draggable={false}
-          width={56}
-          height={38}
+          width={84}
+          height={57}
           className="select-none drop-shadow-[0_0_12px_hsl(var(--neon-green)/0.8)]"
-          // offset so the glowing arrow tip lands on the exact pointer position
-          style={{ width: 56, height: "auto", maxWidth: "none", marginLeft: -37, marginTop: -4 }}
+          // 1.5x larger and horizontally flipped so the arrow/bull faces right;
+          // offset keeps the tip anchored to the pointer position
+          style={{
+            width: 84,
+            height: "auto",
+            maxWidth: "none",
+            transform: "scaleX(-1)",
+            marginLeft: -29,
+            marginTop: -6,
+          }}
         />
       </motion.div>
       <motion.span
