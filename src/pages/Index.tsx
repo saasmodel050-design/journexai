@@ -78,17 +78,17 @@ const Index = () => {
       />
       <Navbar />
       <HeroSection />
-      <ScrollReveal><WhatIsSection /></ScrollReveal>
-      <ScrollReveal><ProblemSection /></ScrollReveal>
+      <ScrollReveal direction="left"><WhatIsSection /></ScrollReveal>
+      <ScrollReveal direction="right"><ProblemSection /></ScrollReveal>
       <ScrollReveal><SolutionSection /></ScrollReveal>
-      <ScrollReveal><FeaturesSection /></ScrollReveal>
-      <ScrollReveal><DashboardPreview /></ScrollReveal>
+      <ScrollReveal direction="left"><FeaturesSection /></ScrollReveal>
+      <ScrollReveal direction="right"><DashboardPreview /></ScrollReveal>
       <ScrollReveal><HowItWorks /></ScrollReveal>
-      <ScrollReveal><AIInsights /></ScrollReveal>
-      <ScrollReveal><TestimonialsSection /></ScrollReveal>
+      <ScrollReveal direction="left"><AIInsights /></ScrollReveal>
+      <ScrollReveal direction="right"><TestimonialsSection /></ScrollReveal>
       <ScrollReveal><PricingSection /></ScrollReveal>
-      <ScrollReveal><FAQSection /></ScrollReveal>
-      <ScrollReveal><CTASection /></ScrollReveal>
+      <ScrollReveal direction="left"><FAQSection /></ScrollReveal>
+      <ScrollReveal direction="right"><CTASection /></ScrollReveal>
       <div className="container mx-auto px-4 pb-10">
         <p className="text-center text-xs text-muted-foreground">
           Published January 15, 2026 · Last updated{" "}

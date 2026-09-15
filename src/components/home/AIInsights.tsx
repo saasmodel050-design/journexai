@@ -64,6 +64,7 @@ const AIInsights = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.15 }}
+              whileHover={{ x: 8, scale: 1.01 }}
               className={`glass-card p-5 border-l-4 rounded-l-none ${severityStyles[insight.severity]}`}
             >
               <div className="flex items-start gap-4">

@@ -88,11 +88,16 @@ const FeaturesSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.08 }}
+              whileHover={{ y: -8, scale: 1.02 }}
               className="glass-card-hover p-6 flex flex-col"
             >
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${colorMap[f.color]}`}>
+              <motion.div
+                whileHover={{ rotate: -6, scale: 1.12 }}
+                transition={{ type: "spring", stiffness: 320, damping: 18 }}
+                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${colorMap[f.color]}`}
+              >
                 <f.icon className="w-6 h-6" />
-              </div>
+              </motion.div>
               <h3 className="font-semibold text-foreground mb-2">{f.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">{f.desc}</p>
               <div className="pt-4 border-t border-border">
