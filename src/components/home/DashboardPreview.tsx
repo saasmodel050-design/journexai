@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 
@@ -12,6 +12,10 @@ const stats = [
 const DashboardPreview = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const previewScale = useTransform(scrollYProgress, [0, 0.48, 1], reduceMotion ? [1, 1, 1] : [0.96, 1, 0.98]);
+  const previewY = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [36, 0, -24]);
 
   return (
     <section className="section-padding relative overflow-hidden" ref={ref}>
@@ -57,7 +61,8 @@ const DashboardPreview = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-5xl mx-auto glass-card p-2 rounded-2xl"
+          style={{ scale: previewScale, y: previewY }}
+          className="max-w-5xl mx-auto glass-card p-2 rounded-2xl will-change-transform"
         >
           <img
             src={dashboardPreview}

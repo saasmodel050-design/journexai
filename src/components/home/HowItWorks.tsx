@@ -49,17 +49,22 @@ const HowItWorks = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.15 }}
+              whileHover={{ y: -6 }}
               className="text-center relative"
             >
               {i < steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary/30 to-transparent" />
               )}
-              <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 relative">
+              <motion.div
+                whileHover={{ scale: 1.08, rotate: 3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 relative"
+              >
                 <s.icon className="w-8 h-8 text-primary" />
                 <span className="absolute -top-2 -right-2 w-7 h-7 rounded-lg bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center font-mono">
                   {s.step}
                 </span>
-              </div>
+              </motion.div>
               <h3 className="text-lg font-semibold text-foreground mb-3">{s.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
             </motion.div>
