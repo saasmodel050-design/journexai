@@ -1,11 +1,7 @@
-import { Check, Crown, Sparkles, Loader2 } from 'lucide-react';
+import { Check, Crown, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePlan } from '@/hooks/usePlan';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
-import { toast } from 'sonner';
-import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useLivePlans } from '@/hooks/useSiteContent';
 import { startProCheckout } from '@/lib/checkout';
@@ -26,11 +22,8 @@ const proFeatures = [
 ];
 
 const UpgradePage = () => {
-  const { plan, isPro, refetch } = usePlan();
-  const { user } = useAuth();
+  const { plan, isPro } = usePlan();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [loading, setLoading] = useState(false);
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const livePlans = useLivePlans();
   const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
@@ -38,24 +31,6 @@ const UpgradePage = () => {
   const yearlyPrice = Number(proPlan?.yearly_price ?? Math.round(monthlyPrice * 12 * 0.65));
   const proPrice = billing === 'yearly' ? yearlyPrice : monthlyPrice;
   const proLiveFeatures: string[] = Array.isArray(proPlan?.features) && proPlan.features.length ? proPlan.features : proFeatures;
-
-  const handleUpgrade = async (target: 'pro' | 'free') => {
-    if (!user) return;
-    setLoading(true);
-    const updates: any =
-      target === 'pro'
-        ? { plan: 'pro', plan_status: 'active', subscription_type: 'paid', payment_status: 'paid' }
-        : { plan: 'free', plan_status: 'active', subscription_type: 'none' };
-    const { error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('user_id', user.id);
-    setLoading(false);
-    if (error) return toast.error(error.message);
-    toast.success(target === 'pro' ? '🎉 Welcome to Pro!' : 'Switched to Free');
-    await refetch();
-    queryClient.invalidateQueries({ queryKey: ['plan'] });
-  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
@@ -101,14 +76,22 @@ const UpgradePage = () => {
               </li>
             ))}
           </ul>
-          <Button
-            variant="outline"
-            className="w-full"
-            disabled={!isPro || loading}
-            onClick={() => handleUpgrade('free')}
-          >
-            {!isPro ? 'Current plan' : 'Downgrade'}
-          </Button>
+          {isPro ? (
+            <>
+              <Button variant="outline" className="w-full" asChild>
+                <a href="https://whop.com/@me/orders" target="_blank" rel="noopener noreferrer">
+                  Manage subscription
+                </a>
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Cancel or change your plan in your Whop account. Your Pro access stays active until the end of your paid period.
+              </p>
+            </>
+          ) : (
+            <Button variant="outline" className="w-full" disabled>
+              Current plan
+            </Button>
+          )}
         </div>
 
         {/* Pro */}
@@ -134,10 +117,9 @@ const UpgradePage = () => {
           </ul>
           <Button
             className="w-full neon-glow"
-            disabled={isPro || loading}
+            disabled={isPro}
             onClick={() => startProCheckout(billing, (p) => navigate(p))}
           >
-            {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             {isPro ? 'You are Pro 👑' : 'Buy Pro Plan'}
           </Button>
         </div>
