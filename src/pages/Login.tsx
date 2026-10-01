@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { friendlyAuthError } from '@/lib/authErrors';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -19,13 +20,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { signIn, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname;
 
   useEffect(() => {
     if (authLoading || !user) return;
     const intent = consumePurchaseIntent();
     if (intent) goToWhop(intent.billing);
-    else navigate('/dashboard', { replace: true });
-  }, [user, authLoading, navigate]);
+    else navigate(from && from !== '/login' ? from : '/dashboard', { replace: true });
+  }, [user, authLoading, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,12 +36,10 @@ const Login = () => {
     const { error } = await signIn(email, password);
     setLoading(false);
     if (error) {
-      toast.error(error.message);
-    } else {
-      const intent = consumePurchaseIntent();
-      if (intent) goToWhop(intent.billing);
-      else navigate('/dashboard');
+      console.error('Sign-in error:', error);
+      toast.error(friendlyAuthError(error));
     }
+    // Redirect (and purchase-intent handling) happens in the effect watching `user`.
   };
 
   return (
