@@ -73,6 +73,7 @@ const Login = () => {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="trader@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -82,7 +83,12 @@ const Login = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Input
                   id="password"

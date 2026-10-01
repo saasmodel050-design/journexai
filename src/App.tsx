@@ -23,6 +23,8 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Affiliate = lazy(() => import("./pages/Affiliate"));
 const AffiliateDashboard = lazy(() => import("./pages/AffiliateDashboard"));
 
