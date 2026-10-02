@@ -135,8 +135,12 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Detect billing period so affiliate commission uses the right price.
+    const periodDays = Number(data?.plan?.billing_period ?? data?.billing_period ?? data?.plan?.renewal_period ?? 0);
+    const planText = JSON.stringify([data?.plan_id, data?.plan?.id, data?.plan?.name, data?.product?.name, data?.product?.route, data?.metadata?.billing] ?? "").toLowerCase();
+    const isYearly = periodDays >= 300 || /year|annual/.test(planText);
     const updates = ACTIVATE.has(event)
-      ? { plan: "pro", plan_status: "active", subscription_type: "paid", payment_status: "paid" }
+      ? { plan: "pro", plan_status: "active", subscription_type: isYearly ? "yearly" : "monthly", payment_status: "paid" }
       : { plan: "free", plan_status: "active", subscription_type: "none", payment_status: "unpaid" };
 
     const { error } = await supabase.from("profiles").update(updates).eq("user_id", targetUserId);

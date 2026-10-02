@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import { useLivePlans } from "@/hooks/useSiteContent";
 import { useNavigate } from "react-router-dom";
 import { startProCheckout } from "@/lib/checkout";
+import { PRO_MONTHLY_PRICE, PRO_YEARLY_PRICE, FREE_FEATURES, yearlyDiscountPercent, isProPlan } from "@/lib/plans";
 
 const FALLBACK = [
-  { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: ["Manual trade logging", "Basic statistics"], sort_order: 1 },
-  { slug: "pro", name: "Pro", monthly_price: 19, yearly_price: 150, features: ["Unlimited trades", "Full AI Coach"], sort_order: 2 },
+  { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: FREE_FEATURES, sort_order: 1 },
+  { slug: "pro", name: "Pro", monthly_price: PRO_MONTHLY_PRICE, yearly_price: PRO_YEARLY_PRICE, features: ["Unlimited trades", "Full AI Coach"], sort_order: 2 },
 ];
 
 const PricingSection = () => {
@@ -19,6 +20,8 @@ const PricingSection = () => {
   const plans = livePlans.length ? livePlans : FALLBACK;
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const navigate = useNavigate();
+  const pro = plans.find(isProPlan);
+  const savePct = yearlyDiscountPercent(Number(pro?.monthly_price ?? PRO_MONTHLY_PRICE), Number(pro?.yearly_price ?? PRO_YEARLY_PRICE));
 
 
   return (
@@ -45,19 +48,19 @@ const PricingSection = () => {
                 }`}
               >
                 {b === "monthly" ? "Monthly" : "Yearly"}
-                {b === "yearly" && <span className="ml-2 text-xs text-primary-foreground/80">Save 35%</span>}
+                {b === "yearly" && savePct > 0 && <span className="ml-2 text-xs text-primary-foreground/80">Save {savePct}%</span>}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {plans.map((plan: any, i: number) => {
-            const highlighted = plan.slug === "starter" || (plans.length === 2 && i === 0);
+            const highlighted = isProPlan(plan);
             const isFree = Number(plan.monthly_price) === 0;
             const features = Array.isArray(plan.features) ? plan.features : [];
             const price = billing === "yearly"
-              ? Number(plan.yearly_price ?? plan.monthly_price * 12 * 0.65)
+              ? Number(plan.yearly_price ?? 0)
               : Number(plan.monthly_price);
             const suffix = isFree ? "forever" : billing === "yearly" ? "/year" : "/month";
             return (
@@ -78,7 +81,7 @@ const PricingSection = () => {
                   <span className="text-4xl font-black text-foreground font-mono">${price}</span>
                   <span className="text-muted-foreground text-sm ml-1">{suffix}</span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-6">{plan.description ?? ""}</p>
+                {plan.description ? <p className="text-sm text-muted-foreground mb-6">{plan.description}</p> : <div className="mb-6" />}
                 <ul className="space-y-3 mb-8 flex-1">
                   {features.map((f: string, j: number) => (
                     <li key={j} className="flex items-center gap-2 text-sm text-foreground">

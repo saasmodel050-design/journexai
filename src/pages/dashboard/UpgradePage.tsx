@@ -5,13 +5,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLivePlans } from '@/hooks/useSiteContent';
 import { startProCheckout } from '@/lib/checkout';
+import { PRO_MONTHLY_PRICE, PRO_YEARLY_PRICE, FREE_FEATURES as freeFeatures, yearlyDiscountPercent, isProPlan } from '@/lib/plans';
 
-const freeFeatures = [
-  'Up to 20 trades',
-  'Basic statistics',
-  'Manual trade logging',
-  'Limited AI analysis',
-];
 const proFeatures = [
   'Unlimited trades',
   'Full AI Trading Coach',
@@ -26,9 +21,10 @@ const UpgradePage = () => {
   const navigate = useNavigate();
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const livePlans = useLivePlans();
-  const proPlan = livePlans.find((p: any) => p.slug === 'pro' || p.slug === 'plan-pro' || p.name?.toLowerCase() === 'pro');
-  const monthlyPrice = Number(proPlan?.monthly_price ?? 39);
-  const yearlyPrice = Number(proPlan?.yearly_price ?? Math.round(monthlyPrice * 12 * 0.65));
+  const proPlan = livePlans.find(isProPlan);
+  const monthlyPrice = Number(proPlan?.monthly_price ?? PRO_MONTHLY_PRICE);
+  const yearlyPrice = Number(proPlan?.yearly_price ?? PRO_YEARLY_PRICE);
+  const savePct = yearlyDiscountPercent(monthlyPrice, yearlyPrice);
   const proPrice = billing === 'yearly' ? yearlyPrice : monthlyPrice;
   const proLiveFeatures: string[] = Array.isArray(proPlan?.features) && proPlan.features.length ? proPlan.features : proFeatures;
 
@@ -53,7 +49,7 @@ const UpgradePage = () => {
               }`}
             >
               {b === 'monthly' ? 'Monthly' : 'Yearly'}
-              {b === 'yearly' && <span className="ml-2 text-xs opacity-80">Save 35%</span>}
+              {b === 'yearly' && savePct > 0 && <span className="ml-2 text-xs opacity-80">Save {savePct}%</span>}
             </button>
           ))}
         </div>
@@ -125,9 +121,6 @@ const UpgradePage = () => {
         </div>
       </div>
 
-      <p className="text-xs text-center text-muted-foreground">
-        Secure crypto checkout · USDT, BTC, ETH supported.
-      </p>
     </div>
   );
 };
