@@ -13,7 +13,7 @@ export const PRO_YEARLY_DISCOUNT_PERCENT = yearlyDiscountPercent();
 export { FREE_DAILY_TRADE_LIMIT, FREE_MONTHLY_TRADE_LIMIT, FREE_AI_MESSAGE_LIMIT };
 
 export const FREE_FEATURES = [
-  `${FREE_DAILY_TRADE_LIMIT} trade per day (max ${FREE_MONTHLY_TRADE_LIMIT} per month)`,
+  `Up to ${FREE_DAILY_TRADE_LIMIT} trades per day, ${FREE_MONTHLY_TRADE_LIMIT} per month`,
   'Manual trade logging',
   'Basic statistics',
   'No AI coach or AI analysis',
@@ -22,3 +22,5 @@ export const FREE_FEATURES = [
 export function isProPlan(p: any) {
   return p?.slug === 'pro' || p?.slug === 'plan-pro' || p?.name?.toLowerCase() === 'pro';
 }
+
+export const FREE_LIMIT_SUMMARY = `Free plan: up to ${FREE_DAILY_TRADE_LIMIT} trades per day and ${FREE_MONTHLY_TRADE_LIMIT} trades per month. Pro is unlimited.`;
