@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/home/PricingSection";
 import Seo from "@/components/Seo";
+import { PRO_MONTHLY_PRICE, PRO_YEARLY_PRICE, PRO_YEARLY_DISCOUNT_PERCENT, FREE_DAILY_TRADE_LIMIT, FREE_MONTHLY_TRADE_LIMIT } from "@/lib/plans";
 
 const Pricing = () => {
   return (
@@ -24,7 +25,8 @@ const Pricing = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">Frequently asked questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Can I try Journex Ai for free?", a: "Yes. The Free plan lets you log trades and explore the dashboard with no time limit." },
+              { q: "Can I try Journex Ai for free?", a: `Yes. The Free plan has no time limit and lets you log ${FREE_DAILY_TRADE_LIMIT} trade per day (up to ${FREE_MONTHLY_TRADE_LIMIT} per month). AI coaching is Pro-only.` },
+              { q: "How much is Pro?", a: `$${PRO_MONTHLY_PRICE}/month, or $${PRO_YEARLY_PRICE}/year (save ${PRO_YEARLY_DISCOUNT_PERCENT}%).` },
               { q: "Can I switch plans later?", a: "Absolutely. Upgrade or downgrade any time from your dashboard." },
               { q: "Do you offer refunds?", a: "We offer a 7-day money-back guarantee on Pro subscriptions. Contact support to request one." },
               { q: "What payment methods do you accept?", a: "Payments are handled by our upcoming payment partner. We'll notify all users once live checkout is available." },
