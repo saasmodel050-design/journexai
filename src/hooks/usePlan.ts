@@ -4,7 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useTrades } from '@/hooks/useTrades';
 
-export const FREE_DAILY_TRADE_LIMIT = 1;
+// Keep in sync with enforce_trade_limits() database trigger (server-side enforcement).
+export const FREE_DAILY_TRADE_LIMIT = 5;
 export const FREE_MONTHLY_TRADE_LIMIT = 30;
 // Legacy alias
 export const FREE_TRADE_LIMIT = FREE_MONTHLY_TRADE_LIMIT;
@@ -81,11 +82,13 @@ export function usePlan() {
 export function useTradeUsage() {
   const { trades } = useTrades();
   const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  // Mirrors the server trigger: counts by when the trade was logged, UTC day/month.
+  const startOfDay = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const startOfMonth = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1);
+  const loggedAt = (t: any) => new Date(t.created_at ?? t.trade_time).getTime();
 
-  const todayCount = trades.filter(t => new Date(t.trade_time).getTime() >= startOfDay).length;
-  const monthCount = trades.filter(t => new Date(t.trade_time).getTime() >= startOfMonth).length;
+  const todayCount = trades.filter(t => loggedAt(t) >= startOfDay).length;
+  const monthCount = trades.filter(t => loggedAt(t) >= startOfMonth).length;
 
   return {
     todayCount,

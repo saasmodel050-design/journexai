@@ -25,7 +25,7 @@ const Pricing = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">Frequently asked questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Can I try Journex Ai for free?", a: `Yes. The Free plan has no time limit and lets you log ${FREE_DAILY_TRADE_LIMIT} trade per day (up to ${FREE_MONTHLY_TRADE_LIMIT} per month). AI coaching is Pro-only.` },
+              { q: "Can I try Journex Ai for free?", a: `Yes. The Free plan has no time limit and lets you log up to ${FREE_DAILY_TRADE_LIMIT} trades per day and ${FREE_MONTHLY_TRADE_LIMIT} per month. AI coaching is Pro-only.` },
               { q: "How much is Pro?", a: `$${PRO_MONTHLY_PRICE}/month, or $${PRO_YEARLY_PRICE}/year (save ${PRO_YEARLY_DISCOUNT_PERCENT}%).` },
               { q: "Can I switch plans later?", a: "Absolutely. Upgrade or downgrade any time from your dashboard." },
               { q: "Do you offer refunds?", a: "We offer a 7-day money-back guarantee on Pro subscriptions. Contact support to request one." },

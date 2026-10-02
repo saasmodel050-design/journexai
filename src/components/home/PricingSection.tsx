@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useLivePlans } from "@/hooks/useSiteContent";
 import { useNavigate } from "react-router-dom";
 import { startProCheckout } from "@/lib/checkout";
-import { PRO_MONTHLY_PRICE, PRO_YEARLY_PRICE, FREE_FEATURES, yearlyDiscountPercent, isProPlan } from "@/lib/plans";
+import { PRO_MONTHLY_PRICE, PRO_YEARLY_PRICE, FREE_FEATURES, FREE_LIMIT_SUMMARY, yearlyDiscountPercent, isProPlan } from "@/lib/plans";
 
 const FALLBACK = [
   { slug: "free", name: "Free", monthly_price: 0, yearly_price: 0, features: FREE_FEATURES, sort_order: 1 },
@@ -35,6 +35,7 @@ const PricingSection = () => {
         >
           <span className="text-sm font-medium text-primary uppercase tracking-wider">Pricing</span>
           <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">Start Free, Scale When Ready</h2>
+          <p className="text-muted-foreground">{FREE_LIMIT_SUMMARY}</p>
         </motion.div>
 
         <div className="flex justify-center mb-10">
@@ -58,7 +59,7 @@ const PricingSection = () => {
           {plans.map((plan: any, i: number) => {
             const highlighted = isProPlan(plan);
             const isFree = Number(plan.monthly_price) === 0;
-            const features = Array.isArray(plan.features) ? plan.features : [];
+            const features = isFree ? FREE_FEATURES : Array.isArray(plan.features) ? plan.features : [];
             const price = billing === "yearly"
               ? Number(plan.yearly_price ?? 0)
               : Number(plan.monthly_price);
