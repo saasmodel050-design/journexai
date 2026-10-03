@@ -44,6 +44,8 @@ export function whopCheckoutUrl(
   const url = new URL(base);
   if (user?.email) url.searchParams.set("email", user.email);
   if (user?.id) url.searchParams.set("metadata[user_id]", user.id);
+  // Bring the buyer back into the app after payment.
+  url.searchParams.set("redirect_url", `${window.location.origin}/checkout/success`);
   return url.toString();
 }
 
@@ -70,11 +72,16 @@ export async function startProCheckout(
   else window.location.href = target;
 }
 
-/** Redirect the current (authenticated) user to the correct Whop checkout URL. */
+/** Redirect the current (authenticated) user to Whop. Without a session, send them to /login first. */
 export async function goToWhop(billing: Billing = "monthly") {
   const { data } = await supabase.auth.getSession();
+  if (!data.session) {
+    savePurchaseIntent(billing);
+    window.location.href = "/login";
+    return;
+  }
   window.location.href = whopCheckoutUrl(billing, {
-    id: data.session?.user.id,
-    email: data.session?.user.email,
+    id: data.session.user.id,
+    email: data.session.user.email,
   });
 }
