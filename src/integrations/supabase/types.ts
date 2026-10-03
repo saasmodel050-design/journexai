@@ -495,6 +495,45 @@ export type Database = {
           },
         ]
       }
+      pending_purchases: {
+        Row: {
+          billing: string | null
+          created_at: string
+          email: string
+          event: string
+          event_id: string | null
+          id: string
+          payload: Json
+          pro_until: string | null
+          resolved_at: string | null
+          resolved_user_id: string | null
+        }
+        Insert: {
+          billing?: string | null
+          created_at?: string
+          email: string
+          event: string
+          event_id?: string | null
+          id?: string
+          payload: Json
+          pro_until?: string | null
+          resolved_at?: string | null
+          resolved_user_id?: string | null
+        }
+        Update: {
+          billing?: string | null
+          created_at?: string
+          email?: string
+          event?: string
+          event_id?: string | null
+          id?: string
+          payload?: Json
+          pro_until?: string | null
+          resolved_at?: string | null
+          resolved_user_id?: string | null
+        }
+        Relationships: []
+      }
       plans: {
         Row: {
           active: boolean
@@ -588,6 +627,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          cancel_at_period_end: boolean
           country: string | null
           created_at: string
           experience_level: string
@@ -598,6 +638,7 @@ export type Database = {
           phone: string | null
           plan: string
           plan_status: string
+          pro_until: string | null
           referred_by_affiliate_id: string | null
           referred_by_code: string | null
           subscription_type: string
@@ -612,6 +653,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          cancel_at_period_end?: boolean
           country?: string | null
           created_at?: string
           experience_level?: string
@@ -622,6 +664,7 @@ export type Database = {
           phone?: string | null
           plan?: string
           plan_status?: string
+          pro_until?: string | null
           referred_by_affiliate_id?: string | null
           referred_by_code?: string | null
           subscription_type?: string
@@ -636,6 +679,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          cancel_at_period_end?: boolean
           country?: string | null
           created_at?: string
           experience_level?: string
@@ -646,6 +690,7 @@ export type Database = {
           phone?: string | null
           plan?: string
           plan_status?: string
+          pro_until?: string | null
           referred_by_affiliate_id?: string | null
           referred_by_code?: string | null
           subscription_type?: string
@@ -922,11 +967,59 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_events: {
+        Row: {
+          amount: number | null
+          created_at: string
+          currency: string | null
+          email: string | null
+          error: string | null
+          event_id: string
+          event_type: string
+          payload: Json
+          processed_at: string | null
+          provider: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          error?: string | null
+          event_id: string
+          event_type: string
+          payload: Json
+          processed_at?: string | null
+          provider?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          error?: string | null
+          event_id?: string
+          event_type?: string
+          payload?: Json
+          processed_at?: string | null
+          provider?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      expire_cancelled_subscriptions: { Args: never; Returns: number }
+      find_user_id_by_email: { Args: { p_email: string }; Returns: string }
+      get_user_email: { Args: { p_user_id: string }; Returns: string }
       log_admin_audit: {
         Args: {
           p_action: string

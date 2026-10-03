@@ -13,11 +13,39 @@ const ACTIVATE = new Set([
   "payment.succeeded",
   "payment_succeeded",
 ]);
+// Cancelled = stop renewing; keep Pro until the paid period ends.
+const CANCEL = new Set([
+  "membership.cancelled",
+  "membership_cancelled",
+  "membership.cancel_at_period_end_changed",
+]);
+// Immediate loss of access.
 const DEACTIVATE = new Set([
   "membership.went_invalid",
   "membership_went_invalid",
-  "membership.cancelled",
+  "payment.refunded",
+  "payment_refunded",
+  "refund.created",
+  "refund_created",
+  "dispute.created",
+  "dispute_created",
+  "payment.disputed",
+  "chargeback.created",
 ]);
+
+const json = (obj: unknown, status = 200) =>
+  new Response(JSON.stringify(obj), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
+function toIso(v: unknown): string | null {
+  if (v == null || v === "") return null;
+  const n = Number(v);
+  const d = Number.isFinite(n) ? new Date(n < 1e12 ? n * 1000 : n) : new Date(String(v));
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+async function sha256Hex(text: string) {
+  return toHex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)));
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -96,59 +124,103 @@ Deno.serve(async (req) => {
 
     const event: string = body?.action ?? body?.type ?? body?.event ?? "";
     const data = body?.data ?? body;
+    const eventId: string =
+      req.headers.get("webhook-id") ?? req.headers.get("x-whop-event-id") ?? body?.id ??
+      (data?.id ? `${event}:${data.id}` : `hash:${await sha256Hex(rawBody)}`);
 
     const rawEmail = data?.user?.email ?? data?.email ?? data?.user_email ?? data?.metadata?.email;
     const rawUserId = data?.metadata?.user_id ?? data?.metadata?.userId;
+    const email = typeof rawEmail === "string" && EMAIL_RE.test(rawEmail.trim()) ? rawEmail.trim().toLowerCase() : undefined;
+    const metaUserId = typeof rawUserId === "string" && UUID_RE.test(rawUserId.trim()) ? rawUserId.trim() : undefined;
 
-    const email = typeof rawEmail === "string" && EMAIL_RE.test(rawEmail.trim())
-      ? rawEmail.trim().toLowerCase()
-      : undefined;
-    const userId = typeof rawUserId === "string" && UUID_RE.test(rawUserId.trim())
-      ? rawUserId.trim()
-      : undefined;
+    const periodEnd = toIso(data?.renewal_period_end ?? data?.expires_at ?? data?.membership?.renewal_period_end ?? data?.valid_until);
+    const periodDays = Number(data?.plan?.billing_period ?? data?.billing_period ?? data?.plan?.renewal_period ?? 0);
+    const planText = JSON.stringify([data?.plan_id, data?.plan?.id, data?.plan?.name, data?.product?.name, data?.product?.route, data?.metadata?.billing]).toLowerCase();
+    const billing = periodDays >= 300 || /year|annual/.test(planText) ? "yearly" : "monthly";
+    const amount = Number(data?.final_amount ?? data?.amount ?? data?.subtotal ?? NaN);
 
-    console.log("whop-webhook", { event, hasEmail: !!email, hasUserId: !!userId });
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
-    if (!ACTIVATE.has(event) && !DEACTIVATE.has(event)) {
-      return new Response(JSON.stringify({ ignored: event }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // ---- Idempotency + audit ----
+    const { data: existing } = await supabase.from("webhook_events").select("status").eq("event_id", eventId).maybeSingle();
+    if (existing?.status === "processed" || existing?.status === "ignored") {
+      return json({ duplicate: true, event_id: eventId });
+    }
+    if (!existing) {
+      await supabase.from("webhook_events").insert({
+        event_id: eventId, event_type: event || "unknown", email: email ?? null,
+        amount: Number.isFinite(amount) ? amount : null, currency: data?.currency ?? null, payload: body,
       });
     }
+    const mark = (fields: Record<string, unknown>) =>
+      supabase.from("webhook_events").update({ ...fields, processed_at: new Date().toISOString() }).eq("event_id", eventId);
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
+    console.log("whop-webhook", { event, eventId, hasEmail: !!email, hasUserId: !!metaUserId });
 
-    let targetUserId = userId ?? null;
-    if (!targetUserId && email) {
-      const { data: list } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      const match = list?.users?.find((u) => (u.email ?? "").toLowerCase() === email);
-      targetUserId = match?.id ?? null;
+    const isActivate = ACTIVATE.has(event), isCancel = CANCEL.has(event), isDeactivate = DEACTIVATE.has(event);
+    if (!isActivate && !isCancel && !isDeactivate) {
+      await mark({ status: "ignored" });
+      return json({ ignored: event });
+    }
+
+    // ---- Resolve the account: email is authoritative; metadata.user_id must agree with it ----
+    let emailUserId: string | null = null;
+    if (email) {
+      const { data: id } = await supabase.rpc("find_user_id_by_email", { p_email: email });
+      emailUserId = (id as string | null) ?? null;
+    }
+    let targetUserId: string | null = emailUserId;
+    if (metaUserId) {
+      const { data: metaEmail } = await supabase.rpc("get_user_email", { p_user_id: metaUserId });
+      if (metaEmail && (!email || metaEmail === email)) {
+        targetUserId = metaUserId;
+      } else if (metaEmail && email && metaEmail !== email) {
+        console.warn("whop-webhook: metadata.user_id does not match paying email; using email match");
+      }
     }
 
     if (!targetUserId) {
-      console.warn("whop-webhook: no matching user");
-      return new Response(JSON.stringify({ error: "user_not_found" }), {
-        status: 202,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      if (isActivate && email) {
+        await supabase.from("pending_purchases").upsert({
+          email, event, event_id: eventId, billing, pro_until: periodEnd, payload: body,
+        }, { onConflict: "event_id", ignoreDuplicates: true });
+        await mark({ status: "pending_user", error: "no matching account yet" });
+        // Non-2xx so Whop retries; the purchase is also claimed automatically when this email signs up.
+        return json({ error: "user_not_found", queued: true }, 409);
+      }
+      await mark({ status: "no_user" });
+      return json({ ok: true, note: "no matching account" });
     }
 
-    // Detect billing period so affiliate commission uses the right price.
-    const periodDays = Number(data?.plan?.billing_period ?? data?.billing_period ?? data?.plan?.renewal_period ?? 0);
-    const planText = JSON.stringify([data?.plan_id, data?.plan?.id, data?.plan?.name, data?.product?.name, data?.product?.route, data?.metadata?.billing] ?? "").toLowerCase();
-    const isYearly = periodDays >= 300 || /year|annual/.test(planText);
-    const updates = ACTIVATE.has(event)
-      ? { plan: "pro", plan_status: "active", subscription_type: isYearly ? "yearly" : "monthly", payment_status: "paid" }
-      : { plan: "free", plan_status: "active", subscription_type: "none", payment_status: "unpaid" };
+    let updates: Record<string, unknown>;
+    if (isActivate) {
+      updates = { plan: "pro", plan_status: "active", subscription_type: billing, payment_status: "paid", pro_until: periodEnd, cancel_at_period_end: false };
+    } else if (isCancel) {
+      // Keep Pro until the paid period ends; an hourly job downgrades once it passes.
+      const until = periodEnd ?? new Date().toISOString();
+      updates = { plan_status: "cancelled", cancel_at_period_end: true, pro_until: until };
+      if (new Date(until).getTime() <= Date.now()) {
+        updates = { plan: "free", plan_status: "active", subscription_type: "none", payment_status: "unpaid", cancel_at_period_end: false };
+      }
+    } else {
+      updates = {
+        plan: "free", plan_status: "active", subscription_type: "none",
+        payment_status: event.includes("refund") ? "refunded" : event.includes("dispute") || event.includes("chargeback") ? "disputed" : "unpaid",
+        cancel_at_period_end: false, pro_until: null,
+      };
+    }
 
     const { error } = await supabase.from("profiles").update(updates).eq("user_id", targetUserId);
-    if (error) throw error;
-
-    return new Response(JSON.stringify({ ok: true, event }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    if (error) {
+      await mark({ status: "error", error: error.message, user_id: targetUserId });
+      throw error;
+    }
+    if (email) {
+      await supabase.from("pending_purchases").update({ resolved_at: new Date().toISOString(), resolved_user_id: targetUserId })
+        .eq("email", email).is("resolved_at", null);
+    }
+    await mark({ status: "processed", user_id: targetUserId, error: null });
+    return json({ ok: true, event });
   } catch (e) {
     console.error("whop-webhook error", e);
     return new Response(JSON.stringify({ error: "internal_error" }), {
