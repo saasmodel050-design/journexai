@@ -16,7 +16,6 @@ const PRO_BENEFITS = [
   'AI Trading Coach (chat)',
   'Strategy performance tracking',
   'Full Analytics & Reports',
-  'Priority support',
 ];
 
 const ProUpgradeModal = ({ open, onOpenChange, title, message }: Props) => {
