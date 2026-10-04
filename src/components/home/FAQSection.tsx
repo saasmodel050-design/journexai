@@ -20,7 +20,7 @@ export const faqs = [
   },
   {
     q: "Which markets and instruments are supported?",
-    a: "Crypto, forex, futures, stocks, and options. You can log any instrument manually, and prices and P&L are recorded in your account currency.",
+    a: "Crypto, forex, and futures. You can log any instrument manually, and prices and P&L are recorded in your account currency.",
   },
   {
     q: "Is Journex Ai free?",
