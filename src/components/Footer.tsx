@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { Twitter, Github, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import journexLogo from "@/assets/journex_logo.png";
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 py-16">
@@ -20,28 +22,24 @@ const Footer = () => {
             </p>
             <a
               href="mailto:journex.ai.trade@gmail.com"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4 break-all"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors break-all"
             >
               <Mail className="w-4 h-4 shrink-0" />
               journex.ai.trade@gmail.com
             </a>
-
-            <div className="flex gap-3">
-              {[Twitter, Github, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Product */}
           <div>
             <h3 className="font-semibold text-foreground mb-4 text-sm">Product</h3>
             <ul className="space-y-3">
-              {["Features", "Pricing", "Dashboard", "API"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">{item}</a>
+              {[
+                { label: "Features", to: "/#features" },
+                { label: "Pricing", to: "/pricing" },
+                { label: "Dashboard", to: "/dashboard" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item.label}</Link>
                 </li>
               ))}
             </ul>
@@ -51,9 +49,12 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4 text-sm">Resources</h3>
             <ul className="space-y-3">
-              {["Blog", "Documentation", "Help Center", "Community"].map((item) => (
-                <li key={item}>
-                  <Link to={item === "Blog" ? "/blog" : "#"} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item}</Link>
+              {[
+                { label: "Blog", to: "/blog" },
+                { label: "Affiliate Program", to: "/affiliate" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item.label}</Link>
                 </li>
               ))}
             </ul>
@@ -66,7 +67,6 @@ const Footer = () => {
               {[
                 { label: "About", to: "/about" },
                 { label: "Contact", to: "/contact" },
-                { label: "Careers", to: "#" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link to={item.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item.label}</Link>
@@ -80,7 +80,6 @@ const Footer = () => {
                   Support
                 </a>
               </li>
-
             </ul>
           </div>
 
@@ -90,7 +89,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "Privacy Policy", to: "/privacy" },
-                { label: "Terms of Service", to: "#" },
+                { label: "Terms of Service", to: "/terms" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link to={item.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{item.label}</Link>
@@ -100,22 +99,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter */}
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 Journex Ai. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center glass-card px-1 py-1 rounded-lg">
-              <Mail className="w-4 h-4 text-muted-foreground ml-3 mr-2" />
-              <input
-                type="email"
-                placeholder="Subscribe to updates"
-                className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none py-2 px-1 w-48"
-              />
-              <button className="bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
-                Subscribe
-              </button>
-            </div>
-          </div>
+        <div className="mt-12 pt-8 border-t border-border">
+          <p className="text-sm text-muted-foreground text-center md:text-left">
+            © {year} Journex Ai. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
