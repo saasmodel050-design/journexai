@@ -12,8 +12,6 @@ const proFeatures = [
   'Full AI Trading Coach',
   'Advanced analytics & insights',
   'Strategy performance breakdown',
-  'Priority support',
-  'Daily AI reports',
 ];
 
 const UpgradePage = () => {

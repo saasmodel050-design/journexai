@@ -10,10 +10,10 @@ import { toast } from "sonner";
 
 
 const faqs = [
-  { q: "What markets does Journex Ai support?", a: "We support crypto, forex, futures, stocks, and options trading across all major brokers." },
-  { q: "Can I import trades from my broker?", a: "Yes! We support CSV imports from most major brokers and platforms including MetaTrader, TradingView, and more." },
-  { q: "Is my trading data secure?", a: "Absolutely. All data is encrypted at rest and in transit with enterprise-grade security." },
-  { q: "Can I cancel my subscription anytime?", a: "Yes, you can cancel anytime. Your data remains accessible on the free plan." },
+  { q: "What markets does Journex Ai support?", a: "Journex Ai supports crypto, forex, and futures trading." },
+  { q: "Can I import trades from my broker?", a: "Not yet. Broker and CSV imports are planned, but trades are currently logged manually." },
+  { q: "Is my trading data secure?", a: "Your data is stored in a hosted database protected by row-level security, so each account can only access its own trades and profile." },
+  { q: "Can I cancel my subscription anytime?", a: "Yes. Manage or cancel your subscription anytime from your Whop account at https://whop.com/@me/orders. Your data remains accessible on the free plan." },
 ];
 
 const Contact = () => {
@@ -113,7 +113,7 @@ const Contact = () => {
             >
               {[
                 { icon: Mail, title: "Email", desc: "journex.ai.trade@gmail.com", mail: true },
-                { icon: MessageSquare, title: "Support", desc: "Live chat available Mon-Fri, 9am-6pm EST", mail: false },
+                { icon: MessageSquare, title: "Support", desc: "Email support — we typically reply within 1-2 business days", mail: false },
                 { icon: Handshake, title: "Partnerships", desc: "journex.ai.trade@gmail.com", mail: true },
               ].map((item, i) => (
                 <div key={i} className="glass-card-hover p-5 flex items-start gap-4">
