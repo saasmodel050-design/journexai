@@ -460,10 +460,10 @@ const AddTradePage = () => {
         </div>
 
         {warnings.length > 0 && (
-          <div className="rounded-md border border-warning/40 bg-warning/10 p-3 space-y-1" role="status">
+          <div className="rounded-md border border-accent/40 bg-accent/10 p-3 space-y-1" role="status">
             {warnings.map(w => (
               <p key={w} className="text-xs flex items-start gap-2 text-foreground">
-                <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0 text-warning" /> {w}
+                <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent" /> {w}
               </p>
             ))}
             <p className="text-xs text-muted-foreground pl-5">You can still save if this is intentional.</p>
