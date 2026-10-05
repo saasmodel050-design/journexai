@@ -1,0 +1,4 @@
+CREATE POLICY "Users read own trade screenshots" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'trade-screenshots' AND (storage.foldername(name))[1] = auth.uid()::text);
+CREATE POLICY "Users upload own trade screenshots" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'trade-screenshots' AND (storage.foldername(name))[1] = auth.uid()::text);
+CREATE POLICY "Users update own trade screenshots" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'trade-screenshots' AND (storage.foldername(name))[1] = auth.uid()::text);
+CREATE POLICY "Users delete own trade screenshots" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'trade-screenshots' AND (storage.foldername(name))[1] = auth.uid()::text);
