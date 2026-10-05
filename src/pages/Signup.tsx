@@ -185,7 +185,7 @@ const Signup = () => {
               <Input id="email" type="email" placeholder="trader@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" className="bg-secondary/50 border-border" />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
@@ -208,7 +208,7 @@ const Signup = () => {
 
             {strength && <p className={`text-xs -mt-2 ${strength.cls}`}>{strength.label}</p>}
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label>Experience Level <span className="text-muted-foreground font-normal">(optional)</span></Label>
                 <Select onValueChange={setExperienceLevel}>
