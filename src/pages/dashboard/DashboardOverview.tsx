@@ -9,7 +9,7 @@ import { usePlan } from '@/hooks/usePlan';
 
 const DashboardOverview = () => {
   const { trades, isLoading } = useTrades();
-  const { isPro } = usePlan();
+  const { isPro, timezone } = usePlan();
 
   const totalTrades = trades.length;
   const wins = trades.filter(t => t.result === 'win').length;
@@ -35,7 +35,7 @@ const DashboardOverview = () => {
   // Build cumulative PnL chart data
   const pnlCurve = trades.slice().reverse().reduce((acc: { date: string; pnl: number }[], trade, i) => {
     const prev = i > 0 ? acc[i - 1].pnl : 0;
-    acc.push({ date: new Date(trade.trade_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), pnl: prev + (trade.pnl || 0) });
+    acc.push({ date: new Date(trade.trade_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: timezone }), pnl: prev + (trade.pnl || 0) });
     return acc;
   }, []);
 
