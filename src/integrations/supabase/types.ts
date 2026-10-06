@@ -642,6 +642,7 @@ export type Database = {
           referred_by_affiliate_id: string | null
           referred_by_code: string | null
           subscription_type: string
+          timezone: string
           trial_end_date: string | null
           trial_expired_email_sent_at: string | null
           trial_reminder_day1_sent_at: string | null
@@ -668,6 +669,7 @@ export type Database = {
           referred_by_affiliate_id?: string | null
           referred_by_code?: string | null
           subscription_type?: string
+          timezone?: string
           trial_end_date?: string | null
           trial_expired_email_sent_at?: string | null
           trial_reminder_day1_sent_at?: string | null
@@ -694,6 +696,7 @@ export type Database = {
           referred_by_affiliate_id?: string | null
           referred_by_code?: string | null
           subscription_type?: string
+          timezone?: string
           trial_end_date?: string | null
           trial_expired_email_sent_at?: string | null
           trial_reminder_day1_sent_at?: string | null

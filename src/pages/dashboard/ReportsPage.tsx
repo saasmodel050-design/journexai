@@ -1,4 +1,5 @@
 import { useTrades } from '@/hooks/useTrades';
+import { usePlan } from '@/hooks/usePlan';
 import { FileText } from 'lucide-react';
 import ProFeatureGate from '@/components/dashboard/ProFeatureGate';
 
@@ -10,11 +11,12 @@ const ReportsPage = () => (
 
 const ReportsContent = () => {
   const { trades } = useTrades();
+  const { timezone } = usePlan();
 
   // Monthly breakdown
   const monthlyMap = new Map<string, { trades: number; wins: number; pnl: number }>();
   trades.forEach(t => {
-    const key = new Date(t.trade_time).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    const key = new Date(t.trade_time).toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: timezone });
     const cur = monthlyMap.get(key) || { trades: 0, wins: 0, pnl: 0 };
     cur.trades++;
     if (t.result === 'win') cur.wins++;
