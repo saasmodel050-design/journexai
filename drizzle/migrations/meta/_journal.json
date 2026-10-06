@@ -8,6 +8,13 @@
       "when": 1791199870895,
       "tag": "0000_trade_screenshots_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791309229084,
+      "tag": "0001_profile_timezone",
+      "breakpoints": true
     }
   ]
 }
