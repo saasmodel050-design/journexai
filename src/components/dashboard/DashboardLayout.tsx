@@ -3,7 +3,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { Navigate, useLocation } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardTopbar from './DashboardTopbar';
-import TrialBanner from './TrialBanner';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 interface DashboardLayoutProps {
