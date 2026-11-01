@@ -130,6 +130,24 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_coach_messages: {
+        Row: {
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_logs: {
         Row: {
           created_at: string
