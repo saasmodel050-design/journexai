@@ -23,6 +23,29 @@ Always give specific, actionable advice. Use the trader's actual data to back up
 Be professional, supportive, and intelligent. Format responses with markdown for readability.
 Keep responses focused and under 500 words unless a detailed analysis is requested.`;
 
+// Rate limits (server-side, per user)
+const HOURLY_LIMIT = 10;
+const DAILY_LIMIT = 50;
+// Input caps
+const MAX_MESSAGES = 30;
+const MAX_TOTAL_CHARS = 24_000;
+const MAX_MESSAGE_CHARS = 8_000;
+// Upstream call budget
+const UPSTREAM_TIMEOUT_MS = 90_000;
+// "under 500 words" ≈ ~700 tokens; leave headroom for markdown
+const MAX_TOKENS = 800;
+const DEFAULT_MODEL = "google/gemini-2.5-flash";
+
+const GENERIC_UPSTREAM_ERROR =
+  "The AI coach is temporarily unavailable. Please try again shortly.";
+
+function json(status: number, body: unknown) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -32,10 +55,7 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     const accessToken = authHeader?.replace(/^Bearer\s+/i, "").trim();
     if (!accessToken) {
-      return new Response(JSON.stringify({ error: "No authorization header" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json(401, { error: "No authorization header" });
     }
 
     const supabaseClient = createClient(
@@ -47,12 +67,17 @@ serve(async (req) => {
       }
     );
 
-    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(accessToken);
+    // Service-role client for settings reads and usage accounting (bypasses RLS).
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      { auth: { persistSession: false, autoRefreshToken: false } }
+    );
+
+    const { data: claimsData, error: claimsError } =
+      await supabaseClient.auth.getClaims(accessToken);
     if (claimsError || !claimsData?.claims?.sub) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json(401, { error: "Unauthorized" });
     }
 
     // Server-side Pro plan enforcement
@@ -63,21 +88,119 @@ serve(async (req) => {
       .eq("user_id", userId)
       .maybeSingle();
 
-    const isPro = profile?.plan === "pro" ||
+    const isPro =
+      profile?.plan === "pro" ||
       (profile?.plan === "pro_trial" &&
         profile?.trial_end_date &&
         new Date(profile.trial_end_date).getTime() > Date.now());
 
     if (!isPro) {
+      return json(403, {
+        error:
+          "AI Trainer is available on the Pro plan. Please upgrade to continue.",
+      });
+    }
+
+    // ---- Input validation (never trust the client) ----
+    let raw: unknown;
+    try {
+      raw = await req.json();
+    } catch {
+      return json(400, { error: "Request body must be valid JSON." });
+    }
+
+    const body = (raw ?? {}) as { messages?: unknown };
+    if (!Array.isArray(body.messages)) {
+      return json(400, { error: "messages must be an array." });
+    }
+    if (body.messages.length > MAX_MESSAGES) {
+      return json(400, {
+        error: `Conversation is too long (maximum ${MAX_MESSAGES} messages).`,
+      });
+    }
+
+    const cleaned: { role: "user" | "assistant"; content: string }[] = [];
+    let totalChars = 0;
+    for (const m of body.messages) {
+      if (!m || typeof m !== "object") {
+        return json(400, { error: "Each message must be an object." });
+      }
+      const { role, content } = m as { role?: unknown; content?: unknown };
+      // Silently strip client-supplied system messages so the system prompt cannot be overridden.
+      if (role === "system") continue;
+      if (role !== "user" && role !== "assistant") {
+        return json(400, {
+          error: "Each message role must be 'user' or 'assistant'.",
+        });
+      }
+      if (typeof content !== "string" || content.trim().length === 0) {
+        return json(400, { error: "Each message needs non-empty content." });
+      }
+      totalChars += content.length;
+      if (totalChars > MAX_TOTAL_CHARS) {
+        return json(400, {
+          error: "Conversation is too long. Please start a new conversation.",
+        });
+      }
+      cleaned.push({
+        role,
+        content: content.slice(0, MAX_MESSAGE_CHARS),
+      });
+    }
+    if (cleaned.length === 0) {
+      return json(400, { error: "No valid messages were provided." });
+    }
+
+    // ---- Rate limiting (per user, per hour and per day) ----
+    const hourAgo = new Date(Date.now() - 3_600_000).toISOString();
+    const dayAgo = new Date(Date.now() - 86_400_000).toISOString();
+    const [{ count: hourCount }, { count: dayCount }] = await Promise.all([
+      supabaseAdmin
+        .from("ai_coach_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .gte("created_at", hourAgo),
+      supabaseAdmin
+        .from("ai_coach_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .gte("created_at", dayAgo),
+    ]);
+
+    const usedHour = hourCount ?? 0;
+    const usedDay = dayCount ?? 0;
+    const remainingHour = Math.max(0, HOURLY_LIMIT - usedHour);
+    const remainingDay = Math.max(0, DAILY_LIMIT - usedDay);
+
+    if (remainingHour === 0 || remainingDay === 0) {
+      console.warn(
+        `ai-trading-coach rate limited user ${userId}: hour=${usedHour}/${HOURLY_LIMIT} day=${usedDay}/${DAILY_LIMIT}`
+      );
+      const retryAfter = remainingHour === 0 ? 3600 : 86_400;
       return new Response(
-        JSON.stringify({ error: "AI Trainer is available on the Pro plan. Please upgrade to continue." }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({
+          error:
+            "You've reached your AI coach message limit for now. Your quota resets shortly — please try again soon.",
+          quota: {
+            remainingHour,
+            remainingDay,
+            hourlyLimit: HOURLY_LIMIT,
+            dailyLimit: DAILY_LIMIT,
+          },
+        }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Retry-After": String(retryAfter),
+          },
+        }
       );
     }
 
-
-
-    const { messages } = await req.json();
+    // Record usage before calling upstream so bursts are counted.
+    await supabaseAdmin.from("ai_coach_messages").insert({ user_id: userId });
 
     // Fetch user's recent trades for context
     const { data: trades } = await supabaseClient
@@ -118,50 +241,76 @@ ${trades.slice(0, 20).map((t: any) => `- ${t.pair} ${t.trade_type} | Entry: ${t.
 
     const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
     if (!OPENROUTER_API_KEY) {
-      return new Response(JSON.stringify({ error: "OPENROUTER_API_KEY not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      console.error("ai-trading-coach: OPENROUTER_API_KEY not configured");
+      return json(503, { error: GENERIC_UPSTREAM_ERROR });
     }
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://journexai.vercel.app",
-        "X-Title": "Journex AI",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        max_tokens: 8000,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT + tradesContext },
-          ...messages,
-        ],
-        stream: true,
-      }),
-    });
+    // Model is admin-configurable via ai_settings (falls back to the default).
+    const { data: aiSettings } = await supabaseAdmin
+      .from("ai_settings")
+      .select("model")
+      .limit(1)
+      .maybeSingle();
+    const model =
+      typeof aiSettings?.model === "string" && aiSettings.model.length > 0
+        ? aiSettings.model
+        : DEFAULT_MODEL;
+
+    // Abort the upstream call if it hangs, so the user is never left waiting forever.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
+
+    let response: Response;
+    try {
+      response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://journexai.vercel.app",
+          "X-Title": "Journex AI",
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: MAX_TOKENS,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT + tradesContext },
+            ...cleaned,
+          ],
+          stream: true,
+        }),
+        signal: controller.signal,
+      });
+    } catch (e) {
+      clearTimeout(timeoutId);
+      console.error(
+        "ai-trading-coach upstream fetch failed:",
+        e instanceof Error ? e.message : e
+      );
+      return json(503, { error: GENERIC_UPSTREAM_ERROR });
+    }
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenRouter error:", response.status, errorText);
-      let message = errorText;
-      try { message = JSON.parse(errorText)?.error?.message || errorText; } catch {}
-      return new Response(JSON.stringify({ error: `OpenRouter ${response.status}: ${message}` }), {
-        status: response.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      const errorText = await response.text().catch(() => "");
+      // Log the real error server-side; never leak vendor details to the client.
+      console.error(
+        `ai-trading-coach upstream error [${response.status}]: ${errorText.slice(0, 1000)}`
+      );
+      return json(503, { error: GENERIC_UPSTREAM_ERROR });
     }
+
+    clearTimeout(timeoutId);
 
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
-    console.error("ai-trading-coach error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    console.error(
+      "ai-trading-coach error:",
+      e instanceof Error ? e.message : e
+    );
+    return json(500, {
+      error: "Something went wrong. Please try again shortly.",
     });
   }
 });
