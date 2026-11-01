@@ -15,6 +15,13 @@
       "when": 1791309229084,
       "tag": "0001_profile_timezone",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793544916781,
+      "tag": "0002_ai_coach_rate_limits_contact_guard_retire_crypto",
+      "breakpoints": true
     }
   ]
 }
