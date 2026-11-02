@@ -3,8 +3,7 @@ project_id = "enrqkphwtnpylvnqwjwz"
 [functions.ai-trading-coach]
 verify_jwt = false
 
-[functions.expire-trials]
-verify_jwt = false
+
 
 [functions.whop-webhook]
 verify_jwt = false

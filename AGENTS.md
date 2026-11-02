@@ -1,0 +1,7 @@
+# Project Decisions
+
+- AI coach rate limits live in `supabase/functions/ai-trading-coach/index.ts` (`HOURLY_LIMIT`, `DAILY_LIMIT`); `AI_DAILY_LIMIT` in `src/pages/dashboard/AITrainerPage.tsx` mirrors the daily value for UI display. Change both together.
+- The AI coach model is admin-configurable through the `ai_settings.model` column (set via the admin AI page); the function falls back to `google/gemini-2.5-flash`.
+- Trials are fully removed (no trial UI, no expire-trials function/cron). Do not reintroduce trial code without an explicit request.
+- Crypto payments are retired: no UI references them, `payment_wallets`/`crypto_payments` are marked deprecated in DB comments, and the auto-approval trigger is gone. Whop is the only payment path.
+- Support messages: every new `contact_messages` row raises a `type: 'support'` platform notification visible only to admins in the bell; the insert is rate-limited per email (3/hour, 10/day, 5000-char max) by a DB trigger.
