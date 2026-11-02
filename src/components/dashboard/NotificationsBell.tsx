@@ -33,25 +33,27 @@ const iconFor = (type: string | null) => {
 const NotificationsBell = () => {
   const [items, setItems] = useState<Notification[]>([]);
   const [read, setRead] = useState<string[]>(getRead);
+  const { isAdmin } = useAdminRole();
 
-  const load = async () => {
+  const load = async (admin: boolean) => {
     const { data } = await (supabase as any)
       .from('platform_notifications')
       .select('id,title,body,type,created_at')
       .eq('active', true)
       .order('created_at', { ascending: false })
       .limit(20);
-    setItems((data ?? []) as Notification[]);
+    // Support-message alerts are for admins only; hide them from regular users.
+    setItems(((data ?? []) as Notification[]).filter((n) => n.type !== 'support' || admin));
   };
 
   useEffect(() => {
-    load();
+    load(isAdmin);
     const channel = supabase
       .channel(`platform-notifications-${Math.random().toString(36).slice(2)}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'platform_notifications' }, () => load())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'platform_notifications' }, () => load(isAdmin))
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, []);
+  }, [isAdmin]);
 
   const unread = items.filter((n) => !read.includes(n.id)).length;
 
