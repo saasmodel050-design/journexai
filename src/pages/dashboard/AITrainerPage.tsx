@@ -22,6 +22,8 @@ const QUICK_PROMPTS = [
 ];
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-trading-coach`;
+// Must match DAILY_LIMIT in supabase/functions/ai-trading-coach/index.ts
+const AI_DAILY_LIMIT = 50;
 
 async function streamChat({
   messages,
