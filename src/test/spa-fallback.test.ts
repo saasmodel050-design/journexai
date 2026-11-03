@@ -117,6 +117,8 @@ const ADMIN_ROUTES = [
 const PRIVATE_ROUTES = ["/forgot-password", "/reset-password", "/checkout/success", "/login", "/signup"];
 
 describe("Every user-facing route is prerendered as a real page", () => {
+  const appTsx = readFileSync(resolve(root, "src/App.tsx"), "utf-8");
+  const registered = extractRoutePaths(appTsx);
   const prerenderedPaths = prerenderedRoutes.map((r) => r.path);
 
   it.each([...REQUIRED_ROUTES, ...ADMIN_ROUTES])("prerenders %s", (route) => {
