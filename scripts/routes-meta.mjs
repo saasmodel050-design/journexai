@@ -88,4 +88,46 @@ export const routes = [
     description:
       "Sign in to your Journex Ai account to access your AI trading journal, insights, and coach.",
   },
+  {
+    path: "/terms",
+    title: "Terms of Service — Journex Ai",
+    description:
+      "The terms governing your use of Journex Ai: accounts, subscriptions, billing, data ownership, and acceptable use.",
+  },
+  // Private app routes: prerendered as real pages so deep links work on any
+  // host (even without SPA rewrites), and kept out of search indexes.
+  {
+    path: "/forgot-password",
+    title: "Reset your password — Journex Ai",
+    description: "Request a password reset link for your Journex Ai account.",
+    noindex: true,
+  },
+  {
+    path: "/reset-password",
+    title: "Set a new password — Journex Ai",
+    description: "Choose a new password for your Journex Ai account.",
+    noindex: true,
+  },
+  {
+    path: "/checkout/success",
+    title: "Payment confirmation — Journex Ai",
+    description: "Confirming your Journex Ai Pro subscription payment.",
+    noindex: true,
+  },
+  ...["", "/trades", "/add-trade", "/analytics", "/insights", "/ai-trainer", "/strategies", "/reports", "/settings", "/upgrade"].map(
+    (p) => ({
+      path: `/dashboard${p}`,
+      title: p ? `Dashboard ${p.replace(/^\//, "").replace(/-/g, " ")} — Journex Ai` : "Dashboard — Journex Ai",
+      description: "Your private Journex Ai trading journal and AI coach workspace.",
+      noindex: true,
+    })
+  ),
+  ...["/login", "", "/users", "/plans", "/affiliates", "/content", "/ai", "/flags", "/notifications", "/tickets", "/audit", "/billing", "/database", "/backups"].map(
+    (p) => ({
+      path: `/admin${p}`,
+      title: p ? `Admin ${p.replace(/^\//, "")} — Journex Ai` : "Admin — Journex Ai",
+      description: "Journex Ai administration area. Authorized staff only.",
+      noindex: true,
+    })
+  ),
 ];
