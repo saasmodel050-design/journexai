@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { routes as prerenderedRoutes } from "../../scripts/routes-meta.mjs";
 
 /**
  * These checks guard two hosting guarantees:
@@ -92,5 +93,52 @@ describe("Required routes stay registered in App.tsx", () => {
     // /admin/trials was removed with trials; it must redirect, not render AdminTrials.
     const line = appTsx.split("\n").find((l) => l.includes('"/admin/trials"'));
     expect(line).toMatch(/Navigate to="\/admin\/users"/);
+  });
+});
+
+const ADMIN_ROUTES = [
+  "/admin/login",
+  "/admin",
+  "/admin/users",
+  "/admin/plans",
+  "/admin/affiliates",
+  "/admin/content",
+  "/admin/ai",
+  "/admin/flags",
+  "/admin/notifications",
+  "/admin/tickets",
+  "/admin/audit",
+  "/admin/billing",
+  "/admin/database",
+  "/admin/backups",
+];
+
+// Private pages: served as real files but must stay out of search indexes.
+const PRIVATE_ROUTES = ["/forgot-password", "/reset-password", "/checkout/success", "/login", "/signup"];
+
+describe("Every user-facing route is prerendered as a real page", () => {
+  const appTsx = readFileSync(resolve(root, "src/App.tsx"), "utf-8");
+  const registered = extractRoutePaths(appTsx);
+  const prerenderedPaths = prerenderedRoutes.map((r) => r.path);
+
+  it.each([...REQUIRED_ROUTES, ...ADMIN_ROUTES])("prerenders %s", (route) => {
+    expect(prerenderedPaths).toContain(route);
+  });
+
+  it.each(PRIVATE_ROUTES)("marks %s noindex", (route) => {
+    expect(prerenderedRoutes.find((r) => r.path === route)?.noindex).toBe(true);
+  });
+
+  it.each([...ADMIN_ROUTES, ...prerenderedPaths.filter((p) => p.startsWith("/dashboard"))])(
+    "marks %s noindex",
+    (route) => {
+      expect(prerenderedRoutes.find((r) => r.path === route)?.noindex).toBe(true);
+    }
+  );
+
+  it("has no prerendered route missing from App.tsx (stale entries)", () => {
+    for (const path of prerenderedPaths) {
+      expect(registered).toContain(path);
+    }
   });
 });

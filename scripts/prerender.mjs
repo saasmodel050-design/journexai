@@ -25,6 +25,7 @@ function buildHead(route) {
   return [
     `<title>${esc(route.title)}</title>`,
     `<meta name="description" content="${esc(route.description)}" />`,
+    ...(route.noindex ? [`<meta name="robots" content="noindex" />`] : []),
     `<link rel="canonical" href="${esc(url)}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:site_name" content="Journex Ai" />`,
