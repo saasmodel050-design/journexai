@@ -67,6 +67,13 @@ describe("Vercel SPA fallback configuration", () => {
     expect(vercel.cleanUrls).toBe(true);
     expect(vercel.trailingSlash).toBe(false);
   });
+
+  it("ships the fallback config inside dist on every production build", () => {
+    // Vercel deployments built from the dist folder only honor a vercel.json
+    // that sits inside that folder, so the build script must copy it in.
+    const pkg = JSON.parse(readFileSync(resolve(root, "package.json"), "utf-8"));
+    expect(pkg.scripts.build).toContain("cp vercel.json dist/vercel.json");
+  });
 });
 
 describe("Required routes stay registered in App.tsx", () => {
