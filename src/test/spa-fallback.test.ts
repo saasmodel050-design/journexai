@@ -114,7 +114,8 @@ const ADMIN_ROUTES = [
 ];
 
 // Private pages: served as real files but must stay out of search indexes.
-const PRIVATE_ROUTES = ["/forgot-password", "/reset-password", "/checkout/success", "/login", "/signup"];
+// /login and /signup stay indexable on purpose (they are public landing pages).
+const PRIVATE_ROUTES = ["/forgot-password", "/reset-password", "/checkout/success", "/affiliate/dashboard"];
 
 describe("Every user-facing route is prerendered as a real page", () => {
   const appTsx = readFileSync(resolve(root, "src/App.tsx"), "utf-8");

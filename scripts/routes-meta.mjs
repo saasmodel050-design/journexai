@@ -97,6 +97,12 @@ export const routes = [
   // Private app routes: prerendered as real pages so deep links work on any
   // host (even without SPA rewrites), and kept out of search indexes.
   {
+    path: "/affiliate/dashboard",
+    title: "Affiliate Dashboard — Journex Ai",
+    description: "Track your Journex Ai affiliate referrals, clicks, and commissions.",
+    noindex: true,
+  },
+  {
     path: "/forgot-password",
     title: "Reset your password — Journex Ai",
     description: "Request a password reset link for your Journex Ai account.",
