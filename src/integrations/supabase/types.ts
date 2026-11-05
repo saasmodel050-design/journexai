@@ -1038,6 +1038,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_set_user_plan: {
+        Args: { p_plan: string; p_user_id: string }
+        Returns: undefined
+      }
       expire_cancelled_subscriptions: { Args: never; Returns: number }
       find_user_id_by_email: { Args: { p_email: string }; Returns: string }
       get_user_email: { Args: { p_user_id: string }; Returns: string }
