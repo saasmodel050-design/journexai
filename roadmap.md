@@ -1,5 +1,6 @@
 # Roadmap
 
+- [x] Make admin Free/Pro plan changes work through a super-admin-only database function.
 - [x] Delete the public seed-admin function and remove its configuration.
 - [x] Lock profile billing fields with column grants and a defense-in-depth trigger.
 - [x] Remove browser-side plan mutation and add Whop subscription management.

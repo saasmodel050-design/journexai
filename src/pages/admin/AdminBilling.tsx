@@ -20,20 +20,21 @@ export default function AdminBilling() {
     (async () => {
       const db = supabase as any;
       const [{ data: profiles }, { data: plans }, { data: ev }, { data: pend }] = await Promise.all([
-        db.from("profiles").select("plan, plan_status, subscription_type"),
+        db.from("profiles").select("plan, plan_status, subscription_type, payment_status"),
         db.from("plans").select("slug, name, monthly_price, yearly_price"),
         db.from("webhook_events").select("event_id, event_type, email, amount, currency, status, error, created_at").order("created_at", { ascending: false }).limit(100),
         db.from("pending_purchases").select("id, email, event, billing, created_at").is("resolved_at", null).order("created_at", { ascending: false }),
       ]);
       const pro = plans?.find(isProPlan);
       const m = Number(pro?.monthly_price ?? 0), y = Number(pro?.yearly_price ?? 0);
-      const paying = (profiles ?? []).filter((p: any) => p.plan === "pro");
+      const activePro = (profiles ?? []).filter((p: any) => p.plan === "pro");
+      const paying = activePro.filter((p: any) => p.payment_status === "paid");
       const mrr = paying.reduce((sum: number, p: any) => sum + (p.subscription_type === "yearly" ? y / 12 : m), 0);
       const list: WebhookEvent[] = ev ?? [];
       setEvents(list);
       setPending(pend ?? []);
       setData({
-        mrr, arr: mrr * 12, active: paying.length,
+        mrr, arr: mrr * 12, active: activePro.length,
         problems: list.filter((e) => /refund|dispute|chargeback/.test(e.event_type) || e.status === "error").length,
       });
     })();
