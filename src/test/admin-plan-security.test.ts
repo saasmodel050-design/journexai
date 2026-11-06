@@ -12,6 +12,7 @@ describe("admin plan changes", () => {
     expect(migration).toContain("p_plan NOT IN ('free', 'pro')");
     expect(migration).toContain("public.log_admin_audit(");
     expect(adminUsers).toContain('supabase.rpc("admin_set_user_plan"');
+    expect(adminUsers).not.toMatch(/\.from\("profiles"\)\s*\.update\(updates\)/);
   });
 
   it("does not turn a manual Pro grant into paid subscription revenue", () => {

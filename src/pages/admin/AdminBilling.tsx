@@ -34,7 +34,7 @@ export default function AdminBilling() {
       setEvents(list);
       setPending(pend ?? []);
       setData({
-        mrr, arr: mrr * 12, active: paying.length,
+        mrr, arr: mrr * 12, active: activePro.length,
         problems: list.filter((e) => /refund|dispute|chargeback/.test(e.event_type) || e.status === "error").length,
       });
     })();
