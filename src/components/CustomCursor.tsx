@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import cursorUrl from "@/assets/cursor-bull.png";
 
 const CustomCursor = () => {
+  const { pathname } = useLocation();
   const [enabled, setEnabled] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -13,6 +15,12 @@ const CustomCursor = () => {
   const springY = useSpring(y, { stiffness: 500, damping: 40, mass: 0.6 });
 
   useEffect(() => {
+    if (pathname.startsWith("/admin")) {
+      document.documentElement.classList.remove("custom-cursor-active");
+      setEnabled(false);
+      return;
+    }
+
     // Only enable on devices with a precise pointer (mouse), not touch
     const fine = window.matchMedia("(pointer: fine)").matches;
     if (!fine) return;
@@ -39,9 +47,9 @@ const CustomCursor = () => {
       window.removeEventListener("mousedown", down);
       window.removeEventListener("mouseup", up);
     };
-  }, [x, y]);
+  }, [pathname, x, y]);
 
-  if (!enabled) return null;
+  if (!enabled || pathname.startsWith("/admin")) return null;
 
   return (
     <motion.div
