@@ -108,10 +108,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
-        <CustomCursor />
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <CustomCursor />
           <ScrollToTop />
           <ReferralCapture />
           <Suspense fallback={<RouteFallback />}>
